@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,8 +19,21 @@ Route::get('/', function () {
         return $user;
     return view('welcome');
 });
+Route::group(['prefix' => LaravelLocalization::setLocale(),'middleware'=>[
+        'localizationRedirect',
+        'localeSessionRedirect',
+        'localeViewPath',
+    ]
+], function() {
+    Auth::routes();
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/users/data-table', [App\Http\Controllers\Users\UsersController::class, 'dataTable'])->name('users.dataTable');
+    Route::resource('users', \App\Http\Controllers\Users\UsersController::class)->middleware(['auth:admin']);
+    Route::get('/categories/data-table', [App\Http\Controllers\Category\CategoryController::class, 'dataTable'])->name('categories.dataTable');
+    Route::post('/categories/upload-img', [App\Http\Controllers\Category\CategoryController::class, 'uploadImg'])->name('categories.uploadImg');
+    Route::resource('categories', \App\Http\Controllers\Category\CategoryController::class)->middleware(['auth:admin']);
 
-Auth::routes();
-Route::get('/users/data-table', [App\Http\Controllers\Users\UsersController::class, 'dataTable'])->name('users.dataTable');
-Route::resource('users',\App\Http\Controllers\Users\UsersController::class)->middleware(['auth:admin']);
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/uploads/index', [App\Http\Controllers\Uploads\UploadsController::class, 'index'])->name('uploads.index');
+    Route::post('/uploads/upload', [App\Http\Controllers\Uploads\UploadsController::class, 'uploadFiles'])->name('uploads.uploadFiles');
+
+});

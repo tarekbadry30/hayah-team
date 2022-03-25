@@ -1,5 +1,5 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<!doctype html >
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{LaravelLocalization::getCurrentLocaleDirection()}}">
 
 <head>
 
@@ -23,7 +23,11 @@
     <!-- Icons Css -->
     <link href="{{asset('/assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
     <!-- App Css-->
+    @if(str_replace('_', '-', app()->getLocale())=='ar')
+    <link href="{{asset('assets/css/app-rtl.min.css')}}" rel="stylesheet" type="text/css" />
+    @else
     <link href="{{asset('assets/css/app.min.css')}}" rel="stylesheet" type="text/css" />
+    @endif
     <!-- DataTables -->
     <link href="{{asset('assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
@@ -33,7 +37,7 @@
     <!-- Sweet Alert-->
     <link href="{{asset('assets/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('assets/libs/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css" />
-
+    @yield('css')
     <!-- fontawesome icons init -->
 
 </head>
@@ -101,7 +105,18 @@
 
 <script src="{{asset('assets/js/app.js')}}"></script>
 <script>
+
+
     $(document).ready(function () {
+        @if(session('success'))
+        Swal.fire({
+            title: "{{__('frontend.success')}}",
+            text: '{{session('success')}}',
+            icon: "success",
+            confirmButtonColor: "#1cbb8c",
+            confirmButtonText: "{{__('frontend.ok')}}",
+        });
+        @endif
         $.ajaxSetup({
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),

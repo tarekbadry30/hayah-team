@@ -34,5 +34,32 @@ return [
     'active'        =>  'active',
     'pending'       =>  'pending',
     'blocked'       =>  'blocked',
+    'categoriesList'=>  'categories list ',
+    'inCategory'    =>  'in category ',
+    'img'           =>  'img',
+    'desc'          =>  'description',
+    'parent'        =>  'parent category',
+    'createCategory'=>  'create category',
+    'editCategory'  =>  'edit category',
+    'createSubCat'  =>  'create sub category',
+    'childsCount'   =>  'sub categories count',
+    'enabled'       =>  'enabled',
+    'disabled'      =>  'disabled',
+    'uploadImageOf' =>  'upload image of ',
+    'uploadCompleted'=>  'upload completed ',
+    'changeImg'     =>  'change img',
+    'errorHappen'   =>  'ooh!! error happen',
+
+    'ar'            =>  [
+        'locale'    =>  'arabic',
+        'name'      =>  'arabic name',
+        'desc'      =>  'arabic description',
+    ],
+    'en'            =>  [
+        'locale'    =>  'english',
+
+        'name'      =>  'english name',
+        'desc'      =>  'english description',
+    ]
 ];
 

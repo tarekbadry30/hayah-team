@@ -1,0 +1,152 @@
+@extends('layouts.app')
+@section('css')
+
+@endsection
+@section('content')
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-10">
+            <div class="card">
+                <div class="card-body">
+                    <form novalidate  class="create-form pt-3 {{session()->has('errorsq')?'was-validated':''}}" action="{{route('categories.store')}}" method="post">
+                        @csrf
+                        <h4 class="header-title">{{__('frontend.createCategory')}}</h4>
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
+                            @foreach(config('translatable.locales') as $locale)
+                            <li class="nav-item">
+                                <a class="nav-link {{$locale==app()->getLocale()?'active':''}} @error($locale.'.name')alert-danger @enderror @error($locale.'.desc') alert-danger @enderror" data-bs-toggle="tab" href="#{{$locale}}" role="tab">
+                                    <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
+                                    <span class="d-none d-sm-block">@lang('frontend.'.$locale.'.locale')</span>
+                                </a>
+                            </li>
+                            @endforeach
+
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="tab-content text-muted pt-2">
+                            @foreach(config('translatable.locales') as $locale)
+
+                            <div class="tab-pane {{$locale==app()->getLocale()?'active':''}}" id="{{$locale}}" role="tabpanel">
+                                <div class="row mb-3">
+                                    <label for="name" class="col-sm-2 col-form-label">{{__('frontend.'.$locale.'.name')}}</label>
+                                    <div class="col-sm-10 position-relative">
+                                        <input class="form-control @error($locale.'.name') parsley-error is-invalid @enderror"
+                                               value="{{old($locale.'.name')}}"  type="text" placeholder="{{__('frontend.'.$locale.'.name')}}"
+                                               id="name" name="{{$locale}}[name]"/>
+                                        @error($locale.'.name')
+                                        <div class="invalid-tooltip position-static">
+                                            {{$message }}
+                                        </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="desc" class="col-sm-2 col-form-label">{{__('frontend.'.$locale.'.desc')}}</label>
+                                    <div class="col-sm-10">
+                            <textarea class="form-control @error($locale.'.desc') parsley-error is-invalid @enderror"
+                                      placeholder="{{__('frontend.'.$locale.'.desc')}}" id="desc" name="{{$locale}}[desc]">{{old($locale.'.desc')}}</textarea>
+                                        @error($locale.'.desc')
+                                        <div class="invalid-tooltip position-static">
+                                            {{$message }}
+                                        </div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                            </div>
+                            @endforeach
+
+                        </div>
+                        <div class="row mb-3">
+                            <label for="status" class="col-sm-2 col-form-label">{{__('frontend.status')}}</label>
+                            <div class="col-sm-10">
+                                <select name="status" class="form-control select2-search-disable2 @error('status') parsley-error is-invalid @enderror ">
+                                    <option value="enabled">{{__('frontend.enabled')}}</option>
+                                    <option value="disabled">{{__('frontend.disabled')}}</option>
+                                </select>
+                                @error('status')
+                                <div class="invalid-tooltip position-static">
+                                    {{$message }}
+                                </div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="parent_id" class="col-sm-2 col-form-label">{{__('frontend.parent')}}</label>
+                            <div class="col-sm-10">
+                                <select name="parent_id" class="form-control select2-search-disable2 @error('parent_id') parsley-error is-invalid @enderror ">
+                                    <option value="" selected></option>
+                                    @foreach($categories as $category)
+                                    <option @if(request()->parent_id==$category->id) selected @endif value="{{$category->id}}">{{$category->name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('parent_id')
+                                <div class="invalid-tooltip position-static">
+                                    {{$message }}
+                                </div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row mb-3 justify-content-center">
+                            <button type="submit" class="btn btn-outline-primary waves-effect waves-light col-sm-3 mx-1">
+                                {{__('frontend.save')}}</button>
+                            <a href="{{route('categories.index')}}{{request()->parent_id?'?parent_id='.request()->parent_id:''}}" class="btn btn-outline-secondary waves-effect waves-light col-sm-3 mx-1">{{__('frontend.cancel')}}</a>
+
+                        </div>
+
+                    </form>
+
+
+                </div>
+            </div>
+        </div> <!-- end col -->
+    </div>
+
+
+@endsection
+
+@section('js')
+
+    <!-- Plugins js -->
+    <script src="{{asset("assets/libs/dropzone/min/dropzone.min.js")}}"></script>
+    <script>
+        $(document).ready(function () {
+            /*var myDropzone = new Dropzone(".dropzone_form", {
+                autoProcessQueue: false,
+                url:  "{{route('categories.uploadImg')}}",
+                addRemoveLinks: true,
+                maxFilesize: 1,
+                acceptedFiles: ".jpeg,.jpg,.png",
+                sending: function(file, xhr, formData) {
+                    formData.append("_token", "{{ csrf_token() }}");
+                },
+            });
+            function submitMainForm(){
+                let Form=$(".create-form");
+                $.ajax({
+                    url: Form.attr('action'),
+                    method:Form.attr('method'),
+                    data: Form.serialize(),
+                    success: function (data) {
+                        console.log('Submission was successful.');
+                        console.log(data);
+                    },
+                    error: function (data) {
+                        console.log('An error occurred.');
+                        console.log(data);
+                    },
+                }).done(function() {
+
+                });
+            }
+            $(".submit-form").click(function (e) {
+                submitMainForm();
+                //myDropzone.processQueue();
+            });
+
+            console.clear()
+            console.log('init 1')
+            $(".select2-search-disable").select2();*/
+        })
+    </script>
+@endsection

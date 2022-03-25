@@ -6,26 +6,30 @@
 
         <div class="card-body">
             <h2 class="page-title pt-1">
-                {{__('frontend.usersList')}}
+                {{__('frontend.categoriesList')}} @if(isset($parent)) {{__('frontend.inCategory')}} <strong>
+                    {{$parent->name}}
+                </strong>
+                @endif
             </h2>
             <div class="row">
                 <div class="col-sm-8">
                     <input type="text" class="form-control data-search-input">
                 </div>
                 <div class="col-sm-4">
-                    <a href="{{route('users.create')}}" class="btn btn-outline-secondary waves-effect waves-light col-sm-3 mx-1"><i class=" fas fa-plus"></i></a>
+                    <a href="{{route('categories.create')}}@if(isset($parent))?parent_id={{$parent->id}}@endif" class="btn btn-outline-secondary waves-effect waves-light col-sm-3 mx-1"><i class=" fas fa-plus"></i></a>
 
                 </div>
             </div>
             <table id="mainTable" class="mt-3 table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                 <thead>
                 <tr>
+                    <th>{{__('frontend.img')}}</th>
                     <th>{{__('frontend.name')}}</th>
-                    <th>{{__('frontend.phone')}}</th>
-                    <th>{{__('frontend.nationalNum')}}</th>
-                    <th>{{__('frontend.address')}}</th>
-                    <th>{{__('frontend.type')}}</th>
+                    <th>{{__('frontend.desc')}}</th>
                     <th>{{__('frontend.status')}}</th>
+                    <!--<th>{{__('frontend.visibility')}}</th> -->
+                    <th>{{__('frontend.parent')}}</th>
+                    <th>{{__('frontend.childsCount')}}</th>
                     <th>{{__('frontend.action')}}</th>
                 </tr>
                 </thead>
@@ -70,16 +74,6 @@
 @section('js')
     <script>
         $(document).ready(function () {
-
-            @if(session('success'))
-            Swal.fire({
-                title: "{{__('frontend.success')}}",
-                text: '{{session('success')}}',
-                icon: "success",
-                confirmButtonColor: "#1cbb8c",
-                confirmButtonText: "{{__('frontend.ok')}}",
-            });
-            @endif
             let currentPage = 1;
             let itemsPerPage = 25;
             setPage(currentPage, itemsPerPage);
@@ -132,7 +126,7 @@
             });
         });
         function setPage(page,itemsPerPage) {
-            customDataTable($('#mainTable tbody'),$(".pagination-container"),'{{route('users.dataTable')}}',page,'get',itemsPerPage);
+            customDataTable($('#mainTable tbody'),$(".pagination-container"),'{{route('categories.dataTable')}}?parent_id={{request()->parent_id}}',page,'get',itemsPerPage);
         }
         async function  customDataTable(tableBody,paginationContainer,url,page=1,method='get',itemsPerPage=15) {
             let results=[];
@@ -153,15 +147,28 @@
             for(let item of results){
                 console.log(item);
                 tableContent+=`<tr>
+                    <td><img class="avatar-md" src="{{asset('/')}}${item.img}"></td>
                     <td>${item.name}</td>
-                    <td>${item.phone}</td>
-                    <td>${item.national_number}</td>
-                    <td>${item.address}</td>
-                    <td>${item.type}</td>
+                    <td>${item.desc}</td>
                     <td>${item.status}</td>
+                    <!-- <td >${item.visibility}</td> -->
+                    <td>${item.parent_id?item.parent.name:''}</td>
+                    <td><a href="{{route('categories.index')}}?parent_id=${item.id}">${item.childes_count}</a></td>
                     <td>
-                    <button class="btn btn-outline-danger delete-btn  waves-effect waves-light" href="{{route('users.index')}}/${item.id}">{{__('frontend.delete')}}</button>
-                    <a class="btn btn-outline-success  waves-effect waves-light" href="{{route('users.index')}}/${item.id}/edit">{{__('frontend.edit')}}</button>
+                    <button
+                    class="btn btn-outline-danger delete-btn  waves-effect waves-light"
+                    href="{{route('categories.index')}}/${item.id}">{{__('frontend.delete')}}</button>
+                    <a class="btn btn-outline-success  waves-effect waves-light"
+                    href="{{route('categories.index')}}/${item.id}/edit">{{__('frontend.edit')}}</button>
+                    <a href="{{route('categories.create')}}?parent_id=${item.id}"
+                    class="btn btn-outline-secondary waves-effect waves-light col-sm-3 mx-1">
+                    <i class=" fas fa-plus"></i> {{__('frontend.createSubCat')}}
+                    </a>
+                    <a href="{{route('uploads.index')}}?model=Category&value=${item.id}&backRoute={{request()->url()}}"
+                    class="btn btn-outline-info waves-effect waves-light col-sm-3 mx-1">
+                    <i class="fas fa-upload"></i> {{__('frontend.changeImg')}}
+                    </a>
+
                     </td>
 
             </tr>`;

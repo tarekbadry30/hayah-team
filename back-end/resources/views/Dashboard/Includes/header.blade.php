@@ -80,34 +80,28 @@
 
             <div class="dropdown d-none d-md-block ms-2">
                 <button type="button" class="btn header-item waves-effect" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img class="me-2" src="assets/images/flags/us.jpg" alt="Header Language" height="16"> English <span class="mdi mdi-chevron-down"></span>
+                    <img class="me-2" src="/assets/images/flags/{{str_replace('_', '-', app()->getLocale())=='en'?'us.jpg':'oman.png'}}" alt="Header Language" height="16">
+                    {{LaravelLocalization::getCurrentLocaleName()}} <span class="mdi mdi-chevron-down"></span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end">
+                    @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                            <a class="dropdown-item notify-item {{str_replace('_', '-', app()->getLocale())==$localeCode?'active':''}}" rel="alternate" hreflang="{{ $localeCode }}"
+                               href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
 
-                    <!-- item-->
+                                <img src="/assets/images/flags/{{ $localeCode=='en'?'us.jpg':'oman.png' }}" alt="user-image" class="me-1" height="12"> <span class="align-middle"> {{ $properties['native'] }} </span>
+
+                            </a>
+                @endforeach
+                    <!-- item
                     <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <img src="/assets/images/flags/germany.jpg" alt="user-image" class="me-1" height="12"> <span class="align-middle"> German </span>
+                        <img src="/assets/images/flags/us.jpg" alt="user-image" class="me-1" height="12"> <span class="align-middle"> English </span>
                     </a>
 
-                    <!-- item-->
+                    <!-- item- ->
                     <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <img src="/assets/images/flags/italy.jpg" alt="user-image" class="me-1" height="12"> <span class="align-middle"> Italian </span>
+                        <img src="/assets/images/flags/oman.png" alt="user-image" class="me-1" height="12"> <span class="align-middle"> Arabic </span>
                     </a>
-
-                    <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <img src="/assets/images/flags/french.jpg" alt="user-image" class="me-1" height="12"> <span class="align-middle"> French </span>
-                    </a>
-
-                    <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <img src="/assets/images/flags/spain.jpg" alt="user-image" class="me-1" height="12"> <span class="align-middle"> Spanish </span>
-                    </a>
-
-                    <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <img src="/assets/images/flags/russia.jpg" alt="user-image" class="me-1" height="12"> <span class="align-middle"> Russian </span>
-                    </a>
+-->
                 </div>
             </div>
 

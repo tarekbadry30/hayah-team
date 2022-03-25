@@ -52,5 +52,8 @@ class LoginController extends Controller
             $user = auth()->guard('admin')->user();
             return redirect()->intended(url('/users'));
         }
+        $this->incrementLoginAttempts($request);
+
+        return $this->sendFailedLoginResponse($request);
     }
 }

@@ -15,7 +15,6 @@ class CreateCategoryOptionsTable extends Migration
     {
         Schema::create('category_options', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
             $table->enum('status',['enabled','disabled'])->default('enabled');
             $table->boolean('accept_any_value')->default(true);
             $table->string('default_value')->nullable();
