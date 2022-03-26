@@ -49,7 +49,13 @@ return [
     'uploadCompleted'=>  'upload completed ',
     'changeImg'     =>  'change img',
     'errorHappen'   =>  'ooh!! error happen',
-
+    'defaultValue'  =>  'default value',
+    'createCategoryOption' =>'create category option for category',
+    'editCategoryOption'    =>'edit category option of category',
+    'finance'       =>'finance',
+    'physical'      =>'physical',
+    'categoryOptionsOf'=>'category options of ',
+    'acceptAnyValue'=>'accept any value',
     'ar'            =>  [
         'locale'    =>  'arabic',
         'name'      =>  'arabic name',

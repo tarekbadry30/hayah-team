@@ -16,6 +16,7 @@ class CreateCategoryOptionsTable extends Migration
         Schema::create('category_options', function (Blueprint $table) {
             $table->id();
             $table->enum('status',['enabled','disabled'])->default('enabled');
+            $table->enum('type',['finance','physical'])->default('finance');
             $table->boolean('accept_any_value')->default(true);
             $table->string('default_value')->nullable();
             $table->foreignId("category_id")->nullable()->references("id")->on("categories")->nullOnDelete()->cascadeOnUpdate();

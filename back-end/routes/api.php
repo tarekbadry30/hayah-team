@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\Auth\APIController;
+use \App\Http\Controllers\API\Category\CategoryController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,4 +18,7 @@ Route::post('login',[APIController::class,'usersLogin']);
 Route::post('register',[APIController::class,'usersRegister']);
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+Route::group(['middleware'=>['auth:sanctum']], function() {
+    Route::get('category/list', [CategoryController::class, 'index']);
 });

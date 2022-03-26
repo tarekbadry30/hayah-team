@@ -33,6 +33,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),'middleware'=>[
     Route::post('/categories/upload-img', [App\Http\Controllers\Category\CategoryController::class, 'uploadImg'])->name('categories.uploadImg');
     Route::resource('categories', \App\Http\Controllers\Category\CategoryController::class)->middleware(['auth:admin']);
 
+    Route::get('/category-option/data-table', [App\Http\Controllers\Category\CategoryOptionsController::class, 'dataTable'])->name('category-option.dataTable');
+    Route::resource('category-option', \App\Http\Controllers\Category\CategoryOptionsController::class)->middleware(['auth:admin']);//->name('categoryOption.');
+
+
     Route::get('/uploads/index', [App\Http\Controllers\Uploads\UploadsController::class, 'index'])->name('uploads.index');
     Route::post('/uploads/upload', [App\Http\Controllers\Uploads\UploadsController::class, 'uploadFiles'])->name('uploads.uploadFiles');
 

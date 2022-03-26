@@ -22,6 +22,10 @@ class Category extends Model  implements TranslatableContract
     {
         return $this->hasMany(Category::class,'parent_id');
     }
+    public function options()
+    {
+        return $this->hasMany(CategoryOption::class,'category_id');
+    }
     public function uploadParams(){
         return [
             'msg'=>__('frontend.uploadImageOf').$this->name,

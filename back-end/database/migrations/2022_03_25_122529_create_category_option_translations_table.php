@@ -16,9 +16,9 @@ class CreateCategoryOptionTranslationsTable extends Migration
         Schema::create('category_option_translations', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId("option_id")->references("id")->on("category_options")->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId("category_option_id")->references("id")->on("category_options")->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('locale')->index();
-            $table->unique(['option_id','locale']);
+            $table->unique(['category_option_id','locale']);
             $table->timestamps();
         });
     }
