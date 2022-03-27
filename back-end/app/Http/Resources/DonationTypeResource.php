@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CategoryResouce extends JsonResource
+class DonationTypeResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,13 +15,12 @@ class CategoryResouce extends JsonResource
     public function toArray($request)
     {
         $locale= $request->header('locale')? $request->header('locale') : app()->getLocale();
-        return[
+        return [
             'id'        =>  $this->id,
-            'img'       =>  asset($this->img),
             'name'      =>  $this->translate($locale)->name,
             'desc'      =>  $this->translate($locale)->desc,
-            //'sub_categories'=>  CategoryResouce::collection($this->childes),
-            'options'   =>  CategoryOptionResouce::collection($this->options),
+            //'categories'=>  $this->categories,
+            'categories'=>  CategoryResouce::collection($this->categories),
         ];
     }
 }

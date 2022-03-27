@@ -63,9 +63,13 @@ return [
     ],
     'en'            =>  [
         'locale'    =>  'english',
-
         'name'      =>  'english name',
         'desc'      =>  'english description',
-    ]
+    ],
+    'options'       =>  'options',
+    'createOption'  =>  'create options',
+    'categoriesCount'       =>  'categories count',
+    'inType'                =>  'in type ',
+    'createDonationType'    =>  'create donation type',
 ];
 

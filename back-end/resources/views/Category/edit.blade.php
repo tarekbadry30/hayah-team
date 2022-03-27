@@ -81,17 +81,14 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="parent_id" class="col-sm-2 col-form-label">{{__('frontend.parent')}}</label>
+                            <label for="type_id" class="col-sm-2 col-form-label">{{__('frontend.type')}}</label>
                             <div class="col-sm-10">
-                                <select name="parent_id" class="form-control select2-search-disable2 @error('parent_id') parsley-error is-invalid @enderror ">
-                                    <option value="" selected></option>
-                                    @foreach($categories as $categoryItem)
-                                        @if($categoryItem->id!=$category->id)
-                                        <option {{$category->parent_id==$categoryItem->id?'selected':''}} value="{{$categoryItem->id}}">{{$categoryItem->name}}</option>
-                                        @endif
+                                <select name="type_id" class="form-control select2-search-disable2 @error('type_id') parsley-error is-invalid @enderror ">
+                                    @foreach($types as $typeItem)
+                                        <option {{$category->type_id==$typeItem->id?'selected':''}} value="{{$typeItem->id}}">{{$typeItem->name}}</option>
                                     @endforeach
                                 </select>
-                                @error('parent_id')
+                                @error('type_id')
                                 <div class="invalid-tooltip position-static">
                                     {{$message }}
                                 </div>
@@ -101,7 +98,7 @@
                         <div class="row mb-3 justify-content-center">
                             <button type="submit" class="btn btn-outline-primary waves-effect waves-light col-sm-3 mx-1">
                                 {{__('frontend.save')}}</button>
-                            <a href="{{route('categories.index')}}{{$category->parent_id?'?parent_id='.$category->parent_id:''}}" class="btn btn-outline-secondary waves-effect waves-light col-sm-3 mx-1">{{__('frontend.cancel')}}</a>
+                            <a href="{{route('categories.index')}}{{$category->type_id?'?type_id='.$category->type_id:''}}" class="btn btn-outline-secondary waves-effect waves-light col-sm-3 mx-1">{{__('frontend.cancel')}}</a>
 
                         </div>
 

@@ -14,14 +14,11 @@ class Category extends Model  implements TranslatableContract
     protected $guarded=[];
     public $translatedAttributes = ['name', 'desc'];
 
-    public function parent()
+    public function type()
     {
-        return $this->belongsTo(Category::class,'parent_id');
+        return $this->belongsTo(DonationType::class,'type_id');
     }
-    public function childes()
-    {
-        return $this->hasMany(Category::class,'parent_id');
-    }
+
     public function options()
     {
         return $this->hasMany(CategoryOption::class,'category_id');

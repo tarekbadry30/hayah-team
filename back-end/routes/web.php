@@ -40,4 +40,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),'middleware'=>[
     Route::get('/uploads/index', [App\Http\Controllers\Uploads\UploadsController::class, 'index'])->name('uploads.index');
     Route::post('/uploads/upload', [App\Http\Controllers\Uploads\UploadsController::class, 'uploadFiles'])->name('uploads.uploadFiles');
 
+
+    Route::get('/donation-types/data-table', [App\Http\Controllers\Donations\DonationsTypeController::class, 'dataTable'])->name('donation-types.dataTable');
+
+    Route::resource('donation-types', \App\Http\Controllers\Donations\DonationsTypeController::class)->middleware(['auth:admin']);//->name('categoryOption.');
+
 });

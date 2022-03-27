@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Category;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
+use App\Models\DonationType;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -17,14 +18,16 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $parent=\request()->parent_id?Category::findOrFail(\request()->parent_id):null;
+        $type=\request()->type_id?DonationType::findOrFail(\request()->type_id):null;
 
-        return view('Category.index',compact('parent'));
+        return view('Category.index',compact('type'));
     }
     public function dataTable()
     {
-        $parent_id=\request()->parent_id?\request()->parent_id:null;
-        $categories=Category::with('parent')->withCount('childes')->where('parent_id',$parent_id)->paginate(\request()->has('itemsPerPage')?\request()->itemsPerPage:25);
+        if(\request()->type_id)
+            $categories=Category::with('type')->withCount('options')->where('type_id',\request()->type_id)->paginate(\request()->has('itemsPerPage')?\request()->itemsPerPage:25);
+        else
+            $categories=Category::with('type')->withCount('options')->paginate(\request()->has('itemsPerPage')?\request()->itemsPerPage:25);
         return $this->sendResponse($categories,'get categories paginate');
     }
 
@@ -35,8 +38,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $categories=Category::get(['id']);
-        return view('Category.create',compact('categories'));
+        $types=DonationType::get(['id']);
+        return view('Category.create',compact('types'));
     }
 
     /**
@@ -59,8 +62,8 @@ class CategoryController extends Controller
             ],
 
             'status'    =>$request->status,
-            'parent_id' =>$request->parent_id,
-            'img'       =>'$request->parent_id',
+            'type_id'   =>$request->type_id,
+            'img'       =>'-',
             'admin_id'  =>auth()->guard('admin')->id()
         ]);
         $msg=__('frontend.uploadImageOf').$category->name;
@@ -68,8 +71,8 @@ class CategoryController extends Controller
         $files=['max'=>1,'mimes'=>".jpeg,.jpg,.png"];
         $uploadRoute=route('categories.uploadImg');
         $backRoute=route('categories.index');
-        if($request->parent_id)
-        $backRoute.='?parent_id='.$request->parent_id;
+        if($request->type_id)
+        $backRoute.='?type_id='.$request->type_id;
         //return view('fileUpload',compact('input','files','msg','uploadRoute','backRoute'))->with('success',__('frontend.itemCreated'));
 
         return redirect(route('uploads.index',compact('input','files','msg','uploadRoute','backRoute')))->with('success',__('frontend.itemCreated'));
@@ -94,9 +97,8 @@ class CategoryController extends Controller
      */
     public function edit(Category  $category)
     {
-        $categories=Category::get(['id']);
-
-        return view('Category.edit',compact('category','categories'));
+        $types = DonationType::get(['id']);
+        return view('Category.edit',compact('category','types'));
     }
 
     /**
@@ -119,8 +121,8 @@ class CategoryController extends Controller
                 'desc'      =>$request->en['desc'],
             ],
             'status'    =>$request->status,
-            'parent_id' =>$request->parent_id,
-            'img'       =>'$request->parent_id',
+            'type_id'   =>$request->type_id,
+            ///'img'       =>'images/categories/1648383890.jpg',
             'admin_id'  =>auth()->guard('admin')->id()
         ]);
         return redirect(route('categories.index'))->with('success',__('frontend.itemUpdated'));
@@ -151,6 +153,5 @@ class CategoryController extends Controller
     {
         $category->delete();
         return $this->sendResponse([],'category deleted success');
-
     }
 }

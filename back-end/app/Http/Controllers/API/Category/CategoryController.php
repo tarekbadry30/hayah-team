@@ -5,7 +5,9 @@ namespace App\Http\Controllers\API\Category;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryCollection;
 use App\Http\Resources\CategoryResouce;
+use App\Http\Resources\DonationTypeResource;
 use App\Models\Category;
+use App\Models\DonationType;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -17,8 +19,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $category=Category::whereNull('parent_id')->get();
-        return CategoryResouce::collection($category);
+        $types=DonationType::get();
+        //$category=Category::whereNull('parent_id')->get();
+        return DonationTypeResource::collection($types);
     }
 
     /**

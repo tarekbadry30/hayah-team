@@ -7,9 +7,9 @@
         <div class="col-12 col-md-10">
             <div class="card">
                 <div class="card-body">
-                    <form novalidate  class="create-form pt-3 {{session()->has('errorsq')?'was-validated':''}}" action="{{route('categories.store')}}" method="post">
+                    <form novalidate  class="create-form pt-3 {{session()->has('errorsq')?'was-validated':''}}" action="{{route('donation-types.store')}}" method="post">
                         @csrf
-                        <h4 class="header-title">{{__('frontend.createCategory')}}</h4>
+                        <h4 class="header-title">{{__('frontend.createDonationType')}} </h4>
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
                             @foreach(config('translatable.locales') as $locale)
@@ -43,16 +43,15 @@
                                 <div class="row mb-3">
                                     <label for="desc" class="col-sm-2 col-form-label">{{__('frontend.'.$locale.'.desc')}}</label>
                                     <div class="col-sm-10">
-                            <textarea class="form-control @error($locale.'.desc') parsley-error is-invalid @enderror"
-                                      placeholder="{{__('frontend.'.$locale.'.desc')}}" id="desc" name="{{$locale}}[desc]">{{old($locale.'.desc')}}</textarea>
-                                        @error($locale.'.desc')
-                                        <div class="invalid-tooltip position-static">
-                                            {{$message }}
-                                        </div>
-                                        @enderror
+                                        <textarea class="form-control @error($locale.'.desc') parsley-error is-invalid @enderror"
+                                          placeholder="{{__('frontend.'.$locale.'.desc')}}" id="desc" name="{{$locale}}[desc]">{{old($locale.'.desc')}}</textarea>
+                                            @error($locale.'.desc')
+                                            <div class="invalid-tooltip position-static">
+                                                {{$message }}
+                                            </div>
+                                            @enderror
                                     </div>
                                 </div>
-
                             </div>
                             @endforeach
 
@@ -71,26 +70,13 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="row mb-3">
-                            <label for="type_id" class="col-sm-2 col-form-label">{{__('frontend.type')}}</label>
-                            <div class="col-sm-10">
-                                <select name="type_id" class="form-control select2-search-disable2 @error('type_id') parsley-error is-invalid @enderror ">
-                                    <option value="" selected></option>
-                                    @foreach($types as $type)
-                                    <option @if(request()->type_id==$type->id) selected @endif value="{{$type->id}}">{{$type->name}}</option>
-                                    @endforeach
-                                </select>
-                                @error('type_id')
-                                <div class="invalid-tooltip position-static">
-                                    {{$message }}
-                                </div>
-                                @enderror
-                            </div>
-                        </div>
+
+
+
                         <div class="row mb-3 justify-content-center">
                             <button type="submit" class="btn btn-outline-primary waves-effect waves-light col-sm-3 mx-1">
                                 {{__('frontend.save')}}</button>
-                            <a href="{{route('categories.index')}}{{request()->type_id?'?type_id='.request()->type_id:''}}" class="btn btn-outline-secondary waves-effect waves-light col-sm-3 mx-1">{{__('frontend.cancel')}}</a>
+                            <a href="{{route('donation-types.index')}}" class="btn btn-outline-secondary waves-effect waves-light col-sm-3 mx-1">{{__('frontend.cancel')}}</a>
 
                         </div>
 
@@ -106,47 +92,25 @@
 @endsection
 
 @section('js')
-
-    <!-- Plugins js -->
-    <script src="{{asset("assets/libs/dropzone/min/dropzone.min.js")}}"></script>
     <script>
         $(document).ready(function () {
-            /*var myDropzone = new Dropzone(".dropzone_form", {
-                autoProcessQueue: false,
-                url:  "{{route('categories.uploadImg')}}",
-                addRemoveLinks: true,
-                maxFilesize: 1,
-                acceptedFiles: ".jpeg,.jpg,.png",
-                sending: function(file, xhr, formData) {
-                    formData.append("_token", "{{ csrf_token() }}");
-                },
+            $("input[name='default_value']").TouchSpin({
+                step: 0.1,
+                decimals: 2,
+                initval: 1,
+                max:1000000,
+                min:0.1,
+                buttondown_class: "btn btn-primary",
+                buttonup_class: "btn btn-primary"
             });
-            function submitMainForm(){
-                let Form=$(".create-form");
-                $.ajax({
-                    url: Form.attr('action'),
-                    method:Form.attr('method'),
-                    data: Form.serialize(),
-                    success: function (data) {
-                        console.log('Submission was successful.');
-                        console.log(data);
-                    },
-                    error: function (data) {
-                        console.log('An error occurred.');
-                        console.log(data);
-                    },
-                }).done(function() {
+            $('.option_type').change(function () {
+                if($(this).val()=='finance'){
+                    $('.finance').removeClass('d-none');
+                }else{
+                    $('.finance').addClass('d-none');
 
-                });
-            }
-            $(".submit-form").click(function (e) {
-                submitMainForm();
-                //myDropzone.processQueue();
-            });
-
-            console.clear()
-            console.log('init 1')
-            $(".select2-search-disable").select2();*/
+                }
+            })
         })
     </script>
 @endsection

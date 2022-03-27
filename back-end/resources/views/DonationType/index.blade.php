@@ -6,29 +6,22 @@
 
         <div class="card-body">
             <h2 class="page-title pt-1">
-                {{__('frontend.categoriesList')}} @if(isset($type)) {{__('frontend.inType')}} <strong>
-                    {{$type->name}}
-                </strong>
-                @endif
+                {{__('frontend.donationTypes')}}
             </h2>
             <div class="row">
                 <div class="col-sm-8">
                     <input type="text" class="form-control data-search-input">
                 </div>
                 <div class="col-sm-4">
-                    <a href="{{route('categories.create')}}@if(isset($type))?type_id={{$type->id}}@endif" class="btn btn-outline-secondary waves-effect waves-light col-sm-3 mx-1"><i class=" fas fa-plus"></i></a>
-
+                    <a href="{{route('donation-types.create')}}" class="btn btn-outline-secondary waves-effect waves-light col-sm-3 mx-1"><i class=" fas fa-plus"></i></a>
                 </div>
             </div>
             <table id="mainTable" class="mt-3 table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                 <thead>
                 <tr>
-                    <th>{{__('frontend.img')}}</th>
                     <th>{{__('frontend.name')}}</th>
-                    <th>{{__('frontend.desc')}}</th>
                     <th>{{__('frontend.status')}}</th>
-                    <th>{{__('frontend.options')}}</th>
-                    <th>{{__('frontend.type')}}</th>
+                    <th>{{__('frontend.categoriesCount')}}</th>
                     <th>{{__('frontend.action')}}</th>
                 </tr>
                 </thead>
@@ -125,7 +118,7 @@
             });
         });
         function setPage(page,itemsPerPage) {
-            customDataTable($('#mainTable tbody'),$(".pagination-container"),'{{route('categories.dataTable')}}?type_id={{request()->type_id}}',page,'get',itemsPerPage);
+            customDataTable($('#mainTable tbody'),$(".pagination-container"),'{{route('donation-types.dataTable')}}',page,'get',itemsPerPage);
         }
         async function  customDataTable(tableBody,paginationContainer,url,page=1,method='get',itemsPerPage=15) {
             let results=[];
@@ -146,26 +139,16 @@
             for(let item of results){
                 console.log(item);
                 tableContent+=`<tr>
-                    <td><img class="avatar-md" src="{{asset('/')}}${item.img}"></td>
                     <td>${item.name}</td>
-                    <td>${item.desc}</td>
                     <td>${item.status}</td>
-                    <td ><a href="{{route('category-option.index')}}?category_id=${item.id}">${item.options_count}</td>
-                    <td>${item.type_id?item.type.name:''}</td>
+                    <td ><a href="{{route('categories.index')}}?type_id=${item.id}">${item.categories_count}</a></td>
                     <td>
                     <button
                     class="btn btn-outline-danger delete-btn  waves-effect waves-light"
-                    href="{{route('categories.index')}}/${item.id}">{{__('frontend.delete')}}</button>
+                    href="{{route('donation-types.index')}}/${item.id}">{{__('frontend.delete')}}</button>
                     <a class="btn btn-outline-success  waves-effect waves-light"
-                    href="{{route('categories.index')}}/${item.id}/edit">{{__('frontend.edit')}}</button>
-                    <a href="{{route('category-option.create')}}?category_id=${item.id}"
-                    class="btn btn-outline-secondary waves-effect waves-light col-sm-3 mx-1">
-                    <i class=" fas fa-plus"></i> {{__('frontend.createOption')}}
-                    </a>
-                    <a href="{{route('uploads.index')}}?model=Category&value=${item.id}&backRoute={{request()->url()}}"
-                    class="btn btn-outline-info waves-effect waves-light col-sm-3 mx-1">
-                    <i class="fas fa-upload"></i> {{__('frontend.changeImg')}}
-                    </a>
+                    href="{{route('donation-types.index')}}/${item.id}/edit">{{__('frontend.edit')}}</button>
+
 
                     </td>
 

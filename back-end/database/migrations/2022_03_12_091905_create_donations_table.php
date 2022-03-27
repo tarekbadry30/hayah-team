@@ -22,6 +22,7 @@ class CreateDonationsTable extends Migration
             $table->enum('type',['financial','physical'])->default('financial');
 
             $table->foreignId("admin_id")->nullable()->references("id")->on("admins")->nullOnDelete()->cascadeOnUpdate();
+            $table->foreignId("type_id")->nullable()->references("id")->on("donation_types")->nullOnDelete()->cascadeOnUpdate();
             $table->foreignId("category_id")->nullable()->references("id")->on("categories")->nullOnDelete()->cascadeOnUpdate();
             $table->foreignId("user_id")->nullable()->references("id")->on("users")->nullOnDelete()->cascadeOnUpdate();
             $table->timestamps();
