@@ -128,7 +128,7 @@
 
             $(".custom-data-table .data-search-input").on("keyup", function() {
                 var value = $(this).val().toLowerCase();
-                $(this).closest('.custom-data-table').find('table tr').filter(function() {
+                $(this).closest('.custom-data-table').find('table tbody tr').filter(function() {
                     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                 });
             });

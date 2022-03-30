@@ -29,6 +29,25 @@ class APIController extends Controller
             return $this->sendError('Unauthorised.', ['error'=>'login failed']);
         }
     }
+    public function driversLogin(Request $request){
+        $request->validate([
+            'phone'     => 'required|string',
+            'password'  => 'required|string'
+        ]);
+        //return json_encode(config('auth.guards'));
+        if(Auth::guard('delivery')->attempt(['phone' => $request->phone, 'password' => $request->password])){
+            $user = Auth::guard('delivery')->user();
+            if($user->status!='active')
+                return $this->sendError('account '.$user->status, ['error'=>'your account status "'.$user->status.'"']);
+
+            $success['token'] =  $user->createToken('delivery')->plainTextToken;
+            $success['user'] =  $user;
+            return $this->sendResponse($success, 'delivery login successfully.');
+        }
+        else{
+            return $this->sendError('Unauthorised.', ['error'=>'login failed']);
+        }
+    }
     public function usersRegister(UsersRequest $request){
         $user=UsersController::storeNewUser($request);
         $success['user'] =  $user;

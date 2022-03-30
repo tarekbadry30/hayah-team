@@ -15,6 +15,7 @@ class CreateDonationDeliveryOrdersTable extends Migration
     {
         Schema::create('donation_delivery_orders', function (Blueprint $table) {
             $table->id();
+            $table->text('notes')->nullable();
             $table->enum('status',['pending','delivery_accepted','delivery_refused','in_way','completed'])->default('pending');
             $table->foreignId("donation_id")->references("id")->on("donations")->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId("delivery_id")->references("id")->on("deliveries")->cascadeOnDelete()->cascadeOnUpdate();

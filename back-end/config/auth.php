@@ -41,8 +41,16 @@ return [
             'provider' => 'users',
         ],
         'admin' => [
-            'driver' => 'session',
-            'provider' => 'admins',
+            'driver'    => 'session',
+            'provider'  => 'admins',
+        ],
+        'delivery_api'=> [
+            'driver'    => 'sanctum',
+            'provider'  => 'delivery',
+        ],
+        'delivery'=> [
+            'driver'    => 'session',
+            'provider'  => 'delivery',
         ],
     ],
 
@@ -65,12 +73,16 @@ return [
 
     'providers' => [
         'users' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'driver'    => 'eloquent',
+            'model'     => App\Models\User::class,
         ],
         'admins' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\Admin::class,
+            'driver'    => 'eloquent',
+            'model'     => App\Models\Admin::class,
+        ],
+        'delivery' => [
+            'driver'    => 'eloquent',
+            'model'     => App\Models\Delivery::class,
         ],
 
         // 'users' => [
@@ -96,13 +108,19 @@ return [
 
     'passwords' => [
         'users' => [
-            'provider' => 'users',
-            'table' => 'password_resets',
-            'expire' => 60,
-            'throttle' => 60,
+            'provider'  => 'users',
+            'table'     => 'password_resets',
+            'expire'    => 60,
+            'throttle'  => 60,
         ],
         'admins' => [
             'provider'  => 'admins',
+            'table'     => 'password_resets',
+            'expire'    => 60,
+            'throttle'  => 60,
+        ],
+        'delivery_api' => [
+            'provider'  => 'delivery',
             'table'     => 'password_resets',
             'expire'    => 60,
             'throttle'  => 60,
