@@ -38,9 +38,8 @@ class CreateDeliverRequest extends FormRequest
             $rules = [
                 'name'      => 'required|string',
                 'phone'     => 'required|string|unique:deliveries,phone,' . request()->id,
-                'type'      =>'required',
                 'status'    =>'required',
-                //'national_number'=>'required|string|unique:deliveries,national_number,'.request()->id,
+                'national_number'=>'required|string|unique:deliveries,national_number,'.request()->id,
             ];
             if(request()->password)
                 $rules['password']= 'required|string|min:6';

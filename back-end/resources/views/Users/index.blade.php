@@ -25,6 +25,7 @@
                     <th>{{__('frontend.nationalNum')}}</th>
                     <th>{{__('frontend.address')}}</th>
                     <th>{{__('frontend.type')}}</th>
+                    <th>{{__('frontend.monthlyHelp')}}</th>
                     <th>{{__('frontend.status')}}</th>
                     <th>{{__('frontend.action')}}</th>
                 </tr>
@@ -151,13 +152,14 @@
             if(results.length<1)
                 tableContent=`<tr><td colspan="${$('#mainTable th').length-1}">{{__('frontend.noResult')}}</td></tr>`;
             for(let item of results){
-                console.log(item);
+                console.log(item.last_help?item.last_help.help_value:'---');
                 tableContent+=`<tr>
                     <td>${item.name}</td>
                     <td>${item.phone}</td>
                     <td>${item.national_number}</td>
                     <td>${item.address}</td>
                     <td>${item.type}</td>
+                    <td><a class="${item.type!='needy'?'d-none':''}" href="{{route('monthly-help.index')}}?user_id=${item.id}">${item.last_help?item.last_help.month+' => '+item.last_help.help_value:'---'}</a></td>
                     <td>${item.status}</td>
                     <td>
                     <button class="btn btn-outline-danger delete-btn  waves-effect waves-light" href="{{route('users.index')}}/${item.id}">{{__('frontend.delete')}}</button>

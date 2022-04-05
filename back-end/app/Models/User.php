@@ -47,5 +47,11 @@ class User extends Authenticatable
      *
      * @var array
      */
+    public function monthlyHelp(){
+        return $this->hasMany(UserMonthHelp::class,'user_id');
+    }
+    public function lastHelp(){
+        return $this->hasOne(UserMonthHelp::class,'user_id')->latest();
+    }
 
 }

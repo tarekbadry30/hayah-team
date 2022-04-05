@@ -139,8 +139,8 @@ lastOrderDate
                     <td>${item.national_number}</td>
                     <td>${item.last_order_date}</td>
                     <td>
-                    <button class="btn btn-outline-danger delete-btn  waves-effect waves-light" href="{{route('users.index')}}/${item.id}">{{__('frontend.delete')}}</button>
-                    <a class="btn btn-outline-success  waves-effect waves-light" href="{{route('users.index')}}/${item.id}/edit">{{__('frontend.edit')}}</button>
+                    <button class="btn btn-outline-danger delete-btn  waves-effect waves-light" href="{{route('deliveries.index')}}/${item.id}">{{__('frontend.delete')}}</button>
+                    <a class="btn btn-outline-success  waves-effect waves-light" href="{{route('deliveries.index')}}/${item.id}/edit">{{__('frontend.edit')}}</button>
                     </td>
 
             </tr>`;

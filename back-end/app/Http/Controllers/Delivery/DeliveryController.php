@@ -92,7 +92,7 @@ class DeliveryController extends Controller
             'national_number'=> $request->national_number,
             'status'        => $request->status,
             'password'      => isset($request->password)?Hash::make($request->password):$delivery->password,
-            'admin_id'      => $request->admin_id,
+            'admin_id'      => auth('admin')->id(),
         ]);
         return redirect(route('deliveries.index'))->with('success',__('frontend.itemUpdated'));
     }

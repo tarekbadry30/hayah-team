@@ -105,4 +105,18 @@ class DonationsController extends Controller
         return $this->sendResponse($donation_order,'order assigned to delivery success');
 
     }
+
+    public function refuseDonation(Request $request)
+    {
+        //return  1;
+        $donation=Donation::findOrFail($request->donation_id);
+        if($donation->status!='pending'){
+            return $this->sendError('donation status = '.$donation->status,[],400);
+        }
+        $donation->update([
+            'status'    =>   'admin_refused'
+        ]);
+        return $this->sendResponse([],'donation refused success');
+
+    }
 }

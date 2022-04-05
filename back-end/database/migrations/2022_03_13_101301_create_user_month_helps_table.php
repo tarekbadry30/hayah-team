@@ -16,7 +16,7 @@ class CreateUserMonthHelpsTable extends Migration
         Schema::create('user_month_helps', function (Blueprint $table) {
             $table->id();
             $table->foreignId("user_id")->references("id")->on("users")->cascadeOnDelete()->cascadeOnUpdate();
-            $table->date('month');
+            $table->dateTime('month');
             $table->float('help_value');
             $table->float('total_value');
             $table->float('remaining_value');

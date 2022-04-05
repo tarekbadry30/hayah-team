@@ -105,7 +105,7 @@ class DonationsTypeController extends Controller
             'admin_id'  =>auth()->guard('admin')->id()
 
         ]);
-        return redirect(route('donation-types.index'))->with('success',__('frontend.updatedUpdated'));
+        return redirect(route('donation-types.index'))->with('success',__('frontend.itemUpdated'));
 
     }
 

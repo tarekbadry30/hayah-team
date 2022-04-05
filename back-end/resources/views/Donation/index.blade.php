@@ -197,9 +197,10 @@
             })
             $(document).on('click', '.delete-btn', function () {
                 let url = $(this).attr('href');
+                let donation_id = $(this).attr('donation_id');
                 Swal.fire({
                     title: "{{__('frontend.alert')}}",
-                    text: "{{__('frontend.sureDelete')}}",
+                    text: "{{__('frontend.sureRefuse')}}",
                     icon: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#1cbb8c",
@@ -212,6 +213,9 @@
                             $.ajax({
                                 url: url,
                                 method: 'delete',
+                                data:{
+                                    donation_id:donation_id
+                                }
                             }).done(function (data) {
                                 Swal.fire({
                                     title: "{{__('frontend.success')}}",
@@ -303,11 +307,8 @@
                     data-bs-target=".accept-donation-modal"
                     >{{__('frontend.accept')}}</button>
                     <button
-                    class="btn btn-outline-danger delete-btn  waves-effect waves-light"
-                    href="{{route('donation-types.index')}}/${item.id}">{{__('frontend.delete')}}</button>
-                    <a class="btn btn-outline-success  waves-effect waves-light"
-                    href="{{route('donation-types.index')}}/${item.id}/edit">{{__('frontend.edit')}}</button>
-
+                    class="btn btn-outline-danger delete-btn  waves-effect waves-light ${item.status!='pending'?'d-none':''}"
+                    href="{{route('donations.refuse')}}" donation_id="${item.id}">{{__('frontend.refuse')}}</button>
 
                     </td>
 

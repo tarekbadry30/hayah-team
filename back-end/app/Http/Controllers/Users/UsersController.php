@@ -21,7 +21,7 @@ class UsersController extends Controller
     }
     public function dataTable()
     {
-        $users=User::paginate(\request()->has('itemsPerPage')?\request()->itemsPerPage:25);
+        $users=User::with('lastHelp')->paginate(\request()->has('itemsPerPage')?\request()->itemsPerPage:25);
         return $this->sendResponse($users,'get users paginate');
     }
 

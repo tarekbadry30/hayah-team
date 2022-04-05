@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Uploads;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\DonationHelp;
+use App\Models\Food;
 use Illuminate\Http\Request;
 
 class UploadsController extends Controller
@@ -31,6 +33,12 @@ class UploadsController extends Controller
             switch ($request->model) {
                 case 'Category':
                     $params=Category::find($request->value)->uploadParams();
+                    break;
+                case 'Food':
+                    $params=Food::find($request->value)->uploadParams();
+                    break;
+                case 'DonationHelp':
+                    $params=DonationHelp::find($request->value)->uploadParams();
                     break;
             }
             return view('fileUpload', $params);//->with('success',__('frontend.itemCreated'));

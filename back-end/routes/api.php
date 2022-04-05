@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\API\DonationHelp\DonationHelpController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\Auth\APIController;
 use \App\Http\Controllers\API\Category\CategoryController;
 use \App\Http\Controllers\API\Donations\DonationsController;
 use \App\Http\Controllers\API\Delivery\DeliveryController;
+use \App\Http\Controllers\API\Foods\FoodsController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -31,4 +33,19 @@ Route::group(['prefix'=>'delivery'],function () {
     Route::group(['middleware'=>'auth:delivery_api'],function () {
         Route::apiResource('orders/',DeliveryController::class);
     });
+});
+Route::group(['prefix'=>'food'],function () {
+    Route::get('/',[FoodsController::class,'index']);
+    Route::post('/store',[FoodsController::class,'store']);
+    /*Route::group(['middleware'=>'auth:delivery_api'],function () {
+        Route::apiResource('orders/',DeliveryController::class);
+    });*/
+});
+
+Route::group(['prefix'=>'donations-help'],function () {
+    Route::get('/',[DonationHelpController::class,'index']);
+    //Route::post('/store',[FoodsController::class,'store']);
+    /*Route::group(['middleware'=>'auth:delivery_api'],function () {
+        Route::apiResource('orders/',DeliveryController::class);
+    });*/
 });

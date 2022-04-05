@@ -5,9 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Delivery;
 use App\Models\Donation;
+use App\Models\DonationHelp;
 use App\Models\DonationType;
+use App\Models\Food;
+use App\Models\FoodRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 class HomeController extends Controller
 {
@@ -39,6 +43,9 @@ class HomeController extends Controller
             Category::class,
             Donation::class,
             Delivery::class,
+            Food::class,
+            FoodRequest::class,
+            DonationHelp::class,
 
         ];
         foreach ($statics as $item) {
@@ -46,7 +53,7 @@ class HomeController extends Controller
             $cards[] = [
                 'name' => __('frontend.' . $tableName.'List'),
                 'value' => $item::count(),
-                'route' => route($tableName . '.index')
+                'route' => Route::has($tableName . '.index')?route($tableName . '.index'):(Route::has($tableName . 's.index')?route($tableName . 's.index'):'#')
             ];
         }
         /*$cardItem=[

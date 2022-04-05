@@ -51,6 +51,10 @@ class DeliveryController extends Controller
         $order->update([
             'status'=>$request->status
         ]);
+        if(in_array($order->status,['delivery_accepted','delivery_refused','completed']))
+        $order->donation->update([
+            'status'=> $order->status
+        ]);
         return $this->sendResponse("order status = $order->status",'order status updated');
     }
 

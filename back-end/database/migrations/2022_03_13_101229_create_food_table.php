@@ -15,10 +15,10 @@ class CreateFoodTable extends Migration
     {
         Schema::create('food', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            //$table->string('name');
             $table->enum('type',['eat','drink'])->default('eat');
             $table->boolean('available')->default(true);
-            $table->text('desc');
+            //$table->text('desc');
             $table->float('price');
             $table->string('img')->nullable();
             $table->foreignId("admin_id")->nullable()->references("id")->on("admins")->nullOnDelete()->cascadeOnUpdate();

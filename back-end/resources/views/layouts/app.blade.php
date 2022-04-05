@@ -37,7 +37,56 @@
     <!-- Sweet Alert-->
     <link href="{{asset('assets/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('assets/libs/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css" />
-    @yield('css')
+    <style>
+        .loader-container{
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(100,100,100,.5);
+            padding: 20%;
+            top: 0;
+            left: 0;
+            z-index: 10000;
+        }
+        .loader {
+            width: 82px;
+            height: 18px;
+            position: relative;
+            margin: auto;
+            display: block;
+        }
+        .loader::before , .loader::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translate(-50% , 10%);
+            top: 0;
+            background: #036937;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            animation: jump 0.5s ease-in infinite alternate;
+        }
+
+        .loader::after {
+            background: #0000;
+            color: #fff;
+            top: 100%;
+            box-shadow: 32px -20px , -32px -20px;
+            animation: split 0.5s ease-out infinite alternate;
+        }
+
+        @keyframes split {
+            0% { box-shadow: 8px -20px, -8px -20px}
+            100% { box-shadow: 32px -20px , -32px -20px}
+        }
+        @keyframes jump {
+            0% { transform: translate(-50% , -150%)}
+            100% { transform: translate(-50% , 10%)}
+        }
+    </style>
+
+@yield('css')
     <!-- fontawesome icons init -->
 
 </head>
@@ -52,7 +101,10 @@
     @include('Dashboard.Includes.leftSideMenu')
     @endauth
 
-
+        <div class="loader-container">
+            <span class="loader"></span>
+            <h3 class="text-center text-white">{{__('frontend.loading')}}</h3>
+        </div>
     <!-- ============================================================== -->
     <!-- Start right Content here -->
     <!-- ============================================================== -->
@@ -109,6 +161,7 @@
 
 
     $(document).ready(function () {
+        $('.loader-container').addClass('d-none');
         @if(session('success'))
         Swal.fire({
             title: "{{__('frontend.success')}}",
@@ -118,9 +171,19 @@
             confirmButtonText: "{{__('frontend.ok')}}",
         });
         @endif
-        $.ajaxSetup({
+        $( window ).unload(function() {
+            console.log('ffffffffffff');
+            $('.loader-container').removeClass('d-none');
+        });
+            $.ajaxSetup({
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+            beforeSend: function() {
+                $('.loader-container').removeClass('d-none');
+            },
+            complete: function() {
+                $('.loader-container').addClass('d-none');
             },
         });
         $(document).ready(function(){
