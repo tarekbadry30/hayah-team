@@ -135,6 +135,9 @@ return [
     'donation-helps'        =>'donations help',
     'asked'                 =>'asked',
     'none'                  =>'none',
+    'in_way'                =>'in way',
     'donation-helpsList'    =>'donations help list',
+    'donationName'          =>'donation name',
+    'donationHelpAsks'      =>'donation help ask',
 ];
 

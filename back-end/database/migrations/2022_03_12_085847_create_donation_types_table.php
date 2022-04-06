@@ -15,6 +15,7 @@ class CreateDonationTypesTable extends Migration
     {
         Schema::create('donation_types', function (Blueprint $table) {
             $table->id();
+            $table->string('img')->nullable();
             $table->enum('status',['enabled','disabled'])->default('enabled');
             $table->foreignId("admin_id")->nullable()->references("id")->on("admins")->nullOnDelete()->cascadeOnUpdate();
 

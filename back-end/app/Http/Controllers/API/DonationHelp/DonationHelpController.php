@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\API\DonationHelp;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\CreateDonationHelpRequest;
 use App\Http\Resources\DonationHelpResource;
 use App\Models\DonationHelp;
+use App\Models\DonationHelpAsk;
 use Illuminate\Http\Request;
 
 class DonationHelpController extends Controller
@@ -29,9 +31,21 @@ class DonationHelpController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateDonationHelpRequest $request)
     {
-        //
+        $donation=DonationHelp::findOrFail($request->id);
+        if(!$donation->available||$donation->asked)
+            return $this->sendError('can not make this request now \n try again later',[],401);
+        DonationHelpAsk::firstOrCreate([
+            'user_id'           =>  auth('sanctum')->id(),
+            'donation_help_id'  =>  $request->id,
+            'category_id'       =>  $donation->category_id,
+            'type_id'           =>  $donation->type_id,
+        ]);
+        $donation->update([
+            'asked'=>true
+        ]);
+        return $this->sendResponse('request assigned success',200);
     }
 
     /**

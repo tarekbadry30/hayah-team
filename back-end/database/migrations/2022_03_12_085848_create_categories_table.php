@@ -16,7 +16,7 @@ class CreateCategoriesTable extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->enum('status',['enabled','disabled'])->default('enabled');
-            $table->string('img');
+            $table->string('img')->nullable();
             $table->foreignId("type_id")->nullable()->references("id")->on("donation_types")->nullOnDelete()->cascadeOnUpdate();
             $table->foreignId("admin_id")->nullable()->references("id")->on("admins")->nullOnDelete()->cascadeOnUpdate();
             $table->timestamps();

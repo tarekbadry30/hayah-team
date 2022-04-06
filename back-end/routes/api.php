@@ -42,8 +42,9 @@ Route::group(['prefix'=>'food'],function () {
     });*/
 });
 
-Route::group(['prefix'=>'donations-help'],function () {
+Route::group(['prefix'=>'donations-help','middleware'=>['auth:sanctum']],function () {
     Route::get('/',[DonationHelpController::class,'index']);
+    Route::post('/create',[DonationHelpController::class,'store']);
     //Route::post('/store',[FoodsController::class,'store']);
     /*Route::group(['middleware'=>'auth:delivery_api'],function () {
         Route::apiResource('orders/',DeliveryController::class);

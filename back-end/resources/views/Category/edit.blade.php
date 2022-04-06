@@ -18,10 +18,13 @@
                         </div>
                         <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
                             @foreach(config('translatable.locales') as $locale)
-                                <li class="nav-item">
-                                    <a class="nav-link {{$locale==app()->getLocale()?'active':''}} @error($locale.'.name')alert-danger @enderror @error($locale.'.desc') alert-danger @enderror" data-bs-toggle="tab" href="#{{$locale}}" role="tab">
+                                <li class="nav-item" {{$errorsCount=0}}>
+                                    <a errors-count="{{$errorsCount=substr_count(implode(" ",array_keys($errors->toArray())),"$locale.")}}" class="{{$errorsCount>0?'nav-errors':''}} nav-link {{$locale==app()->getLocale()?'active':''}} " data-bs-toggle="tab" href="#{{$locale}}" role="tab">
                                         <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                        <span class="d-none d-sm-block">@lang('frontend.'.$locale.'.locale')</span>
+                                        <span class="d-none d-sm-block">
+                                        @lang('frontend.'.$locale.'.locale')
+                                        <span class="badge rounded-pill bg-danger py-1 {{$errorsCount>0?'':'d-none'}}" >{{$errorsCount}}</span>
+                                    </span>
                                     </a>
                                 </li>
                             @endforeach

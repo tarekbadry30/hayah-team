@@ -48,6 +48,7 @@ class DonationHelp extends Model implements TranslatableContract
     public function admin(){
         return $this->belongsTo(Admin::class,'admin_id');
     }
+
     public function uploadParams(){
         return [
             'msg'=>__('frontend.uploadImageOf').$this->name,
@@ -56,7 +57,7 @@ class DonationHelp extends Model implements TranslatableContract
                 'value'=>$this->id
             ],
             'files'=>['max'=>1,'mimes'=>".jpeg,.jpg,.png"],
-            'uploadRoute'=>route('donations-help.uploadImg'),
+            'uploadRoute'=>route('donation-helps.uploadImg'),
             'backRoute'=>url()->previous(),
         ];
     }

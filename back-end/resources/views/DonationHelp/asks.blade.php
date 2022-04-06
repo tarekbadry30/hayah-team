@@ -6,14 +6,13 @@
 
         <div class="card-body">
             <h2 class="page-title pt-1">
-                {{__('frontend.donation-helps')}}
+                {{__('frontend.donationHelpAsks')}}
             </h2>
             <div class="row">
                 <div class="col-sm-8">
                     <input type="text" class="form-control data-search-input">
                 </div>
                 <div class="col-sm-4">
-                    <a href="{{route('donation-helps.create')}}" class="btn btn-outline-secondary waves-effect waves-light col-sm-3 mx-1"><i class=" fas fa-plus"></i></a>
                     <button type="button" class="btn btn-outline-secondary waves-effect waves-light col-sm-3 mx-1 apply-filter"><i class=" fas fa-search"></i></button>
                 </div>
                 <div class="col-sm-12">
@@ -30,6 +29,20 @@
                                 <option value="">{{__('frontend.all')}}</option>
                             </select>
                         </div>
+
+                        <div class="col-md-3 form-group">
+                            <label class="col-form-label">{{__('frontend.status')}}</label>
+                            <select class="form-control status" name="status">
+                                <option value="">{{__('frontend.all')}}</option>
+                                <option value="pending">{{__('frontend.pending')}}</option>
+                                <option value="admin_refused">{{__('frontend.admin_refused')}}</option>
+                                <option value="assigned">{{__('frontend.assigned')}}</option>
+                                <option value="delivery_refused">{{__('frontend.delivery_refused')}}</option>
+                                <option value="delivery_accepted">{{__('frontend.delivery_accepted')}}</option>
+                                <option value="in_way">{{__('frontend.in_way')}}</option>
+                                <option value="completed">{{__('frontend.completed')}}</option>
+                            </select>
+                        </div>
                         <div class="col-md-3 form-group">
                             <label class="col-form-label">{{__('frontend.date')}}</label>
                             <input type="text" class="form-control date-range" name="date_range" />
@@ -41,12 +54,13 @@
                 <thead>
                     <tr>
                         <th>{{__('frontend.img')}}</th>
-                        <th>{{__('frontend.name')}}</th>
-                        <th>{{__('frontend.desc')}}</th>
-                        <th>{{__('frontend.available')}}</th>
-                        <th>{{__('frontend.asked')}}</th>
+                        <th>{{__('frontend.donationName')}}</th>
                         <th>{{__('frontend.donationType')}}</th>
                         <th>{{__('frontend.category')}}</th>
+                        <th>{{__('frontend.status')}}</th>
+                        <th>{{__('frontend.notes')}}</th>
+                        <th>{{__('frontend.user')}}</th>
+                        <th>{{__('frontend.deliveryEmployee')}}</th>
                         <th>{{__('frontend.date')}}</th>
                         <th>{{__('frontend.action')}}</th>
                     </tr>
@@ -74,9 +88,9 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form class="control-donation" action="{{route('donation-helps.accept')}}" method="post">
+                        <form class="control-donation" action="{{route('donation-help-asks.accept')}}" method="post">
                             @csrf
-                            <input type="hidden" name="donation_help_id" id="donation_help_id" >
+                            <input type="hidden" name="ask_id" id="ask_id" >
                             <div class="row mb-3">
                                 <label for="desc" class="col-sm-2 col-form-label">{{__('frontend.notes')}}</label>
                                 <div class="col-sm-10">
@@ -97,7 +111,7 @@
                             <div class="row mb-3 justify-content-center">
                                 <button type="submit" class="btn btn-outline-primary waves-effect waves-light col-sm-3 mx-1">
                                     {{__('frontend.save')}}</button>
-                                <button type="submit" class="btn btn-outline-info waves-effect waves-light col-sm-3 mx-1">
+                                <button type="button" data-bs-dismiss="modal" class="close-modal btn btn-outline-info waves-effect waves-light col-sm-3 mx-1">
                                     {{__('frontend.cancel')}}</button>
 
                             </div>
@@ -111,7 +125,7 @@
             <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
-    <script>
+            <script>
         $(document).ready(function () {
             $(".date-range").flatpickr({
                 mode: "range"
@@ -156,7 +170,7 @@
                         confirmButtonText: "{{__('frontend.ok')}}",
                     });
                     $(".accept-donation-modal").modal('hide');
-                    //$(`.accept-btn[item_id="${form.find('#donation_help_id').val()}"]`).addClass('d-none');
+                    //$(`.accept-btn[item_id="${form.find('#ask_id').val()}"]`).addClass('d-none');
                 });
                 let tableContent='';;
             });
@@ -172,10 +186,10 @@
             })
             $(document).on('click', '.delete-btn', function () {
                 let url = $(this).attr('href');
-                let donation_help_id = $(this).attr('donation_help_id');
+                let ask_id = $(this).attr('ask_id');
                 Swal.fire({
                     title: "{{__('frontend.alert')}}",
-                    text: "{{__('frontend.sureDelete')}}",
+                    text: "{{__('frontend.sureRefuse')}}",
                     icon: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#1cbb8c",
@@ -189,7 +203,7 @@
                                 url: url,
                                 method: 'delete',
                                 data:{
-                                    donation_help_id:donation_help_id
+                                    ask_id:ask_id
                                 }
                             }).done(function (data) {
                                 Swal.fire({
@@ -208,18 +222,21 @@
             $(document).on('change', '.donation_types', function () {
                 generateFilters(globalFiltersList,{
                     type_id:$('.donation_types').val(),
+                    option_id:$(".category_options").val(),
                     category_id:$('.category_types').val(),
                 })
             });
             $(document).on('change', '.category_types', function () {
                 generateFilters(globalFiltersList,{
                     type_id:$('.donation_types').val(),
+                    option_id:$(".category_options").val(),
                     category_id:$('.category_types').val(),
                 })
             });
             $(document).on('change', '.category_options', function () {
                 generateFilters(globalFiltersList,{
                     type_id:$('.donation_types').val(),
+                    option_id:$(".category_options").val(),
                     category_id:$('.category_types').val(),
 
                 })
@@ -229,10 +246,10 @@
             setPage(1, 25);
         });
         $(document).on('click', '.accept-btn', function () {
-            $('#donation_help_id').val($(this).attr('item_id'));
+            $('#ask_id').val($(this).attr('item_id'));
         });
         function setPage(page,itemsPerPage) {
-            customDataTable($('#mainTable tbody'),$(".pagination-container"),'{{route('donation-helps.dataTable')}}',page,'get',itemsPerPage);
+            customDataTable($('#mainTable tbody'),$(".pagination-container"),'{{route('donation-help-asks.dataTable')}}',page,'get',itemsPerPage);
         }
         async function  customDataTable(tableBody,paginationContainer,url,page=1,method='get',itemsPerPage=15) {
             let results=[];
@@ -244,6 +261,7 @@
                     itemsPerPage:itemsPerPage,
                     filters:{
                         type_id:$('.donation_types').val()!=''?$('.donation_types').val():'',
+                        option_id:$(".category_options").val()!=''?$(".category_options").val():'',
                         category_id:$('.category_types').val()!=''?$('.category_types').val():'',
                         date:$('.date-range').val()!=''?$('.date-range').val():'',
                         status:$('.status').val()!=''?$('.status').val():'',
@@ -263,28 +281,26 @@
             for(let item of results){
                 //console.log(item);
                 tableContent+=`<tr>
-                    <td><img class="avatar-md" src="{{asset('/')}}${item.img}"></td>
-                    <td>${item.name}</td>
-                    <td>${item.desc}</td>
-                    <td>${item.available?'{{__('frontend.yes')}}':'{{__('frontend.no')}}'}</td>
-                    <td>${item.asked?'{{__('frontend.yes')}}':'{{__('frontend.no')}}'}</td>
-                    <td>${item.donation_type?item.donation_type.name:''}</td>
-                    <td>${item.category?item.category.name:''}</td>
+                    <td><img src="{{asset('/')}}${item.donation_help.img}" class="avatar-md"></td>
+                    <td>${item.donation_help.name}</td>
+                    <td>${item.category_id?item.category.name:''}</td>
+                    <td>${item.type_id?item.type.name:''}</td>
+                    <td>${item.status}</td>
+                    <td>${item.notes}</td>
+                    <td>${item.user.name}</td>
+                    <td>${item.delivery_id?item.delivery.name:''}</td>
+
                     <td>${item.created_at}</td>
                     <td>
-                     <a href="{{route('uploads.index')}}?model=DonationHelp&value=${item.id}&backRoute={{request()->url()}}"
-                    class="btn btn-outline-info waves-effect waves-light col-sm-3 mx-1">
-                    <i class="fas fa-upload"></i> {{__('frontend.changeImg')}}
-                </a>
-                <a
-                class="btn btn-outline-success waves-effect waves-light"
-                href="{{route('donation-helps.index')}}/${item.id}/edit" >{{__('frontend.edit')}}</a>
-
                     <button
-                    class="btn btn-outline-danger delete-btn  waves-effect waves-light"
-                    href="{{route('donation-helps.index')}}/${item.id}" donation_help_id="${item.id}">{{__('frontend.delete')}}</button>
+                    class="btn btn-outline-success accept-btn waves-effect waves-light ${item.status!='pending'?'d-none':''}"
+                    item_id="${item.id}" data-bs-toggle="modal"
+                    data-bs-target=".accept-donation-modal"
+                    >{{__('frontend.accept')}}</button>
+                    <button
+                    class="btn btn-outline-danger delete-btn  waves-effect waves-light ${item.status!='pending'?'d-none':''}"
+                    href="{{route('donation-help-asks.refuse')}}" ask_id="${item.id}">{{__('frontend.refuse')}}</button>
                     </td>
-
             </tr>`;
             }
             tableBody.html(tableContent);
@@ -318,22 +334,30 @@
         function generateFilters(list,newFilters={
             type_id:'',
             category_id:'',
+            option_id:'',
         }) {
             let donation_type=$('.donation_types');
             let category_types=$('.category_types');
+            let category_options=$('.category_options');
             let donation_content=`<option selected value="">{{__('frontend.all')}}</option>`
             let category_content=`<option selected value="">{{__('frontend.all')}}</option>`
+            let options_content=`<option selected value="">{{__('frontend.all')}}</option>`
             list.forEach((item)=>{
                 donation_content+=`<option ${newFilters.type_id==item.id?'selected':''} value="${item.id}">${item.name}</option>`;
                 if(newFilters.type_id==item.id) {
                     item.categories.forEach((catItem) => {
                         category_content += `<option ${newFilters.category_id == catItem.id ? 'selected' : ''} value="${catItem.id}">${catItem.name}</option>`;
-
+                        if(newFilters.category_id==catItem.id) {
+                            catItem.options.forEach((optionItem) => {
+                                options_content += `<option ${newFilters.option_id == optionItem.id ? 'selected' : ''} value="${optionItem.id}">${optionItem.name}</option>`;
+                            })
+                        }
                     })
                 }
             })
             donation_type.html(donation_content);
             category_types.html(category_content);
+            category_options.html(options_content);
 
         }
     </script>

@@ -8,15 +8,12 @@
                 <div class="card-body">
                     <div class="px-2 py-3">
 
-
                         <div class="text-center">
                             <a href="/">
-                                <img src="{{asset('assets/images/logo-dark.png')}}" height="22" alt="logo">
+                                <img src="{{asset('logo.png')}}" class="website-logo" height="22" alt="logo">
                             </a>
-
                             <h5 class="text-primary mb-2 mt-4">{{__('frontend.welcomeBack')}}</h5>
                         </div>
-
 
                         <form class="form-horizontal mt-4 pt-2" method="post" action="{{route('login')}}">
                             @csrf

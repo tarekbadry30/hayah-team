@@ -6,6 +6,7 @@ use App\Http\Controllers\Delivery\DeliveryController;
 use App\Http\Controllers\Donations\DonationsController;
 use App\Http\Controllers\Donations\DonationsTypeController;
 use App\Http\Controllers\DontationHelp\DonationHelpController;
+use App\Http\Controllers\DontationHelp\DonationHelpAsksController;
 use App\Http\Controllers\Food\FoodController;
 use App\Http\Controllers\Food\FoodRequestsConroller;
 use App\Http\Controllers\Food\MonthlyHelpController;
@@ -53,6 +54,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),'middleware'=>[
         Route::get('/uploads/index', [UploadsController::class, 'index'])->name('uploads.index');
         Route::post('/uploads/upload', [UploadsController::class, 'uploadFiles'])->name('uploads.uploadFiles');
         Route::get('/donation-types/data-table', [DonationsTypeController::class, 'dataTable'])->name('donation-types.dataTable');
+        Route::post('donation-types/upload-img', [DonationsTypeController::class, 'uploadImg'])->name('donation-types.uploadImg');
         Route::resource('donation-types', DonationsTypeController::class)->middleware(['auth:admin']);//->name('categoryOption.');
         Route::get('donations/data-table', [DonationsController::class, 'dataTable'])->middleware(['auth:admin'])->name('donations.dataTable');
         Route::post('donations/accept', [DonationsController::class, 'acceptDonation'])->middleware(['auth:admin'])->name('donations.accept');
@@ -83,6 +85,12 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),'middleware'=>[
         Route::delete('donation-helps/refuse', [DonationHelpController::class, 'refuseDonation'])->middleware(['auth:admin'])->name('donation-helps.refuse');
         Route::post('donation-helps/upload-img', [DonationHelpController::class, 'uploadImg'])->name('donation-helps.uploadImg');
         Route::resource('donation-helps', DonationHelpController::class)->middleware(['auth:admin']);//->name('categoryOption.');
+
+
+        Route::get('donation-help-ask/', [DonationHelpAsksController::class, 'index'])->middleware(['auth:admin'])->name('donation-help-asks.dataTable');
+        Route::get('donation-help-ask/data-table', [DonationHelpAsksController::class, 'dataTable'])->middleware(['auth:admin'])->name('donation-help-asks.dataTable');
+        Route::post('donation-help-ask/accept', [DonationHelpAsksController::class, 'accept'])->middleware(['auth:admin'])->name('donation-help-asks.accept');
+        Route::delete('donation-help-ask/refuse', [DonationHelpAsksController::class, 'refuse'])->middleware(['auth:admin'])->name('donation-help-asks.refuse');
 
     });
 

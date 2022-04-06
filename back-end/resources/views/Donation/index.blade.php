@@ -122,7 +122,7 @@
                             <div class="row mb-3 justify-content-center">
                                 <button type="submit" class="btn btn-outline-primary waves-effect waves-light col-sm-3 mx-1">
                                     {{__('frontend.save')}}</button>
-                                <button type="submit" class="btn btn-outline-info waves-effect waves-light col-sm-3 mx-1">
+                                <button type="button" data-bs-dismiss="modal" class="close-modal btn btn-outline-info waves-effect waves-light col-sm-3 mx-1">
                                     {{__('frontend.cancel')}}</button>
 
                             </div>
@@ -138,6 +138,7 @@
 
             <script>
         $(document).ready(function () {
+
             $(".date-range").flatpickr({
                 mode: "range"
             });
@@ -162,6 +163,7 @@
                 setPage(currentPage, itemsPerPage);
 
             });
+
             $(document).on('submit', '.control-donation', function (e) {
                 let form = $(this);
                 e.preventDefault();

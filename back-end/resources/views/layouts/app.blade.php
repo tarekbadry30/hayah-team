@@ -84,6 +84,19 @@
             0% { transform: translate(-50% , -150%)}
             100% { transform: translate(-50% , 10%)}
         }
+        .errors-count{
+            border-radius: 50%;
+            width: 15px;
+            height: 15px;
+            margin-left: 1.2em;
+        }
+        .nav-errors{
+            /*color: #912f2f!important;*/
+        }
+        .website-logo{
+            height: 5em;
+            width: 6em;
+        }
     </style>
 
 @yield('css')

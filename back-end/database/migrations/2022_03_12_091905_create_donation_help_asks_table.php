@@ -21,6 +21,7 @@ class CreateDonationHelpAsksTable extends Migration
             $table->text('notes')->nullable();
             $table->foreignId("delivery_id")->nullable()->references("id")->on("deliveries")->nullOnDelete()->cascadeOnUpdate();
             $table->foreignId("category_id")->nullable()->references("id")->on("categories")->nullOnDelete()->cascadeOnUpdate();
+            $table->foreignId("type_id")->nullable()->references("id")->on("donation_types")->cascadeOnDelete()->cascadeOnUpdate();
 
             $table->foreignId("admin_id")->nullable()->references("id")->on("admins")->nullOnDelete()->cascadeOnUpdate();
 

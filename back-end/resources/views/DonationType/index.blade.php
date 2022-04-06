@@ -19,6 +19,7 @@
             <table id="mainTable" class="mt-3 table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                 <thead>
                 <tr>
+                    <th>{{__('frontend.img')}}</th>
                     <th>{{__('frontend.name')}}</th>
                     <th>{{__('frontend.status')}}</th>
                     <th>{{__('frontend.categoriesCount')}}</th>
@@ -38,31 +39,7 @@
         </div>
     </div>
 @endsection
-<style>
-    .dataTables_wrapper .row:last-of-type{
-        display: none;
-    }
-    .sortStyle { cursor: pointer; }
 
-    .ascStyle {
-        background-image: url(/img/asc.gif);
-        background-repeat: no-repeat;
-        background-position: center right;
-    }
-
-    .descStyle {
-        background-image: url(/img/desc.gif);
-        background-repeat: no-repeat;
-        background-position: center right;
-    }
-
-    .unsortStyle {
-        background-image: url(/img/bg.gif);
-        background-repeat: no-repeat;
-        background-position: center right;
-    }
-
-</style>
 @section('js')
     <script>
         $(document).ready(function () {
@@ -139,6 +116,7 @@
             for(let item of results){
                 console.log(item);
                 tableContent+=`<tr>
+                    <td><img src="{{asset('/')}}${item.img}" class="avatar-md"></td>
                     <td>${item.name}</td>
                     <td>${item.status}</td>
                     <td ><a href="{{route('categories.index')}}?type_id=${item.id}">${item.categories_count}</a></td>
@@ -148,11 +126,14 @@
                     href="{{route('donation-types.index')}}/${item.id}">{{__('frontend.delete')}}</button>
                     <a class="btn btn-outline-success  waves-effect waves-light"
                     href="{{route('donation-types.index')}}/${item.id}/edit">{{__('frontend.edit')}}</button>
+                     <a href="{{route('uploads.index')}}?model=DonationType&value=${item.id}&backRoute={{request()->url()}}"
+                        class="btn btn-outline-info waves-effect waves-light col-sm-3 mx-1">
+                        <i class="fas fa-upload"></i> {{__('frontend.changeImg')}}
+                    </a>
 
+            </td>
 
-                    </td>
-
-            </tr>`;
+    </tr>`;
             }
             tableBody.html(tableContent);
 

@@ -17,8 +17,7 @@ class DonationHelpController extends Controller
      */
     public function index()
     {
-        $deliveries=Delivery::get(['id','name']);
-        return view('DonationHelp.index',compact('deliveries'));
+        return view('DonationHelp.index');
     }
     public function dataTable()
     {
@@ -62,8 +61,8 @@ class DonationHelpController extends Controller
         $msg=__('frontend.uploadImageOf').$donationHelp->name;
         $input=['name'=>'donation_help_id','value'=>$donationHelp->id,'model'=>DonationHelp::class];
         $files=['max'=>1,'mimes'=>".jpeg,.jpg,.png"];
-        $uploadRoute=route('donations-help.uploadImg');
-        $backRoute=route('donations-help.index');
+        $uploadRoute=route('donation-helps.uploadImg');
+        $backRoute=route('donation-helps.index');
         return redirect(route('uploads.index',compact('input','files','msg','uploadRoute','backRoute')))->with('success',__('frontend.itemCreated'));
 
     }

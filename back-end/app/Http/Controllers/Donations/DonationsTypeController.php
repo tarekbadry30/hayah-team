@@ -44,7 +44,7 @@ class DonationsTypeController extends Controller
      */
     public function store(DonationTypeRequest $request)
     {
-        DonationType::create([
+       $donation=DonationType::create([
             'ar'        =>[
                 'name'      =>$request->ar['name'],
                 'desc'      =>$request->ar['desc'],
@@ -57,6 +57,15 @@ class DonationsTypeController extends Controller
             'admin_id'  =>auth()->guard('admin')->id()
 
         ]);
+        $msg=__('frontend.uploadImageOf').$donation->name;
+        $input=['name'=>'donation_type_id','value'=>$donation->id];
+        $files=['max'=>1,'mimes'=>".jpeg,.jpg,.png"];
+        $uploadRoute=route('donation-types.uploadImg');
+        $backRoute=route('donation-types.index');
+        //return view('fileUpload',compact('input','files','msg','uploadRoute','backRoute'))->with('success',__('frontend.itemCreated'));
+
+        return redirect(route('uploads.index',compact('input','files','msg','uploadRoute','backRoute')))->with('success',__('frontend.itemCreated'));
+
         return redirect(route('donation-types.index'))->with('success',__('frontend.itemCreated'));
     }
 
@@ -118,7 +127,25 @@ class DonationsTypeController extends Controller
     public function destroy(DonationType  $donationType)
     {
         $donationType->delete();
-        return redirect(route('donation-types.index'))->with('success',__('frontend.updatedDeleted'));
+        return redirect(route('donation-types.index'))->with('success',__('frontend.itemDeleted'));
 
     }
+
+    public function uploadImg(Request $request){
+        $request->validate([
+            'file'            => 'required|mimes:png,jpg,jpeg,pdf|max:3072',
+            'donation_type_id'=> 'required|numeric',
+        ]);
+        $food=DonationType::findOrFail($request->donation_type_id);
+        $image = $request->file('file');
+
+        $imageName = time().'.'.$image->extension();
+        $filePath='images/donations-types';
+        $image->move(public_path($filePath),$imageName);
+        $food->update([
+            'img'=>"$filePath/$imageName"
+        ]);
+        return response()->json(['success'=>$imageName]);
+    }
+
 }
