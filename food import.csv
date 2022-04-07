@@ -1,0 +1,6 @@
+name_ar,desc_ar,name_en,desc_en,type,available,price
+test ar 1,desc ar 1,test en 1,desc en 1,eat,1,15
+test ar 2,desc ar 2,test en 2,desc en 2,drink,1,18
+test ar 3,desc ar 3,test en 3,desc en 3,eat,0,4
+test ar 4,desc ar 4,test en 4,desc en 4,eat,1,22
+test ar 5,desc ar 5,test en 5,desc en 5,drink,0,10

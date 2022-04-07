@@ -35,7 +35,7 @@
                                         <i class="display-4 text-muted mdi mdi-cloud-upload-outline"></i>
                                     </div>
 
-                                    <h4 class="text-center pointer-event">{{__('frontend.img')}}</h4>
+                                    <h4 class="text-center pointer-event">{{__('frontend.file')}}</h4>
                                 </div>
                             </form>
 

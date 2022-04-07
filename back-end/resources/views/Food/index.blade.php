@@ -21,9 +21,10 @@
                         <input type="text" class="form-control data-search-input">
                     </div>
                     <div class="col-sm-4">
-                        <a href="{{route('foods.create')}}" class="btn btn-outline-secondary waves-effect waves-light col-sm-3 mx-1"><i class=" fas fa-plus"></i></a>
-
-                        <button type="button" class="btn btn-outline-secondary waves-effect waves-light col-sm-3 mx-1 apply-filter"><i class=" fas fa-search"></i></button>
+                        <a href="{{route('foods.create')}}" class="btn btn-outline-secondary waves-effect waves-light col-sm-2 mx-1"><i class=" fas fa-plus"></i></a>
+                        <a href="{{route('foods.importPage')}}" class="btn btn-outline-secondary waves-effect waves-light col-sm-2 mx-1"><i class="fas fa-file-import"></i></a>
+                        <a href="{{route('foods.export')}}" class="btn btn-outline-secondary waves-effect waves-light col-sm-2 mx-1"><i class="fas fa-file-export"></i></a>
+                        <button type="button" class="btn btn-outline-secondary waves-effect waves-light col-sm-2 mx-1 apply-filter"><i class=" fas fa-search"></i></button>
                     </div>
                     <div class="col-sm-12">
                         <div class="row filters_container">

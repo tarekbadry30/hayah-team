@@ -63,49 +63,7 @@
             </div>
         </div>
     </div>
-        <!--  Modal content for the above example -->
-        <div class="modal fade accept-donation-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title mt-0" id="myLargeModalLabel">{{__('frontend.acceptDonation')}}</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
 
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form class="control-donation" action="{{route('donation-helps.accept')}}" method="post">
-                            @csrf
-                            <input type="hidden" name="donation_help_id" id="donation_help_id" >
-                            <div class="row mb-3">
-                                <label for="desc" class="col-sm-2 col-form-label">{{__('frontend.notes')}}</label>
-                                <div class="col-sm-10">
-                                <textarea class="form-control" placeholder="{{__('frontend.notes')}}" id="notes" name="notes"></textarea>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label for="type_id" class="col-sm-2 col-form-label">{{__('frontend.deliveryEmployee')}}</label>
-                                <div class="col-sm-10">
-                                    <select name="delivery_id" class="form-control select2-search-disable2">
-                                        <option value="" selected></option>
-                                        @foreach($deliveries as $delivery)
-                                            <option  value="{{$delivery->id}}">{{$delivery->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row mb-3 justify-content-center">
-                                <button type="submit" class="btn btn-outline-primary waves-effect waves-light col-sm-3 mx-1">
-                                    {{__('frontend.save')}}</button>
-                                <button type="submit" class="btn btn-outline-info waves-effect waves-light col-sm-3 mx-1">
-                                    {{__('frontend.cancel')}}</button>
-
-                            </div>
-                        </form>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
         @endsection
 @section('js')
             <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>

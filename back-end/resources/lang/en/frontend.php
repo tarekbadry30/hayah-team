@@ -139,5 +139,6 @@ return [
     'donation-helpsList'    =>'donations help list',
     'donationName'          =>'donation name',
     'donationHelpAsks'      =>'donation help ask',
+    'importData'            =>'import data of : ',
 ];
 

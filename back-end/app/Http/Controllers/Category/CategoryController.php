@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use App\Models\DonationType;
+use App\Models\Food;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Rap2hpoutre\FastExcel\Facades\FastExcel;
 
 class CategoryController extends Controller
 {
@@ -153,5 +155,57 @@ class CategoryController extends Controller
     {
         $category->delete();
         return $this->sendResponse([],'category deleted success');
+    }
+
+
+
+    public function export(){
+        $categories = Category::all();
+        $categories->each->setTranslated(['ar','en']);
+        return \fastexcel($categories)->download('categories.xlsx',function ($line) {
+            //dd($line);
+            return [
+                'name_ar' => $line['name_ar'],
+                'name_en' => $line['name_en'],
+                'desc_ar' => $line['desc_ar'],
+                'desc_en' => $line['desc_en'],
+                'status'  => $line['status']
+            ];
+        });
+        //return (new FastExcel($foods))->export('foods.xlsx');
+    }
+    public function importPage(Request $request){
+        $msg=__('frontend.importData').__('frontend.categories');
+        $input=['name'=>'type_id','value'=>$request->type_id,'model'=>Category::class];
+        $files=['max'=>1,'mimes'=>".xlsx,.csv"];
+        $uploadRoute=route('categories.import');
+        $backRoute=route('categories.index');
+        return redirect(route('uploads.index',compact('input','files','msg','uploadRoute','backRoute')));
+        //->with('success',__('frontend.itemCreated'));
+    }
+    public function importData(Request $request){
+        $request->validate([
+            'file'          => 'required|mimes:csv,xlsx',
+            'type_id'       => 'required',
+        ]);
+        $file = storage_path('app/' . $request->file('file')->store('excel-files\categories'));
+        //return \fastexcel()->import($file);
+        return FastExcel::import($file, function ($line) use ($request) {
+            //dd($line);
+            return Category::create([
+                'ar'        =>[
+                    'name'      =>$line['name_ar'],
+                    'desc'      =>$line['desc_ar'],
+                ],
+                'en'        =>[
+                    'name'      =>$line['name_en'],
+                    'desc'      =>$line['desc_en'],
+                ],
+                //'type'          =>$line['type'],
+                'status'        =>$line['status'],
+                'type_id'       =>$request->type_id,
+                'admin_id'      =>auth('admin')->user()->id,
+            ]);
+        });
     }
 }

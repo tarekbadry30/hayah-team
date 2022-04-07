@@ -16,7 +16,11 @@
                     <input type="text" class="form-control data-search-input">
                 </div>
                 <div class="col-sm-4">
-                    <a href="{{route('categories.create')}}@if(isset($type))?type_id={{$type->id}}@endif" class="btn btn-outline-secondary waves-effect waves-light col-sm-3 mx-1"><i class=" fas fa-plus"></i></a>
+                    <a href="{{route('categories.create')}}@if(isset($type))?type_id={{$type->id}}@endif" class="btn btn-outline-secondary waves-effect waves-light col-sm-2 mx-1"><i class=" fas fa-plus"></i></a>
+                    @if(isset($type))
+                    <a href="{{route('categories.importPage')}}?type_id={{$type->id}}" class="btn btn-outline-secondary waves-effect waves-light col-sm-2 mx-1"><i class="fas fa-file-import"></i></a>
+                    @endif
+                    <a href="{{route('categories.export')}}" class="btn btn-outline-secondary waves-effect waves-light col-sm-2 mx-1"><i class="fas fa-file-export"></i></a>
 
                 </div>
             </div>

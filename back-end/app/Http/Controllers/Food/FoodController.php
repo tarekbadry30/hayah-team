@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Food;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Food\CreateUpdateFoodRequest;
 use App\Models\Food;
+use App\Models\FoodTranslation;
 use Illuminate\Http\Request;
-
+use Rap2hpoutre\FastExcel\Facades\FastExcel;
 class FoodController extends Controller
 {
     /**
@@ -147,4 +148,56 @@ class FoodController extends Controller
         return $this->sendResponse([],__('frontend.itemDeleted'));
 
     }
+
+    public function export(){
+        $foods = Food::all();
+        $foods->each->setTranslated(['ar','en']);
+     //   return \fastexcel(Food::all())->download('foods.xlsx');
+        return \fastexcel($foods)->download('foods.xlsx',function ($line) {
+            return [
+                'name_ar' => $line['name_ar'],
+                'desc_ar' => $line['desc_ar'],
+                'name_en' => $line['name_en'],
+                'desc_en' => $line['desc_en'],
+                'type' => $line['type'],
+                'available' => $line['available'],
+                'price' => $line['price'],
+            ];
+        });
+        //return (new FastExcel($foods))->export('foods.xlsx');
+    }
+    public function importPage(){
+        $msg=__('frontend.importData').__('frontend.foods');
+        $input=['name'=>'foods','value'=>'','model'=>Food::class];
+        $files=['max'=>1,'mimes'=>".xlsx,.csv"];
+        $uploadRoute=route('foods.import');
+        $backRoute=route('foods.index');
+        return redirect(route('uploads.index',compact('input','files','msg','uploadRoute','backRoute')));
+        //->with('success',__('frontend.itemCreated'));
+    }
+    public function importData(Request $request){
+        $request->validate([
+            'file'          => 'required|mimes:csv,xlsx',
+        ]);
+        $file = storage_path('app/' . $request->file('file')->store('excel-files\foods'));
+        //return \fastexcel()->import($file);
+        return FastExcel::import($file, function ($line) {
+            //dd($line);
+            return Food::create([
+                'ar'        =>[
+                    'name'      =>$line['name_ar'],
+                    'desc'      =>$line['desc_ar'],
+                ],
+                'en'        =>[
+                    'name'      =>$line['name_en'],
+                    'desc'      =>$line['desc_en'],
+                ],
+                'type'          =>$line['type'],
+                'available'     =>$line['available'],
+                'price'         =>$line['price'],
+                'admin_id'      =>auth('admin')->user()->id,
+            ]);
+        });
+    }
+
 }

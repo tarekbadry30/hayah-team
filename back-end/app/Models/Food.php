@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
-
+use App\Http\Traits\ModelTranslates;
 
 class Food extends Model implements TranslatableContract
 {
+    use ModelTranslates;
     use HasFactory;
     use Translatable;
     public $translatedAttributes = ['name', 'desc'];
@@ -17,6 +18,7 @@ class Food extends Model implements TranslatableContract
     protected $casts = [
         'created_at'  => 'datetime:Y-m-d h:i:s a',
     ];
+
     public function uploadParams(){
         return [
             'msg'=>__('frontend.uploadImageOf').$this->name,

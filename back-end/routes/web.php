@@ -48,6 +48,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),'middleware'=>[
         Route::get('/categories/data-table', [CategoryController::class, 'dataTable'])->name('categories.dataTable');
         Route::post('/categories/upload-img', [CategoryController::class, 'uploadImg'])->name('categories.uploadImg');
         Route::get('categories/list-for-filters', [App\Http\Controllers\API\Category\CategoryController::class, 'index'])->name('categories.listForFilter');
+        Route::get('/categories/export', [CategoryController::class, 'export'])->name('categories.export');
+        Route::get('/categories/import', [CategoryController::class, 'importPage'])->name('categories.importPage');
+        Route::post('/categories/import', [CategoryController::class, 'importData'])->name('categories.import');
+
         Route::resource('categories', CategoryController::class)->middleware(['auth:admin']);
         Route::get('/category-option/data-table', [CategoryOptionsController::class, 'dataTable'])->name('category-option.dataTable');
         Route::resource('category-option', CategoryOptionsController::class)->middleware(['auth:admin']);//->name('categoryOption.');
@@ -64,6 +68,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),'middleware'=>[
         Route::resource('deliveries', DeliveryController::class)->middleware(['auth:admin']);//->name('categoryOption.');
         Route::get('foods/data-table', [FoodController::class, 'dataTable'])->middleware(['auth:admin'])->name('foods.dataTable');
         Route::post('/foods/upload-img', [FoodController::class, 'uploadImg'])->name('foods.uploadImg');
+        Route::get('/foods/export', [FoodController::class, 'export'])->name('foods.export');
+        Route::get('/foods/import', [FoodController::class, 'importPage'])->name('foods.importPage');
+        Route::post('/foods/import', [FoodController::class, 'importData'])->name('foods.import');
 
         Route::resource('foods', FoodController::class)->middleware(['auth:admin']);//->name('categoryOption.');
 
