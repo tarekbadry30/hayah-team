@@ -221,11 +221,12 @@
                     <td>${item.created_at}</td>
                     <td>
 
+
                     <button
                     class="btn btn-outline-danger delete-btn  waves-effect waves-light"
-                    href="{{route('monthly-help.index')}}/${item.id}">{{__('frontend.delete')}}</button>
+                    href="{{route('monthly-help.index')}}/${item.id}"title="{{__('frontend.delete')}}"><i class="fas fa-trash-alt"></i></button>
                     <a class="btn btn-outline-success  waves-effect waves-light"
-                    href="{{route('monthly-help.index')}}/${item.id}/edit">{{__('frontend.edit')}}</button>
+                    href="{{route('monthly-help.index')}}/${item.id}/edit" title="{{__('frontend.edit')}}"><i class="far fa-edit"></i></button>
                 </td>
 
         </tr>`;

@@ -14,7 +14,12 @@ class Category extends Model  implements TranslatableContract
     use HasFactory;
     protected $guarded=[];
     public $translatedAttributes = ['name', 'desc'];
-
+    protected $appends=['image'];
+    public function getImageAttribute(){
+        if(isset($this->img))
+            return $this->img;
+        return 'no_img.png';
+    }
     public function type()
     {
         return $this->belongsTo(DonationType::class,'type_id');

@@ -13,7 +13,9 @@
                     <input type="text" class="form-control data-search-input">
                 </div>
                 <div class="col-sm-4">
-                    <a href="{{route('users.create')}}" class="btn btn-outline-secondary waves-effect waves-light col-sm-3 mx-1"><i class=" fas fa-plus"></i></a>
+                    <a href="{{route('users.create')}}" class="btn btn-outline-secondary waves-effect waves-light col-sm-2 mx-1"><i class=" fas fa-plus"></i></a>
+                    <a href="{{route('users.importPage')}}" class="btn btn-outline-secondary waves-effect waves-light col-sm-2 mx-1"><i class="fas fa-file-import"></i></a>
+                    <a href="{{route('users.export')}}" class="btn btn-outline-secondary waves-effect waves-light col-sm-2 mx-1"><i class="fas fa-file-export"></i></a>
 
                 </div>
             </div>
@@ -43,31 +45,7 @@
         </div>
     </div>
 @endsection
-<style>
-    .dataTables_wrapper .row:last-of-type{
-        display: none;
-    }
-    .sortStyle { cursor: pointer; }
 
-    .ascStyle {
-        background-image: url(/img/asc.gif);
-        background-repeat: no-repeat;
-        background-position: center right;
-    }
-
-    .descStyle {
-        background-image: url(/img/desc.gif);
-        background-repeat: no-repeat;
-        background-position: center right;
-    }
-
-    .unsortStyle {
-        background-image: url(/img/bg.gif);
-        background-repeat: no-repeat;
-        background-position: center right;
-    }
-
-</style>
 @section('js')
     <script>
         $(document).ready(function () {
@@ -162,8 +140,11 @@
                     <td><a class="${item.type!='needy'?'d-none':''}" href="{{route('monthly-help.index')}}?user_id=${item.id}">${item.last_help?item.last_help.month+' => '+item.last_help.help_value:'---'}</a></td>
                     <td>${item.status}</td>
                     <td>
-                    <button class="btn btn-outline-danger delete-btn  waves-effect waves-light" href="{{route('users.index')}}/${item.id}">{{__('frontend.delete')}}</button>
-                    <a class="btn btn-outline-success  waves-effect waves-light" href="{{route('users.index')}}/${item.id}/edit">{{__('frontend.edit')}}</button>
+                    <button
+                    class="btn btn-outline-danger delete-btn  waves-effect waves-light"
+                    href="{{route('users.index')}}/${item.id}" title="{{__('frontend.delete')}}"><i class="fas fa-trash-alt"></i></button>
+                    <a class="btn btn-outline-success  waves-effect waves-light"
+                    href="{{route('users.index')}}/${item.id}/edit" title="{{__('frontend.edit')}}"><i class="far fa-edit"></i></button>
                     </td>
 
             </tr>`;

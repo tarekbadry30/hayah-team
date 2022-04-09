@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Donations;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DonationTypeRequest;
 use App\Models\DonationType;
+use App\Models\DonationTypeTranslation;
 use Illuminate\Http\Request;
+use Rap2hpoutre\FastExcel\Facades\FastExcel;
 
 class DonationsTypeController extends Controller
 {
@@ -146,6 +148,71 @@ class DonationsTypeController extends Controller
             'img'=>"$filePath/$imageName"
         ]);
         return response()->json(['success'=>$imageName]);
+    }
+
+    public function export(){
+        $list = DonationType::all();
+        $list->each->setTranslated(['ar','en']);
+        return \fastexcel($list)->download('donation_types.xlsx',function ($line) {
+            //dd($line);
+            return [
+                'name_ar'      =>$line['name_ar'],
+                'desc_ar'      =>$line['desc_ar'],
+                'name_en'      =>$line['name_en'],
+                'desc_en'      =>$line['desc_en'],
+                'status'        =>$line['status'],
+            ];
+
+        });
+        //return (new FastExcel($foods))->export('foods.xlsx');
+    }
+    public function importPage(Request $request){
+        $msg=__('frontend.importData').__('frontend.donationTypes');
+        $input=['name'=>'donation_id','value'=>'donation_id','model'=>DonationType::class];
+        $files=['max'=>1,'mimes'=>".xlsx,.csv"];
+        $uploadRoute=route('donation-types.importData');
+        $backRoute=route('donation-types.index');
+        return redirect(route('uploads.index',compact('input','files','msg','uploadRoute','backRoute')));
+        //->with('success',__('frontend.itemCreated'));
+    }
+    public function importData(Request $request){
+        $request->validate([
+            'file'          => 'required|mimes:csv,xlsx',
+        ]);
+        $file = storage_path('app/' . $request->file('file')->store('excel-files\users'));
+
+        //return \fastexcel()->import($file);
+        return FastExcel::import($file, function ($line) use ($request) {
+            $ducblicated= DonationTypeTranslation::where([
+                ['name',$line['name_ar']],
+                ['locale','ar'],
+            ])->orWhere([
+                ['name',$line['name_en']],
+                ['locale','en'],
+            ])->first();
+            if($ducblicated){
+                $row='[';
+                if($ducblicated->name==$line['name_en'])
+                    $row.='name_en='.$line['name_en'].'  ,';
+                if($ducblicated->name==$line['name_ar'])
+                    $row.='name_ar='.$line['name_ar'].'  ,';
+                $row.=']';
+                return $this->sendError('duplicated data with row'.$row,400);
+            }
+
+            return DonationType::create([
+                'ar'        =>[
+                    'name'      =>$line['name_ar'],
+                    'desc'      =>$line['desc_ar'],
+                ],
+                'en'        =>[
+                    'name'      =>$line['name_en'],
+                    'desc'      =>$line['desc_en'],
+                ],
+                'status'    =>$line['status'],
+                'admin_id'  =>auth()->guard('admin')->id()
+            ]);
+        });
     }
 
 }

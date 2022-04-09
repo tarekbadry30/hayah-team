@@ -13,7 +13,10 @@
                     <input type="text" class="form-control data-search-input">
                 </div>
                 <div class="col-sm-4">
-                    <a href="{{route('donation-types.create')}}" class="btn btn-outline-secondary waves-effect waves-light col-sm-3 mx-1"><i class=" fas fa-plus"></i></a>
+                    <a href="{{route('donation-types.create')}}" class="btn btn-outline-secondary waves-effect waves-light col-sm-2 mx-1"><i class=" fas fa-plus"></i></a>
+                    <a href="{{route('donation-types.importPage')}}" class="btn btn-outline-secondary waves-effect waves-light col-sm-2 mx-1"><i class="fas fa-file-import"></i></a>
+                    <a href="{{route('donation-types.export')}}" class="btn btn-outline-secondary waves-effect waves-light col-sm-2 mx-1"><i class="fas fa-file-export"></i></a>
+
                 </div>
             </div>
             <table id="mainTable" class="mt-3 table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
@@ -116,20 +119,36 @@
             for(let item of results){
                 console.log(item);
                 tableContent+=`<tr>
-                    <td><img src="{{asset('/')}}${item.img}" class="avatar-md"></td>
+                    <td><img src="{{asset('/')}}${item.image}" class="avatar-md"></td>
                     <td>${item.name}</td>
                     <td>${item.status}</td>
                     <td ><a href="{{route('categories.index')}}?type_id=${item.id}">${item.categories_count}</a></td>
                     <td>
-                    <button
-                    class="btn btn-outline-danger delete-btn  waves-effect waves-light"
-                    href="{{route('donation-types.index')}}/${item.id}">{{__('frontend.delete')}}</button>
-                    <a class="btn btn-outline-success  waves-effect waves-light"
-                    href="{{route('donation-types.index')}}/${item.id}/edit">{{__('frontend.edit')}}</button>
-                     <a href="{{route('uploads.index')}}?model=DonationType&value=${item.id}&backRoute={{request()->url()}}"
-                        class="btn btn-outline-info waves-effect waves-light col-sm-3 mx-1">
-                        <i class="fas fa-upload"></i> {{__('frontend.changeImg')}}
-                    </a>
+                    <div class="btn-group dropend">
+                        <button type="button" class="btn btn-info waves-effect waves-light dropdown-toggle-split dropdown-toggle"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class=" fas fa-angle-down"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <button
+                            class="btn btn-outline-danger delete-btn  waves-effect waves-light"
+                            href="{{route('donation-types.index')}}/${item.id}" title="{{__('frontend.delete')}}"><i class="fas fa-trash-alt"></i></button>
+                            <a class="btn btn-outline-success  waves-effect waves-light"
+                            href="{{route('donation-types.index')}}/${item.id}/edit" title="{{__('frontend.edit')}}"><i class="far fa-edit"></i></button>
+                             <a href="{{route('uploads.index')}}?model=DonationType&value=${item.id}&backRoute={{request()->url()}}"
+                                class="btn btn-outline-info waves-effect waves-light" title="{{__('frontend.changeImg')}}">
+                                <i class="fas fa-upload"></i>
+                            </a>
+                            <a href="{{route('categories.create')}}?type_id=${item.id}" title="{{__('frontend.createCategory')}}"
+                                    class="btn btn-outline-secondary waves-effect waves-light ">
+                                    <i class=" fas fa-plus"></i>
+                                </a>
+                            <a title="{{__('frontend.import')}}" href="{{route('categories.importPage')}}?type_id=${item.id}" class="btn btn-outline-secondary waves-effect waves-light "><i class="fas fa-file-import"></i></a>
+
+                            <a title="{{__('frontend.export')}}" href="{{route('categories.export')}}?type_id=${item.id}" class="btn btn-outline-secondary waves-effect waves-light "><i class="fas fa-file-export"></i></a>
+
+                        </div>
+                    </div>
 
             </td>
 

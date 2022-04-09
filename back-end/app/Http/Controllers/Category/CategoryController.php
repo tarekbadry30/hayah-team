@@ -159,8 +159,11 @@ class CategoryController extends Controller
 
 
 
-    public function export(){
-        $categories = Category::all();
+    public function export(Request $request){
+        if(isset($request->type_id))
+            $categories = Category::where('type_id',$request->type_id)->get();
+        else
+            $categories = Category::all();
         $categories->each->setTranslated(['ar','en']);
         return \fastexcel($categories)->download('categories.xlsx',function ($line) {
             //dd($line);

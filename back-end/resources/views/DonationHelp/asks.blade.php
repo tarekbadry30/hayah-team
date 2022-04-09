@@ -281,7 +281,7 @@
             for(let item of results){
                 //console.log(item);
                 tableContent+=`<tr>
-                    <td><img src="{{asset('/')}}${item.donation_help.img}" class="avatar-md"></td>
+                    <td><img src="{{asset('/')}}${item.donation_help.image}" class="avatar-md"></td>
                     <td>${item.donation_help.name}</td>
                     <td>${item.category_id?item.category.name:''}</td>
                     <td>${item.type_id?item.type.name:''}</td>
@@ -296,10 +296,11 @@
                     class="btn btn-outline-success accept-btn waves-effect waves-light ${item.status!='pending'?'d-none':''}"
                     item_id="${item.id}" data-bs-toggle="modal"
                     data-bs-target=".accept-donation-modal"
-                    >{{__('frontend.accept')}}</button>
+                    title="{{__('frontend.accept')}}"><i class="far fa-check-circle"></i></button>
                     <button
                     class="btn btn-outline-danger delete-btn  waves-effect waves-light ${item.status!='pending'?'d-none':''}"
-                    href="{{route('donation-help-asks.refuse')}}" ask_id="${item.id}">{{__('frontend.refuse')}}</button>
+                    href="{{route('donation-help-asks.refuse')}}" ask_id="${item.id}" title="{{__('frontend.refuse')}}">
+                    <i class="far fa-times-circle"></i></button>
                     </td>
             </tr>`;
             }

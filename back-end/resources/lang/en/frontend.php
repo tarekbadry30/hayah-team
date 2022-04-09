@@ -140,5 +140,9 @@ return [
     'donationName'          =>'donation name',
     'donationHelpAsks'      =>'donation help ask',
     'importData'            =>'import data of : ',
+    'file'                  =>'file',
+    'donation-help-asksList'=>'donation help asks list',
+    'import'                =>'import',
+    'export'                =>'export',
 ];
 

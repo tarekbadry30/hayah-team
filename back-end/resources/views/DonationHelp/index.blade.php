@@ -221,7 +221,7 @@
             for(let item of results){
                 //console.log(item);
                 tableContent+=`<tr>
-                    <td><img class="avatar-md" src="{{asset('/')}}${item.img}"></td>
+                    <td><img class="avatar-md" src="{{asset('/')}}${item.image}"></td>
                     <td>${item.name}</td>
                     <td>${item.desc}</td>
                     <td>${item.available?'{{__('frontend.yes')}}':'{{__('frontend.no')}}'}</td>
@@ -231,16 +231,17 @@
                     <td>${item.created_at}</td>
                     <td>
                      <a href="{{route('uploads.index')}}?model=DonationHelp&value=${item.id}&backRoute={{request()->url()}}"
-                    class="btn btn-outline-info waves-effect waves-light col-sm-3 mx-1">
-                    <i class="fas fa-upload"></i> {{__('frontend.changeImg')}}
-                </a>
-                <a
-                class="btn btn-outline-success waves-effect waves-light"
-                href="{{route('donation-helps.index')}}/${item.id}/edit" >{{__('frontend.edit')}}</a>
+                        class="btn btn-outline-info waves-effect waves-light" title="{{__('frontend.changeImg')}}">
+                        <i class="fas fa-upload"></i>
+                    </a>
+                    <a
+                    class="btn btn-outline-success waves-effect waves-light"
+                    href="{{route('donation-helps.index')}}/${item.id}/edit" title="{{__('frontend.edit')}}"><i class="far fa-edit"></i></a>
 
                     <button
                     class="btn btn-outline-danger delete-btn  waves-effect waves-light"
-                    href="{{route('donation-helps.index')}}/${item.id}" donation_help_id="${item.id}">{{__('frontend.delete')}}</button>
+                    href="{{route('donation-helps.index')}}/${item.id}" donation_help_id="${item.id}" title="{{__('frontend.delete')}}"><i class="fas fa-trash-alt"></i></button>
+
                     </td>
 
             </tr>`;

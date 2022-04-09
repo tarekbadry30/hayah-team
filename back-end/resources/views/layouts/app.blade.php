@@ -97,6 +97,10 @@
             height: 5em;
             width: 6em;
         }
+        table .waves-effect{
+            min-width: 50px;
+            margin: 3px;
+        }
     </style>
 
 @yield('css')

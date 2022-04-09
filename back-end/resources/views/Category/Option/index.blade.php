@@ -13,7 +13,10 @@
                     <input type="text" class="form-control data-search-input">
                 </div>
                 <div class="col-sm-4">
-                    <a href="{{route('category-option.create',['category_id'=>$category->id])}}" class="btn btn-outline-secondary waves-effect waves-light col-sm-3 mx-1"><i class=" fas fa-plus"></i></a>
+                    <a href="{{route('category-option.create',['category_id'=>$category->id])}}" class="btn btn-outline-secondary waves-effect waves-light col-sm-2 mx-1"><i class=" fas fa-plus"></i></a>
+                    <a href="{{route('category-option.importPage')}}?category_id={{$category->id}}" class="btn btn-outline-secondary waves-effect waves-light col-sm-2 mx-1"><i class="fas fa-file-import"></i></a>
+                    <a href="{{route('category-option.export')}}?category_id={{$category->id}}" class="btn btn-outline-secondary waves-effect waves-light col-sm-2 mx-1"><i class="fas fa-file-export"></i></a>
+
                 </div>
             </div>
             <table id="mainTable" class="mt-3 table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
@@ -40,31 +43,7 @@
         </div>
     </div>
 @endsection
-<style>
-    .dataTables_wrapper .row:last-of-type{
-        display: none;
-    }
-    .sortStyle { cursor: pointer; }
 
-    .ascStyle {
-        background-image: url(/img/asc.gif);
-        background-repeat: no-repeat;
-        background-position: center right;
-    }
-
-    .descStyle {
-        background-image: url(/img/desc.gif);
-        background-repeat: no-repeat;
-        background-position: center right;
-    }
-
-    .unsortStyle {
-        background-image: url(/img/bg.gif);
-        background-repeat: no-repeat;
-        background-position: center right;
-    }
-
-</style>
 @section('js')
     <script>
         $(document).ready(function () {
@@ -149,11 +128,10 @@
                     <td >${item.accept_any_value?"{{__('frontend.yes')}}":"{{__('frontend.no')}}"}</td>
                     <td>
                     <button
-                    class="btn btn-outline-danger delete-btn  waves-effect waves-light"
-                    href="{{route('category-option.index')}}/${item.id}">{{__('frontend.delete')}}</button>
-                    <a class="btn btn-outline-success  waves-effect waves-light"
-                    href="{{route('category-option.index')}}/${item.id}/edit">{{__('frontend.edit')}}</button>
-
+                    class="btn btn-outline-danger delete-btn  waves-effect waves-light col-sm-2 mx-1"
+                    href="{{route('category-option.index')}}/${item.id}" title="{{__('frontend.delete')}}"><i class="fas fa-trash-alt"></i></button>
+                    <a class="btn btn-outline-success  waves-effect waves-light col-sm-2 mx-1"
+                    href="{{route('category-option.index')}}/${item.id}/edit" title="{{__('frontend.edit')}}"><i class="far fa-edit "></i></a>
 
                     </td>
 

@@ -7,6 +7,7 @@ use App\Http\Requests\UsersRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Rap2hpoutre\FastExcel\Facades\FastExcel;
 
 class UsersController extends Controller
 {
@@ -119,4 +120,64 @@ class UsersController extends Controller
         return $this->sendResponse([],'user deleted success');
 
     }
+
+
+    public function export(){
+        $list = User::all();
+        //$categories->each->setTranslated(['ar','en']);
+        return \fastexcel($list)->download('users.xlsx',function ($line) {
+            //dd($line);
+            return [
+                'name'      => $line['name'],
+                'phone'     => $line['phone'],
+                'address'   => $line['address'],
+                'national_number'=> $line['national_number'],
+                'type'      => $line['type'],
+                'status'    => $line['status'],
+            ];
+
+        });
+        //return (new FastExcel($foods))->export('foods.xlsx');
+    }
+    public function importPage(Request $request){
+        $msg=__('frontend.importData').__('frontend.users');
+        $input=['name'=>'user_id','value'=>'user_id','model'=>User::class];
+        $files=['max'=>1,'mimes'=>".xlsx,.csv"];
+        $uploadRoute=route('users.import');
+        $backRoute=route('users.index');
+        return redirect(route('uploads.index',compact('input','files','msg','uploadRoute','backRoute')));
+        //->with('success',__('frontend.itemCreated'));
+    }
+    public function importData(Request $request){
+        $request->validate([
+            'file'          => 'required|mimes:csv,xlsx',
+        ]);
+        $file = storage_path('app/' . $request->file('file')->store('excel-files\users'));
+
+        //return \fastexcel()->import($file);
+        return FastExcel::import($file, function ($line) use ($request) {
+            $ducblicated= User::where('phone',$line['phone'])->orWhere('national_number',$line['national_number'])->first();
+            if($ducblicated){
+                $row='[';
+                if($ducblicated->phone==$line['phone'])
+                    $row.='phone='.$line['phone'].'  ,';
+                if($ducblicated->national_number==$line['national_number'])
+                    $row.='national_number='.$line['national_number'].'  ,';
+                $row.=']';
+                return $this->sendError('duplicated data with row'.$row,400);
+            }
+
+            return User::create([
+                'name'      => $line['name'],
+                'phone'     => $line['phone'],
+                'address'   => $line['address'],
+                'national_number'=> $line['national_number'],
+                'type'      => $line['type'],
+                'status'    => $line['status'],
+                'password'  => Hash::make($line['password']),
+                //'admin_id'  =>auth('admin')->id(),
+            ]);
+        });
+    }
+
 }

@@ -304,13 +304,17 @@
                     <td>${item.created_at}</td>
                     <td>
                     <button
-                    class="btn btn-outline-success accept-btn waves-effect waves-light ${item.status!='pending'?'d-none':''}"
+                    class="btn btn-outline-success accept-btn waves-effect col-sm-2 mx-1 waves-light ${item.status!='pending'?'d-none':''}"
                     item_id="${item.id}" data-bs-toggle="modal"
                     data-bs-target=".accept-donation-modal"
-                    >{{__('frontend.accept')}}</button>
+                    title="{{__('frontend.accept')}}">
+                    <i class="far fa-check-circle"></i>
+                    </button>
                     <button
-                    class="btn btn-outline-danger delete-btn  waves-effect waves-light ${item.status!='pending'?'d-none':''}"
-                    href="{{route('donations.refuse')}}" donation_id="${item.id}">{{__('frontend.refuse')}}</button>
+                    class="btn btn-outline-danger delete-btn  waves-effect col-sm-2 mx-1 waves-light ${item.status!='pending'?'d-none':''}"
+                    href="{{route('donations.refuse')}}" donation_id="${item.id}" title="{{__('frontend.refuse')}}">
+                    <i class="far fa-times-circle "></i>
+                    </button>
 
                     </td>
 

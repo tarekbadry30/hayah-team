@@ -277,7 +277,7 @@
                     for(let item of results){
                         //console.log(item);
                         tableContent+=`<tr>
-                    <td><img src="{{asset('/')}}${item.img}" class="avatar-md"></td>
+                    <td><img src="{{asset('/')}}${item.image}" class="avatar-md"></td>
                     <td>${item.name}</td>
                     <td>${item.desc}</td>
                     <td>${item.type}</td>
@@ -292,13 +292,13 @@
                     >{{__('frontend.accept')}}</button>
                     <button
                     class="btn btn-outline-danger delete-btn  waves-effect waves-light"
-                    href="{{route('foods.index')}}/${item.id}">{{__('frontend.delete')}}</button>
+                    href="{{route('foods.index')}}/${item.id}" title="{{__('frontend.delete')}}"><i class="fas fa-trash-alt"></i></button>
                     <a class="btn btn-outline-success  waves-effect waves-light"
-                    href="{{route('foods.index')}}/${item.id}/edit">{{__('frontend.edit')}}</button>
+                    href="{{route('foods.index')}}/${item.id}/edit" title="{{__('frontend.edit')}}"><i class="far fa-edit"></i></button>
 
                  <a href="{{route('uploads.index')}}?model=Food&value=${item.id}&backRoute={{request()->url()}}"
-                    class="btn btn-outline-info waves-effect waves-light col-sm-3 mx-1">
-                    <i class="fas fa-upload"></i> {{__('frontend.changeImg')}}
+                    class="btn btn-outline-info waves-effect waves-light" title=" {{__('frontend.changeImg')}}">
+                    <i class="fas fa-upload"></i>
                         </a>
                         </td>
 

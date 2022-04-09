@@ -14,6 +14,12 @@ class DonationHelp extends Model implements TranslatableContract
     use Translatable;
     protected $guarded=[];
     public $translatedAttributes = ['name', 'desc'];
+    protected $appends=['image'];
+    public function getImageAttribute(){
+        if(isset($this->img))
+            return $this->img;
+        return 'no_img.png';
+    }
     protected $casts = [
         'created_at'  => 'datetime:Y-m-d h:i:s a',
     ];

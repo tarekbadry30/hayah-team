@@ -6,11 +6,11 @@ use App\Models\Category;
 use App\Models\Delivery;
 use App\Models\Donation;
 use App\Models\DonationHelp;
+use App\Models\DonationHelpAsk;
 use App\Models\DonationType;
 use App\Models\Food;
 use App\Models\FoodRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 class HomeController extends Controller
@@ -46,6 +46,7 @@ class HomeController extends Controller
             Food::class,
             FoodRequest::class,
             DonationHelp::class,
+            DonationHelpAsk::class,
 
         ];
         foreach ($statics as $item) {
@@ -56,6 +57,7 @@ class HomeController extends Controller
                 'route' => Route::has($tableName . '.index')?route($tableName . '.index'):(Route::has($tableName . 's.index')?route($tableName . 's.index'):'#')
             ];
         }
+        //dd((new DonationHelpAsk())->getTable());
         /*$cardItem=[
             'name'  =>  __('frontend.users'),
             'value' =>  User::count(),

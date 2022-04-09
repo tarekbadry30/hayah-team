@@ -13,7 +13,9 @@
                     <input type="text" class="form-control data-search-input">
                 </div>
                 <div class="col-sm-4">
-                    <a href="{{route('deliveries.create')}}" class="btn btn-outline-secondary waves-effect waves-light col-sm-3 mx-1"><i class=" fas fa-plus"></i></a>
+                    <a href="{{route('deliveries.create')}}" class="btn btn-outline-secondary waves-effect waves-light col-sm-2 mx-1"><i class=" fas fa-plus"></i></a>
+                    <a href="{{route('deliveries.importPage')}}" class="btn btn-outline-secondary waves-effect waves-light col-sm-2 mx-1"><i class="fas fa-file-import"></i></a>
+                    <a href="{{route('deliveries.export')}}" class="btn btn-outline-secondary waves-effect waves-light col-sm-2 mx-1"><i class="fas fa-file-export"></i></a>
 
                 </div>
             </div>
@@ -128,19 +130,15 @@
             for(let item of results){
                 console.log(item);
                 tableContent+=`<tr>
-
-status
-nationalNumber
-lastOrderDate
-                    <td>${item.name}</td>
+                     <td>${item.name}</td>
                     <td>${item.phone}</td>
                     <td>${item.vehicle_number}</td>
                     <td>${item.status}</td>
                     <td>${item.national_number}</td>
                     <td>${item.last_order_date}</td>
                     <td>
-                    <button class="btn btn-outline-danger delete-btn  waves-effect waves-light" href="{{route('deliveries.index')}}/${item.id}">{{__('frontend.delete')}}</button>
-                    <a class="btn btn-outline-success  waves-effect waves-light" href="{{route('deliveries.index')}}/${item.id}/edit">{{__('frontend.edit')}}</button>
+                    <button class="btn btn-outline-danger delete-btn  waves-effect waves-light col-sm-2 mx-1" href="{{route('deliveries.index')}}/${item.id}" title="{{__('frontend.delete')}}"><i class="fas fa-trash-alt"></i></button>
+                    <a class="btn btn-outline-success  waves-effect waves-light col-sm-2 mx-1" href="{{route('deliveries.index')}}/${item.id}/edit" title="{{__('frontend.edit')}}"><i class="far fa-edit "></i></a>
                     </td>
 
             </tr>`;

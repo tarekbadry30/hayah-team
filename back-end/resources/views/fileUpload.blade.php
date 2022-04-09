@@ -70,7 +70,20 @@
                     formData.append("_token", "{{ csrf_token() }}");
                     formData.append("{{$input['name']}}", "{{$input['value']}}");
                 },
-                success:function(file){
+                success:function(file,response){
+                    console.log(response);
+                    if(response[0].original&&!response[0].original.success){
+                        Swal.fire({
+                            title: `error file upload`,
+                            text: `${response[0].original.message}`,
+                            icon: "error",
+                            confirmButtonColor: "#1cbb8c",
+                            confirmButtonText: "{{__('frontend.ok')}}",
+                        }).then(function (result) {
+                            //window.location.href = "{{$backRoute}}"
+                        });
+                    }
+                    else
                     Swal.fire({
                         title: "{{__('frontend.uploadCompleted')}}",
                         icon: "success",
