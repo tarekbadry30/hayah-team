@@ -9,18 +9,12 @@
                 <div class="card-body">
                     <form novalidate
                           class="create-form pt-3 {{session()->has('errorsq')?'was-validated':''}}"
-                          action="{{route('donation-types.update',['donation_type'=>$donationType])}}" method="post">
-                        <input type="hidden" name="id" value="{{$donationType->id}}">
+                          action="{{route('settings.phone.update',['phone'=>$phone])}}" method="post">
+                        <input type="hidden" name="id" value="{{$phone->id}}">
                         @csrf
                         @method('put')
-                        <h4 class="header-title">{{__('frontend.editDonationType')}} </h4>
+                        <h4 class="header-title">{{__('frontend.editContactPhone')}} </h4>
                         <!-- Nav tabs -->
-                        <div class="row mb-3">
-                            <label for="name" class="col-sm-2 col-form-label">{{__('frontend.img')}}</label>
-                            <div class="col-sm-10 position-relative">
-                                <img src="{{asset($donationType->img)}}" class="avatar-lg">
-                            </div>
-                        </div>
                         <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
                             @foreach(config('translatable.locales') as $locale)
                                 <li class="nav-item" {{$errorsCount=0}}>
@@ -44,21 +38,9 @@
                                         <label for="name" class="col-sm-2 col-form-label">{{__('frontend.'.$locale.'.name')}}</label>
                                         <div class="col-sm-10 position-relative">
                                             <input class="form-control @error($locale.'.name') parsley-error is-invalid @enderror"
-                                                   value="{{old($locale.'.name',$donationType->translate($locale)->name)}}"  type="text" placeholder="{{__('frontend.'.$locale.'.name')}}"
+                                                   value="{{old($locale.'.name',$phone->translate($locale)->name)}}"  type="text" placeholder="{{__('frontend.'.$locale.'.name')}}"
                                                    id="name" name="{{$locale}}[name]"/>
                                             @error($locale.'.name')
-                                            <div class="invalid-tooltip position-static">
-                                                {{$message }}
-                                            </div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <label for="desc" class="col-sm-2 col-form-label">{{__('frontend.'.$locale.'.desc')}}</label>
-                                        <div class="col-sm-10">
-                                        <textarea class="form-control @error($locale.'.desc') parsley-error is-invalid @enderror"
-                                                  placeholder="{{__('frontend.'.$locale.'.desc')}}" id="desc" name="{{$locale}}[desc]">{{old($locale.'.desc',$donationType->translate($locale)->desc)}}</textarea>
-                                            @error($locale.'.desc')
                                             <div class="invalid-tooltip position-static">
                                                 {{$message }}
                                             </div>
@@ -70,13 +52,12 @@
 
                         </div>
                         <div class="row mb-3">
-                            <label for="status" class="col-sm-2 col-form-label">{{__('frontend.status')}}</label>
-                            <div class="col-sm-10">
-                                <select name="status" class="form-control select2-search-disable2 @error('status') parsley-error is-invalid @enderror ">
-                                    <option value="enabled">{{__('frontend.enabled')}}</option>
-                                    <option value="disabled">{{__('frontend.disabled')}}</option>
-                                </select>
-                                @error('status')
+                            <label for="name" class="col-sm-2 col-form-label">{{__('frontend.phone')}}</label>
+                            <div class="col-sm-10 position-relative">
+                                <input class="form-control @error('phone') parsley-error is-invalid @enderror"
+                                       value="{{old('phone',$phone->phone)}}"  type="text" placeholder="{{__('frontend.phone')}}"
+                                       id="name" name="phone"/>
+                                @error('phone')
                                 <div class="invalid-tooltip position-static">
                                     {{$message }}
                                 </div>
@@ -89,7 +70,7 @@
                         <div class="row mb-3 justify-content-center">
                             <button type="submit" class="btn btn-outline-primary waves-effect waves-light col-sm-3 mx-1">
                                 {{__('frontend.save')}}</button>
-                            <a href="{{route('donation-types.index')}}" class="btn btn-outline-secondary waves-effect waves-light col-sm-3 mx-1">{{__('frontend.cancel')}}</a>
+                            <a href="{{route('settings.phone.index')}}" class="btn btn-outline-secondary waves-effect waves-light col-sm-3 mx-1">{{__('frontend.cancel')}}</a>
 
                         </div>
 
@@ -110,7 +91,7 @@
             $("input[name='default_value']").TouchSpin({
                 step: 0.1,
                 decimals: 2,
-                initval: {{$donationType->default_value}},
+                initval: {{$phone->default_value}},
                 max:1000000,
                 min:0.1,
                 buttondown_class: "btn btn-primary",

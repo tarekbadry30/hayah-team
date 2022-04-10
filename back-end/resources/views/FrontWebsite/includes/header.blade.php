@@ -26,17 +26,16 @@
                     <div class="align-self-center ml-auto header-col-mid">
                         <!-- mainmenu begin -->
                         <ul id="mainmenu" class="scrollnav">
-                            <li><a href="#section-hero" class="active">Home</a></li>
+                            <li><a href="#section-hero" class="active">{{__('website.home')}}</a></li>
                             <li></li>
-                            <li><a href="#section-about">About</a></li>
+                            <li><a href="#section-about">{{__('website.about')}}</a></li>
                             <li></li>
-                            <li><a href="#section-services">Services</a></li>
+                            <li class="d-none"><a href="#section-services">Services</a></li>
                             <li></li>
-                            <li><a href="#section-portfolio">Portfolio</a></li>
+                            <li><a href="#section-portfolio">{{__('website.portfolio')}}</a></li>
                             <li></li>
-                            <li><a href="#section-blog">Blog</a></li>
                             <li></li>
-                            <li><a href="#section-contact">Contact</a></li>
+                            <li><a href="#section-contact">{{__('website.contactUs')}}</a></li>
                             <li></li>
                         </ul>
 

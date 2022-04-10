@@ -4,7 +4,7 @@
         <!-- portfolio filter begin -->
         <div class="row">
             <div class="col-md-12 text-center">
-                <h2><span class="id-color">{{__('frontend.portfolio')}}</span></h2>
+                <h2 class="arabic-bold"><span class="id-color">{{__('website.portfolio')}}</span></h2>
             </div>
 
             <div class="spacer-single"></div>

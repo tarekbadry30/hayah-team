@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{LaravelLocalization::getCurrentLocale()}}">
+<html lang="{{LaravelLocalization::getCurrentLocale()}}" dir="{{LaravelLocalization::getCurrentLocaleDirection()}}">
     <head>
         <meta charset="utf-8" />
         <title>test v2</title>
@@ -34,6 +34,39 @@
         <link href="{{asset('front_website/')}}/revolution/css/layers.css" rel="stylesheet" type="text/css" />
         <link href="{{asset('front_website/')}}/revolution/css/navigation.css" rel="stylesheet" type="text/css" />
         <link href="{{asset('front_website/')}}/css/rev-settings.css" rel="stylesheet" type="text/css" />
+        <style>
+            .second-color{
+                color: #515c6a;
+            }
+            @font-face {
+                font-family: 'arabicFont'; /*a name to be used later*/
+                src: url('{{asset('/fonts/janna.ttf')}}'); /*URL to font*/
+            }
+            @font-face {
+                font-family: 'arabicBoldFont'; /*a name to be used later*/
+                src: url('{{asset('/fonts/janna-bold.ttf')}}'); /*URL to font*/
+            }
+            .arabic{
+                font-family: arabicFont;
+                letter-spacing: 2px;
+            }
+            .arabic-bold{
+                font-family: arabicBoldFont;
+                letter-spacing: 2px;
+            }
+            #contact_form .field-set{
+                margin-bottom: 10px;
+            }
+           #contact_form  .field-set label{
+                margin-bottom: 0;
+               color:#ff0000 !important;
+            }
+            #contact_form input,
+            #contact_form textarea{
+                padding-bottom: 10px;
+                margin-bottom: 0px;
+            }
+        </style>
     </head>
 
     <body>
@@ -52,7 +85,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-6 sm-text-center mb-sm-30">
-                    &copy; Copyright 2020 - Jess by Designesia
+                    &copy; Copyright {{date('Y')}} - Jess by Designesia
                 </div>
 
                 <div class="col-md-6 text-md-right text-sm-left">

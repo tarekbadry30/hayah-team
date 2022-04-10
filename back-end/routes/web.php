@@ -10,8 +10,11 @@ use App\Http\Controllers\DontationHelp\DonationHelpAsksController;
 use App\Http\Controllers\Food\FoodController;
 use App\Http\Controllers\Food\FoodRequestsConroller;
 use App\Http\Controllers\Food\MonthlyHelpController;
+use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Settings\PhoneContactController;
 use App\Http\Controllers\Settings\SettingsController;
+use App\Http\Controllers\Settings\VisionController;
 use App\Http\Controllers\Uploads\UploadsController;
 use App\Http\Controllers\Users\UsersController;
 use Illuminate\Support\Facades\Route;
@@ -38,10 +41,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),'middleware'=>[
     ]
 ], function() {
     Auth::routes();
+    Route::get('/', [FrontendController::class,'index']);
+    Route::post('/receive-message',[FrontendController::class,'receiveMessage'])->name('website.receiveMessage');
+
     Route::group(['middleware'=>['auth:admin']],function () {
-        Route::get('/', function () {
-            return view('FrontWebsite.index');
-        });
         Route::get('/dashboard', [HomeController::class, 'Dashboard'])->name('Dashboard');
         Route::get('/home', [HomeController::class, 'index'])->name('home');
 
@@ -119,9 +122,14 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),'middleware'=>[
         Route::resource('food-requests', FoodRequestsConroller::class)->middleware(['auth:admin']);//->name('categoryOption.');
 
 
-        Route::group(['prefix' => 'settings'], function () {
-            Route::get('/', [SettingsController::class, 'index'])->middleware(['auth:admin'])->name('settings.index');
-
+        Route::group(['prefix' => 'settings','as'=>'settings.'], function () {
+            Route::get('/', [SettingsController::class, 'index'])->middleware(['auth:admin'])->name('index');
+            Route::get('/edit', [SettingsController::class, 'edit'])->middleware(['auth:admin'])->name('edit');
+            Route::get('/update', [SettingsController::class, 'update'])->middleware(['auth:admin'])->name('update');
+            Route::get('/phone/import', [PhoneContactController::class, 'importPage'])->middleware(['auth:admin'])->name('phone.importPage');
+            Route::post('/phone/importData', [PhoneContactController::class, 'importData'])->middleware(['auth:admin'])->name('phone.import');
+            Route::get('/phone/export', [PhoneContactController::class, 'export'])->middleware(['auth:admin'])->name('phone.export');
+            Route::resource('phone',PhoneContactController::class);
         });
     });
 

@@ -16,8 +16,10 @@ class CreateSettingsTable extends Migration
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('vision');
-            $table->text('goals');
+            $table->text('vision_ar');
+            $table->text('vision_en');
+            $table->text('goals_ar');
+            $table->text('goals_en');
             $table->timestamps();
         });
     }
