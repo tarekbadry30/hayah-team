@@ -101,13 +101,29 @@
             min-width: 50px;
             margin: 3px;
         }
+        @font-face {
+            font-family: 'arabicFont'; /*a name to be used later*/
+            src: url('{{asset('/fonts/janna.ttf')}}'); /*URL to font*/
+        }
+        *{
+            font-family: arabicFont;
+        }
+        .filters_container label{
+            font-size: 17px;
+        }
+        .flatpickr-input[readonly] {
+            direction: ltr;
+        }
+        .table th {
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
     </style>
 
 @yield('css')
     <!-- fontawesome icons init -->
 
 </head>
-
 
 <body>
 
@@ -188,10 +204,6 @@
             confirmButtonText: "{{__('frontend.ok')}}",
         });
         @endif
-        $( window ).unload(function() {
-            console.log('ffffffffffff');
-            $('.loader-container').removeClass('d-none');
-        });
             $.ajaxSetup({
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),

@@ -71,7 +71,9 @@
                             <div class="col-sm-10">
                                 <select name="type" class="option_type form-control select2-search-disable2 @error('type') parsley-error is-invalid @enderror ">
                                     <option {{$categoryOption->type=='finance'?'selected':''}} value="finance">{{__('frontend.finance')}}</option>
-                                    <option {{$categoryOption->type=='physical'?'selected':''}} value="physical">{{__('frontend.physical')}}</option>
+                                    @if(!$categoryOption->category->urgent)
+                                        <option {{$categoryOption->type=='physical'?'selected':''}} value="physical">{{__('frontend.physical')}}</option>
+                                    @endif
                                 </select>
 
                                 @error('type')

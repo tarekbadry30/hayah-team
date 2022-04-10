@@ -27,20 +27,25 @@ class DonationsController extends Controller
      */
     public function store(CreateDonationRequest $request)
     {
-        return
+
         $donation=Donation::create([
             //'name'          =>'any name',
-            'desc'          =>'any desc',
+            'desc'          =>$request->desc,
             'map_location'  =>'any map_location',
-            'type'          =>$request->type,
+            'type'          =>$request->get('type'),
             'value'         =>$request->value,
-            'status'        =>$request->type=='financial'?'completed':'pending',
+            'status'        =>$request->get('type')=='financial'?'completed':'pending',
             'option_id'     =>$request->option_id,
             'category_id'   =>$request->category_id,
             'type_id'       =>$request->type_id,
             'user_id'       =>auth()->user()->id,
             //'admin_id'=>$request->option_id,
         ]);
+        if($request->get('type')=='financial')
+            $donation->category->update([
+                'collected_value'=>$donation->category->collected_value+$request->value
+            ]);
+        return $this->sendResponse([],'new donation created');
     }
 
     /**

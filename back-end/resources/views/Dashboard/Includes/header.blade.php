@@ -250,9 +250,9 @@
             @endguest
 
             <div class="dropdown d-inline-block">
-                <button type="button" class="btn header-item noti-icon right-bar-toggle waves-effect">
+                <a href="{{route('settings.index')}}" class="btn header-item noti-icon waves-effect">
                     <i class="mdi mdi-cog-outline font-size-20"></i>
-                </button>
+                </a>
             </div>
 
         </div>

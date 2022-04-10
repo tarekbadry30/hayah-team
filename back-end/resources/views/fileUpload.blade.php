@@ -72,7 +72,7 @@
                 },
                 success:function(file,response){
                     console.log(response);
-                    if(response[0].original&&!response[0].original.success){
+                    if(response[0]&&response[0].original&&!response[0].original.success){
                         Swal.fire({
                             title: `error file upload`,
                             text: `${response[0].original.message}`,

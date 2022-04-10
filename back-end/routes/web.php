@@ -11,6 +11,7 @@ use App\Http\Controllers\Food\FoodController;
 use App\Http\Controllers\Food\FoodRequestsConroller;
 use App\Http\Controllers\Food\MonthlyHelpController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Settings\SettingsController;
 use App\Http\Controllers\Uploads\UploadsController;
 use App\Http\Controllers\Users\UsersController;
 use Illuminate\Support\Facades\Route;
@@ -28,10 +29,7 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 */
 
 Route::get('/', function () {
-    $user = auth()->guard('admin')->user();
-    if($user)
-        return $user;
-    return view('welcome');
+    return view('FrontWebsite.index');
 });
 Route::group(['prefix' => LaravelLocalization::setLocale(),'middleware'=>[
         'localizationRedirect',
@@ -40,8 +38,11 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),'middleware'=>[
     ]
 ], function() {
     Auth::routes();
-    Route::group(['middleware'=>['auth:admin']],function (){
-        Route::get('/', [HomeController::class, 'Dashboard'])->name('Dashboard');
+    Route::group(['middleware'=>['auth:admin']],function () {
+        Route::get('/', function () {
+            return view('FrontWebsite.index');
+        });
+        Route::get('/dashboard', [HomeController::class, 'Dashboard'])->name('Dashboard');
         Route::get('/home', [HomeController::class, 'index'])->name('home');
 
         Route::get('/users/data-table', [UsersController::class, 'dataTable'])->name('users.dataTable');
@@ -101,7 +102,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),'middleware'=>[
         Route::resource('food-requests', FoodRequestsConroller::class)->middleware(['auth:admin']);//->name('categoryOption.');
 
 
-
         Route::get('donation-helps/data-table', [DonationHelpController::class, 'dataTable'])->middleware(['auth:admin'])->name('donation-helps.dataTable');
         Route::post('donation-helps/accept', [DonationHelpController::class, 'acceptDonation'])->middleware(['auth:admin'])->name('donation-helps.accept');
         Route::delete('donation-helps/refuse', [DonationHelpController::class, 'refuseDonation'])->middleware(['auth:admin'])->name('donation-helps.refuse');
@@ -118,6 +118,11 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),'middleware'=>[
         Route::get('perm/data-table', [FoodRequestsConroller::class, 'dataTable'])->middleware(['auth:admin'])->name('food-requests.dataTable');
         Route::resource('food-requests', FoodRequestsConroller::class)->middleware(['auth:admin']);//->name('categoryOption.');
 
+
+        Route::group(['prefix' => 'settings'], function () {
+            Route::get('/', [SettingsController::class, 'index'])->middleware(['auth:admin'])->name('settings.index');
+
+        });
     });
 
 

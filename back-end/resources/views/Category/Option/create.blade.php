@@ -68,7 +68,9 @@
                             <div class="col-sm-10">
                                 <select name="type" class="option_type form-control select2-search-disable2 @error('type') parsley-error is-invalid @enderror ">
                                     <option value="finance">{{__('frontend.finance')}}</option>
+                                    @if(!$category->urgent)
                                     <option value="physical">{{__('frontend.physical')}}</option>
+                                        @endif
                                 </select>
 
                                 @error('type')

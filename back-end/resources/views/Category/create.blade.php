@@ -90,6 +90,32 @@
                                 @enderror
                             </div>
                         </div>
+                            <div class="row mb-3">
+                                <label for="urgent" class="col-sm-2 col-form-label">{{__('frontend.urgent')}}</label>
+                                <div class="col-sm-10">
+                                    <input type="checkbox" id="urgent" switch="bool" name="urgent" />
+                                    <label for="urgent" data-on-label="Yes" data-off-label="No"></label>
+                                    @error('urgent')
+                                    <div class="invalid-tooltip position-static">
+                                        {{$message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+                        <div class="urgent-container d-none">
+                            <div class="row mb-3">
+                                <label for="needed_value" class="col-sm-2 col-form-label">{{__('frontend.needed_value')}}</label>
+                                <div class="col-sm-10">
+                                    <input name="needed_value" type="text" class="form-control @error('needed_value') parsley-error is-invalid @enderror " />
+                                    @error('needed_value')
+                                    <div class="invalid-tooltip position-static">
+                                        {{$message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="row mb-3 justify-content-center">
                             <button type="submit" class="btn btn-outline-primary waves-effect waves-light col-sm-3 mx-1">
                                 {{__('frontend.save')}}</button>
@@ -150,6 +176,25 @@
             console.clear()
             console.log('init 1')
             $(".select2-search-disable").select2();*/
+            $("input[name='needed_value']").TouchSpin({
+                step: 0.1,
+                decimals: 2,
+                initval: 1,
+                max:1000000,
+                min:0.1,
+                buttondown_class: "btn btn-primary",
+                buttonup_class: "btn btn-primary"
+            });
+
+        $('#urgent').change(function () {
+            console.log($(this).is(':checked'));
+            if($(this).is(':checked')){
+                $('.urgent-container').removeClass('d-none');
+            }else{
+                $('.urgent-container').addClass('d-none');
+
+            }
+        })
         })
     </script>
 @endsection

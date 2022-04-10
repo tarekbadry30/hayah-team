@@ -16,11 +16,11 @@ class CreateDonationsTable extends Migration
         Schema::create('donations', function (Blueprint $table) {
             $table->id();
             //$table->string('name');
-            $table->text('desc');
+            $table->text('desc')->nullable();
             $table->text('map_location');
             $table->enum('status',['pending','admin_refused','assigned','delivery_accepted','delivery_refused','completed'])->default('pending');
             $table->enum('type',['financial','physical'])->default('financial');
-            $table->string('value');
+            $table->double('value')->nullable();
             $table->foreignId("option_id")->nullable()->references("id")->on("category_options")->nullOnDelete()->cascadeOnUpdate();
             $table->foreignId("admin_id")->nullable()->references("id")->on("admins")->nullOnDelete()->cascadeOnUpdate();
             $table->foreignId("type_id")->nullable()->references("id")->on("donation_types")->nullOnDelete()->cascadeOnUpdate();

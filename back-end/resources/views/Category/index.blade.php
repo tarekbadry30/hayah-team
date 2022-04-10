@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('content')
     <div class="card pt-1">
-
     <div class="custom-data-table ">
 
         <div class="card-body">
@@ -16,6 +15,8 @@
                     <input type="text" class="form-control data-search-input">
                 </div>
                 <div class="col-sm-4">
+                    <button type="button" class="btn btn-outline-secondary waves-effect waves-light col-sm-2 mx-1 apply-filter"><i class=" fas fa-search"></i></button>
+
                     <a href="{{route('categories.create')}}@if(isset($type))?type_id={{$type->id}}@endif" class="btn btn-outline-secondary waves-effect waves-light col-sm-2 mx-1"><i class=" fas fa-plus"></i></a>
                     @if(isset($type))
                     <a href="{{route('categories.importPage')}}?type_id={{$type->id}}" class="btn btn-outline-secondary waves-effect waves-light col-sm-2 mx-1"><i class="fas fa-file-import"></i></a>
@@ -23,6 +24,41 @@
                     <a href="{{route('categories.export')}}{{isset($type)?'?type_id='.$type->id:''}}" class="btn btn-outline-secondary waves-effect waves-light col-sm-2 mx-1"><i class="fas fa-file-export"></i></a>
 
                 </div>
+                <div class="col-sm-12">
+                    <div class="row filters_container">
+                        <div class="col-md-3 form-group">
+                            <label class="col-form-label">{{__('frontend.donationType')}}</label>
+                            <select class="form-control donation_types" name="type_id">
+                                <option value="">{{__('frontend.all')}}</option>
+                                @foreach($types as $typeItem)
+                                <option value="{{$typeItem->id}}" @if(isset($type)&&$typeItem->id==$type->id) selected @endif>{{$typeItem->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <label class="col-form-label">{{__('frontend.urgent')}}</label>
+                            <select class="form-control urgent" name="urgent">
+                                <option value="">{{__('frontend.all')}}</option>
+                                <option value="1">{{__('frontend.yes')}}</option>
+                                <option value="0">{{__('frontend.no')}}</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3 form-group">
+                            <label class="col-form-label">{{__('frontend.status')}}</label>
+                            <select class="form-control status" name="status">
+                                <option value="">{{__('frontend.all')}}</option>
+                                <option value="enabled">{{__('frontend.enabled')}}</option>
+                                <option value="disabled">{{__('frontend.disabled')}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <label class="col-form-label">{{__('frontend.date')}}</label>
+                            <input type="text" class="form-control date-range" name="date_range" />
+                        </div>
+                    </div>
+                </div>
+
             </div>
             <table id="mainTable" class="mt-3 table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                 <thead>
@@ -33,6 +69,9 @@
                     <th>{{__('frontend.status')}}</th>
                     <th>{{__('frontend.options')}}</th>
                     <th>{{__('frontend.type')}}</th>
+                    <th>{{__('frontend.urgent')}}</th>
+                    <th>{{__('frontend.needed_value')}}</th>
+                    <th>{{__('frontend.collected_value')}}</th>
                     <th>{{__('frontend.action')}}</th>
                 </tr>
                 </thead>
@@ -66,6 +105,9 @@
                 headers: {
                     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
                 },
+            });
+            $(document).on('click', '.apply-filter', function () {
+                setPage(1, 25);
             });
             $(document).on('click', '.page-link', function () {
                 currentPage = $(this).attr('page');
@@ -111,7 +153,16 @@
            await $.ajax({
                 url: url,
                 method:method,
-                data: {page:page,itemsPerPage:itemsPerPage}
+                data: {
+                    page: page,
+                    itemsPerPage: itemsPerPage,
+                    filters: {
+                        type_id: $('.donation_types').val() != '' ? $('.donation_types').val() : '',
+                        urgent: $(".urgent").val() != '' ? $(".urgent").val() : '',
+                        date: $('.date-range').val() != '' ? $('.date-range').val() : '',
+                        status: $('.status').val() != '' ? $('.status').val() : '',
+                    },
+                }
             }).done(function( data ) {
                 console.log( "Sample of data:", data.data.data/*.current_page */);
                 let lastPage=data.data.last_page;
@@ -131,6 +182,9 @@
                     <td>${item.status}</td>
                     <td ><a href="{{route('category-option.index')}}?category_id=${item.id}">${item.options_count}</td>
                     <td>${item.type_id?item.type.name:''}</td>
+                    <td>${item.urgent?'{{__('frontend.yes')}}':'{{__('frontend.no')}}'}</td>
+                    <td>${item.needed_value}</td>
+                    <td>${item.collected_value}</td>
                     <td>
                         <div class="btn-group dropend">
                             <button type="button" class="btn btn-info waves-effect waves-light dropdown-toggle-split dropdown-toggle"

@@ -144,5 +144,8 @@ return [
     'donation-help-asksList'=>'donation help asks list',
     'import'                =>'import',
     'export'                =>'export',
+    'urgent'                =>'urgent',
+    'needed_value'          =>'needed Value',
+    'collected_value'       =>'collected Value',
 ];
 

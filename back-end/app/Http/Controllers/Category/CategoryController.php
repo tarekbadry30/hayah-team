@@ -9,6 +9,8 @@ use App\Models\DonationType;
 use App\Models\Food;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use Rap2hpoutre\FastExcel\Facades\FastExcel;
 
 class CategoryController extends Controller
@@ -21,15 +23,18 @@ class CategoryController extends Controller
     public function index()
     {
         $type=\request()->type_id?DonationType::findOrFail(\request()->type_id):null;
-
-        return view('Category.index',compact('type'));
+        //$types=DonationType::all();
+        $types=  DB::table('donation_types')
+            ->select('donation_types.id','donation_type_translations.name','donation_type_translations.locale')
+            ->join('donation_type_translations','donation_type_translations.donation_type_id','=','donation_types.id')
+            ->where(['donation_type_translations.locale' => LaravelLocalization::getCurrentLocale()])
+            ->get();
+        return view('Category.index',compact('type','types'));
     }
     public function dataTable()
     {
-        if(\request()->type_id)
-            $categories=Category::with('type')->withCount('options')->where('type_id',\request()->type_id)->paginate(\request()->has('itemsPerPage')?\request()->itemsPerPage:25);
-        else
-            $categories=Category::with('type')->withCount('options')->paginate(\request()->has('itemsPerPage')?\request()->itemsPerPage:25);
+
+            $categories=Category::with('type')->CustomFilter(\request()->filters)->withCount('options')->paginate(\request()->has('itemsPerPage')?\request()->itemsPerPage:25);
         return $this->sendResponse($categories,'get categories paginate');
     }
 
@@ -40,7 +45,11 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $types=DonationType::get(['id']);
+        $types=  DB::table('donation_types')
+            ->select('donation_types.id','donation_type_translations.name','donation_type_translations.locale')
+            ->join('donation_type_translations','donation_type_translations.donation_type_id','=','donation_types.id')
+            ->where(['donation_type_translations.locale' => LaravelLocalization::getCurrentLocale()])
+            ->get();
         return view('Category.create',compact('types'));
     }
 
@@ -65,7 +74,9 @@ class CategoryController extends Controller
 
             'status'    =>$request->status,
             'type_id'   =>$request->type_id,
-            'img'       =>'-',
+            'urgent'    =>$request->urgent=='on',
+            'needed_value'=>$request->needed_value,
+            'collected_value'=>0,
             'admin_id'  =>auth()->guard('admin')->id()
         ]);
         $msg=__('frontend.uploadImageOf').$category->name;
@@ -99,7 +110,11 @@ class CategoryController extends Controller
      */
     public function edit(Category  $category)
     {
-        $types = DonationType::get(['id']);
+        $types=  DB::table('donation_types')
+            ->select('donation_types.id','donation_type_translations.name','donation_type_translations.locale')
+            ->join('donation_type_translations','donation_type_translations.donation_type_id','=','donation_types.id')
+            ->where(['donation_type_translations.locale' => LaravelLocalization::getCurrentLocale()])
+            ->get();
         return view('Category.edit',compact('category','types'));
     }
 
@@ -125,6 +140,9 @@ class CategoryController extends Controller
             'status'    =>$request->status,
             'type_id'   =>$request->type_id,
             ///'img'       =>'images/categories/1648383890.jpg',
+            'urgent'    =>$request->urgent=='on',
+            'needed_value'=>$request->needed_value,
+            //'collected_value'=>0,
             'admin_id'  =>auth()->guard('admin')->id()
         ]);
         return redirect(route('categories.index'))->with('success',__('frontend.itemUpdated'));
@@ -172,7 +190,10 @@ class CategoryController extends Controller
                 'name_en' => $line['name_en'],
                 'desc_ar' => $line['desc_ar'],
                 'desc_en' => $line['desc_en'],
-                'status'  => $line['status']
+                'status'  => $line['status'],
+                'urgent'        =>$line['urgent'],
+                'needed_value'  =>$line['needed_value'],
+                'collected_value'=>$line['collected_value'],
             ];
         });
         //return (new FastExcel($foods))->export('foods.xlsx');
@@ -206,8 +227,11 @@ class CategoryController extends Controller
                 ],
                 //'type'          =>$line['type'],
                 'status'        =>$line['status'],
+                'urgent'        =>$line['urgent'],
+                'needed_value'  =>$line['needed_value'],
+                'collected_value'=>0,
                 'type_id'       =>$request->type_id,
-                'admin_id'      =>auth('admin')->user()->id,
+                'admin_id'      =>auth('admin')->id(),
             ]);
         });
     }
