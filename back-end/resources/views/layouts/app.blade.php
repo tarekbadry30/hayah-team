@@ -1,11 +1,14 @@
 <!doctype html >
+@php
+    $setting=\App\Models\Setting::first();
+@endphp
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{LaravelLocalization::getCurrentLocaleDirection()}}">
 
 <head>
 
 
     <meta charset="utf-8" />
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ $setting?$setting->name:config('app.name', 'Laravel') }} | @yield('page_title')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <!-- CSRF Token -->

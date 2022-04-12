@@ -3,8 +3,9 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
-class CategoryResouce extends JsonResource
+class NestedCategory extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,18 +15,11 @@ class CategoryResouce extends JsonResource
      */
     public function toArray($request)
     {
-        //$locale= $request->header('locale')? $request->header('locale') : app()->getLocale();
-        return[
+        return [
             'id'        =>  $this->id,
+            'name'      =>  $this->translate(LaravelLocalization::getCurrentLocale())->name,
+            'desc'      =>  $this->translate(LaravelLocalization::getCurrentLocale())->desc,
             'img'       =>  asset($this->image),
-            'name'      =>  [
-                'ar'=>$this->translate('ar')->name,
-                'en'=>$this->translate('en')->name,
-            ],
-            'desc'      =>  [
-                'ar'=>$this->translate('ar')->desc,
-                'en'=>$this->translate('en')->desc,
-            ],
             'urgent'    =>  $this->urgent?true:false,
             'options'   =>  CategoryOptionResouce::collection($this->options),
         ];

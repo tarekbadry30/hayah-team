@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\ContactUs;
 use App\Models\Delivery;
 use App\Models\Donation;
 use App\Models\DonationHelp;
@@ -10,6 +11,7 @@ use App\Models\DonationHelpAsk;
 use App\Models\DonationType;
 use App\Models\Food;
 use App\Models\FoodRequest;
+use App\Models\FormSheet;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -47,6 +49,8 @@ class HomeController extends Controller
             FoodRequest::class,
             DonationHelp::class,
             DonationHelpAsk::class,
+            FormSheet::class,
+            ContactUs::class,
 
         ];
         foreach ($statics as $item) {

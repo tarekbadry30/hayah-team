@@ -17,10 +17,19 @@ class DonationTypeResource extends JsonResource
         $locale= $request->header('locale')? $request->header('locale') : app()->getLocale();
         return [
             'id'        =>  $this->id,
-            'name'      =>  $this->translate($locale)->name,
-            'desc'      =>  $this->translate($locale)->desc,
+            'img'       =>  asset($this->image),
+            'name'      =>  [
+                'ar'=>$this->translate('ar')->name,
+                'en'=>$this->translate('en')->name,
+            ],
+            'desc'      =>  [
+                'ar'=>$this->translate('ar')->desc,
+                'en'=>$this->translate('en')->desc,
+            ],
             //'categories'=>  $this->categories,
-            'categories'=>  CategoryResouce::collection($this->categories),
+            //'categories'=>  CategoryResouce::collection($this->categories),
         ];
+
+
     }
 }

@@ -16,20 +16,4 @@ class FrontendController extends Controller
         return view('FrontWebsite.index',compact('phones','settings'));
 
     }
-    public function receiveMessage(Request $request){
-        $request->validate([
-            'name'      =>  'required|string|min:3',
-            'email'     =>  'required|email',
-            'phone'     =>  'required|string|min:3',
-            'message'   =>  'required|string|min:3',
-        ]);
-        ContactUs::create([
-            'name'      =>$request->name,
-            'email'     =>$request->email,
-            'phone'     =>$request->phone,
-            'message'   =>$request->message,
-        ]);
-        return $this->sendResponse([],__('website.messageReceived'));
-
-    }
 }

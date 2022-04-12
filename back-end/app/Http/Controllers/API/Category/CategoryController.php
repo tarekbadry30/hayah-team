@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryCollection;
 use App\Http\Resources\CategoryResouce;
 use App\Http\Resources\DonationTypeResource;
+use App\Http\Resources\NestedDonationTypes;
 use App\Models\Category;
 use App\Models\DonationType;
 use Illuminate\Http\Request;
@@ -17,11 +18,24 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $types=DonationType::get();
+        $request->validate([
+            'type_id'=>'required'
+        ]);
+        $list=Category::where([
+            ['type_id',$request->type_id],
+            ['status','enabled']
+        ])->get();
         //$category=Category::whereNull('parent_id')->get();
-        return DonationTypeResource::collection($types);
+        return CategoryResouce::collection($list);
+    }
+
+    public function all(Request $request)
+    {
+        $list=DonationType::get();
+        //$category=Category::whereNull('parent_id')->get();
+        return NestedDonationTypes::collection($list);
     }
 
     /**

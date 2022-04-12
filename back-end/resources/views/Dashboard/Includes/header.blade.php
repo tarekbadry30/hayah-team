@@ -4,7 +4,7 @@
 
             <!-- LOGO -->
             <div class="navbar-brand-box">
-                <a href="/" class="logo logo-dark">
+                <a href="{{route('Dashboard')}}" class="logo logo-dark">
                         <span class="logo-sm">
                             <img src="{{asset('logo.png')}}" class="website-logo" alt="" height="22">
                         </span>

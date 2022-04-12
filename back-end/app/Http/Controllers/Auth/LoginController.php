@@ -51,7 +51,7 @@ class LoginController extends Controller
                 'password'  =>  $request->password
             ])) {
             $user = auth()->guard('admin')->user();
-            return redirect()->intended(url('/users'));
+            return redirect()->intended(route('Dashboard'));
         }
         $this->incrementLoginAttempts($request);
 

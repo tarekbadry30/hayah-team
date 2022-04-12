@@ -147,5 +147,15 @@ return [
     'urgent'                =>'urgent',
     'needed_value'          =>'needed Value',
     'collected_value'       =>'collected Value',
+    'visibleRange'          =>'visible range',
+    'visible'               =>'visible',
+    'userType'              =>'user type',
+    'inputs'                =>'inputs',
+    'answers'               =>'answers',
+    'from'                  =>'from',
+    'to'                    =>'to',
+    'form-sheets'           =>'form sheets',
+    'form-sheetsList'       =>'form sheets list',
+    'contact-usList'        =>'contact us list',
 ];
 

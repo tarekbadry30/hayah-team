@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Category\CategoryOptionsController;
+use App\Http\Controllers\ContactUs\ContactUsController;
 use App\Http\Controllers\Delivery\DeliveryController;
 use App\Http\Controllers\Donations\DonationsController;
 use App\Http\Controllers\Donations\DonationsTypeController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\DontationHelp\DonationHelpAsksController;
 use App\Http\Controllers\Food\FoodController;
 use App\Http\Controllers\Food\FoodRequestsConroller;
 use App\Http\Controllers\Food\MonthlyHelpController;
+use App\Http\Controllers\FormSheet\FormSheetController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Settings\PhoneContactController;
@@ -42,7 +44,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),'middleware'=>[
 ], function() {
     Auth::routes();
     Route::get('/', [FrontendController::class,'index']);
-    Route::post('/receive-message',[FrontendController::class,'receiveMessage'])->name('website.receiveMessage');
+    Route::post('/receive-message',[ContactUsController::class,'receiveMessage'])->name('website.receiveMessage');
 
     Route::group(['middleware'=>['auth:admin']],function () {
         Route::get('/dashboard', [HomeController::class, 'Dashboard'])->name('Dashboard');
@@ -118,8 +120,21 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),'middleware'=>[
         Route::delete('donation-help-ask/refuse', [DonationHelpAsksController::class, 'refuse'])->middleware(['auth:admin'])->name('donation-help-asks.refuse');
 
 
-        Route::get('perm/data-table', [FoodRequestsConroller::class, 'dataTable'])->middleware(['auth:admin'])->name('food-requests.dataTable');
+        Route::get('food-requests/data-table', [FoodRequestsConroller::class, 'dataTable'])->middleware(['auth:admin'])->name('food-requests.dataTable');
         Route::resource('food-requests', FoodRequestsConroller::class)->middleware(['auth:admin']);//->name('categoryOption.');
+
+        Route::get('contact-us/export', [ContactUsController::class, 'export'])->middleware(['auth:admin'])->name('contact-us.export');
+
+        Route::get('contact-us/data-table', [ContactUsController::class, 'dataTable'])->middleware(['auth:admin'])->name('contact-us.dataTable');
+        Route::resource('contact-us', ContactUsController::class)->middleware(['auth:admin']);//->name('categoryOption.');
+
+
+        Route::get('form-sheet/export', [FormSheetController::class, 'export'])->middleware(['auth:admin'])->name('form-sheet.export');
+
+        Route::get('form-sheets/data-table', [FormSheetController::class, 'dataTable'])->middleware(['auth:admin'])->name('form-sheets.dataTable');
+        Route::resource('form-sheets', FormSheetController::class)->middleware(['auth:admin']);//->name('categoryOption.');
+
+
 
 
         Route::group(['prefix' => 'settings','as'=>'settings.'], function () {
