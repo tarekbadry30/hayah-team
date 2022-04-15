@@ -25,11 +25,12 @@ Route::post('register',[APIController::class,'usersRegister']);
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::group(['middleware'=>['auth:sanctum'],'prefix'=>'donations'], function() {
+//'middleware'=>['auth:sanctum'],
+Route::group(['prefix'=>'donations'], function() {
     Route::get('list', [DonationTypeController::class, 'index']);//->name('api.category.list');
     Route::get('category/list', [CategoryController::class, 'index']);//->name('api.category.list');
     Route::get('category/list/all', [CategoryController::class, 'all'])->name('api.category.list');
-    Route::get('donations/create', [DonationsController::class, 'store']);
+    Route::middleware('auth:sanctum')->get('create', [DonationsController::class, 'store']);
 });
 
 Route::group(['prefix'=>'delivery'],function () {
