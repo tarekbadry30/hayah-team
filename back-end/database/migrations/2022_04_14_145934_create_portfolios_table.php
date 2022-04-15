@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFormTemplatesTable extends Migration
+class CreatePortfoliosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class CreateFormTemplatesTable extends Migration
      */
     public function up()
     {
-        Schema::create('form_templates', function (Blueprint $table) {
+        Schema::create('portfolios', function (Blueprint $table) {
             $table->id();
+            $table->string('img')->nullable();
+            $table->boolean('visible')->default(true);
             $table->timestamps();
         });
     }
@@ -26,6 +28,6 @@ class CreateFormTemplatesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('form_templates');
+        Schema::dropIfExists('portfolios');
     }
 }

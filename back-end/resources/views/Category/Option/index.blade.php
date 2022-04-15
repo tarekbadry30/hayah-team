@@ -122,7 +122,7 @@
                 tableContent+=`<tr>
                     <td>${item.name}</td>
 
-                    <td>${item.type=='finance'?"{{__('frontend.finance')}}":"{{__('frontend.physical')}}"}</td>
+                    <td>${item.type=='financial'?"{{__('frontend.financial')}}":"{{__('frontend.physical')}}"}</td>
                     <td>${item.default_value}</td>
                     <td>${item.status}</td>
                     <td >${item.accept_any_value?"{{__('frontend.yes')}}":"{{__('frontend.no')}}"}</td>

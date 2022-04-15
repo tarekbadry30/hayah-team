@@ -24,12 +24,8 @@ class CreateDonationRequest extends FormRequest
     public function rules()
     {
         return [
-            'type_id'       =>'required',
-            'category_id'   =>'required',
             'option_id'     =>'required',
-            'value'         =>'required',
-            'type'          =>'required',
-            //'a'         =>'required',
+            'desc'          =>'required',
         ];
     }
 }

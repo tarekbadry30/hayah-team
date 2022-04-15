@@ -7,6 +7,8 @@ use App\Models\Category;
 use App\Models\DonationHelp;
 use App\Models\DonationType;
 use App\Models\Food;
+use App\Models\Slider;
+use App\Models\WebsiteSlider;
 use Illuminate\Http\Request;
 
 class UploadsController extends Controller
@@ -43,6 +45,12 @@ class UploadsController extends Controller
                     break;
                 case 'DonationType':
                     $params=DonationType::find($request->value)->uploadParams();
+                    break;
+                case 'WebsiteSlider':
+                    if($request->value)
+                    $params=Slider::find($request->value)->uploadParams();
+                    else
+                        $params=(new WebsiteSlider())->uploadParams();
                     break;
             }
             return view('fileUpload', $params);//->with('success',__('frontend.itemCreated'));

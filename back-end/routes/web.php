@@ -6,6 +6,7 @@ use App\Http\Controllers\ContactUs\ContactUsController;
 use App\Http\Controllers\Delivery\DeliveryController;
 use App\Http\Controllers\Donations\DonationsController;
 use App\Http\Controllers\Donations\DonationsTypeController;
+use App\Http\Controllers\Donations\FinanceDonationsController;
 use App\Http\Controllers\DontationHelp\DonationHelpController;
 use App\Http\Controllers\DontationHelp\DonationHelpAsksController;
 use App\Http\Controllers\Food\FoodController;
@@ -13,6 +14,8 @@ use App\Http\Controllers\Food\FoodRequestsConroller;
 use App\Http\Controllers\Food\MonthlyHelpController;
 use App\Http\Controllers\FormSheet\FormSheetController;
 use App\Http\Controllers\Frontend\FrontendController;
+use App\Http\Controllers\Frontend\PortfolioController;
+use App\Http\Controllers\Frontend\WebsiteSliderController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Settings\PhoneContactController;
 use App\Http\Controllers\Settings\SettingsController;
@@ -44,6 +47,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),'middleware'=>[
 ], function() {
     Auth::routes();
     Route::get('/', [FrontendController::class,'index']);
+    Route::get('/portfolio-show/{portfolio}', [FrontendController::class,'portfolioShow'])->name('website.portfolioShow');
     Route::post('/receive-message',[ContactUsController::class,'receiveMessage'])->name('website.receiveMessage');
 
     Route::group(['middleware'=>['auth:admin']],function () {
@@ -58,7 +62,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),'middleware'=>[
 
         Route::get('/categories/data-table', [CategoryController::class, 'dataTable'])->name('categories.dataTable');
         Route::post('/categories/upload-img', [CategoryController::class, 'uploadImg'])->name('categories.uploadImg');
-        Route::get('categories/list-for-filters', [App\Http\Controllers\API\Category\CategoryController::class, 'index'])->name('categories.listForFilter');
+        Route::get('categories/list-for-filters', [App\Http\Controllers\API\Category\CategoryController::class, 'all'])->name('categories.listForFilter');
         Route::get('/categories/export', [CategoryController::class, 'export'])->name('categories.export');
         Route::get('/categories/import', [CategoryController::class, 'importPage'])->name('categories.importPage');
         Route::post('/categories/import', [CategoryController::class, 'importData'])->name('categories.import');
@@ -79,6 +83,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),'middleware'=>[
         Route::post('/donation-types/import-data', [DonationsTypeController::class, 'importData'])->name('donation-types.importData');
         Route::get('donation-types/export', [DonationsTypeController::class, 'export'])->name('donation-types.export');
         Route::resource('donation-types', DonationsTypeController::class)->middleware(['auth:admin']);//->name('categoryOption.');
+
+
+        Route::get('finance-donations/', [FinanceDonationsController::class, 'index'])->middleware(['auth:admin'])->name('finance-donations.index');
+        Route::get('finance-donations/data-table', [FinanceDonationsController::class, 'dataTable'])->middleware(['auth:admin'])->name('finance-donations.dataTable');
 
         Route::get('donations/data-table', [DonationsController::class, 'dataTable'])->middleware(['auth:admin'])->name('donations.dataTable');
         Route::post('donations/accept', [DonationsController::class, 'acceptDonation'])->middleware(['auth:admin'])->name('donations.accept');
@@ -132,7 +140,21 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),'middleware'=>[
         Route::get('form-sheet/export', [FormSheetController::class, 'export'])->middleware(['auth:admin'])->name('form-sheet.export');
 
         Route::get('form-sheets/data-table', [FormSheetController::class, 'dataTable'])->middleware(['auth:admin'])->name('form-sheets.dataTable');
+        Route::get('form-sheets/answers-data-table', [FormSheetController::class, 'answerDataTable'])->middleware(['auth:admin'])->name('form-sheets.answerDataTable');
+        Route::delete('form-sheets/answers/{id}', [FormSheetController::class, 'deleteAnswer'])->middleware(['auth:admin'])->name('form-sheets.deleteAnswer');
         Route::resource('form-sheets', FormSheetController::class)->middleware(['auth:admin']);//->name('categoryOption.');
+
+
+        Route::get('website-sliders/data-table', [WebsiteSliderController::class, 'dataTable'])->middleware(['auth:admin'])->name('website-sliders.dataTable');
+        Route::post('website-sliders/upload-img', [WebsiteSliderController::class, 'uploadImg'])->middleware(['auth:admin'])->name('website-sliders.uploadImg');
+        Route::post('website-sliders/toggle', [WebsiteSliderController::class, 'toggle'])->middleware(['auth:admin'])->name('website-sliders.toggle');
+        Route::resource('website-sliders', WebsiteSliderController::class)->middleware(['auth:admin']);//->name('categoryOption.');
+
+
+        Route::get('portfolio/data-table', [PortfolioController::class, 'dataTable'])->middleware(['auth:admin'])->name('portfolio.dataTable');
+        Route::post('portfolio/upload-img', [PortfolioController::class, 'uploadImg'])->middleware(['auth:admin'])->name('portfolio.uploadImg');
+        Route::post('portfolio/toggle', [PortfolioController::class, 'toggle'])->middleware(['auth:admin'])->name('portfolio.toggle');
+        Route::resource('portfolio', PortfolioController::class)->middleware(['auth:admin']);//->name('categoryOption.');
 
 
 

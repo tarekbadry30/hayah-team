@@ -29,7 +29,7 @@ class FormSheet extends Model
         return $visibleRange;
     }
     public function inputs(){
-        return $this->hasMany(FormSheetInput::class,'form_sheet_id');
+        return $this->hasMany(FormSheetInput::class,'form_sheet_id')->orderBy('id','asc');
     }
     public function answers(){
         return $this->hasMany(FormSheetUserAnswer::class,'form_sheet_id');

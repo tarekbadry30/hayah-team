@@ -19,83 +19,20 @@
                 </ul>
 
                 <div id="gallery" class="gallery full-gallery de-gallery pf_full_width pf_3_cols grid sequence">
+                    @foreach($portfolios as $portfolio)
                     <!-- gallery item -->
-                    <div class="item illustration website gallery-item pf-click" data-value="project-details-image.html">
+                    <div class="item illustration website gallery-item pf-click" data-value="{{route('website.portfolioShow',['portfolio'=>$portfolio])}}">
                         <div class="picframe wow">
                                             <span class="overlay">
                                                 <span class="pf_text">
-                                                    <span class="project-name">Multi Images</span>
+                                                    <span class="project-name">{{$portfolio->name}}</span>
                                                 </span>
                                             </span>
-                            <img src="{{asset('front_website')}}/images/portfolio/1.jpg" alt="" />
+                            <img src="{{asset($portfolio->image)}}" alt="" />
                         </div>
                     </div>
                     <!-- close gallery item -->
-
-                    <!-- gallery item -->
-                    <div class="item photography gallery-item pf-click" data-value="project-details-slider.html">
-                        <div class="picframe wow">
-                                            <span class="overlay">
-                                                <span class="pf_text">
-                                                    <span class="project-name">Slider Images</span>
-                                                </span>
-                                            </span>
-                            <img src="{{asset('front_website')}}/images/portfolio/2.jpg" alt="" />
-                        </div>
-                    </div>
-                    <!-- close gallery item -->
-
-                    <!-- gallery item -->
-                    <div class="item illustration gallery-item pf-click" data-value="project-details-youtube.html">
-                        <div class="picframe wow">
-                                            <span class="overlay">
-                                                <span class="pf_text">
-                                                    <span class="project-name">Youtube Video</span>
-                                                </span>
-                                            </span>
-                            <img src="{{asset('front_website')}}/images/portfolio/3.jpg" alt="" />
-                        </div>
-                    </div>
-                    <!-- close gallery item -->
-
-                    <!-- gallery item -->
-                    <div class="item photography illustration mobile gallery-item pf-click" data-value="project-details-image-big.html">
-                        <div class="picframe wow">
-                                            <span class="overlay">
-                                                <span class="pf_text">
-                                                    <span class="project-name">Multi Images Big</span>
-                                                </span>
-                                            </span>
-                            <img src="{{asset('front_website')}}/images/portfolio/4.jpg" alt="" />
-                        </div>
-                    </div>
-                    <!-- close gallery item -->
-
-                    <!-- gallery item -->
-                    <div class="item photography mobile website gallery-item pf-click" data-value="project-details-slider-big.html">
-                        <div class="picframe wow">
-                                            <span class="overlay">
-                                                <span class="pf_text">
-                                                    <span class="project-name">Slider Images Big</span>
-                                                </span>
-                                            </span>
-                                <img src="{{asset('front_website')}}/images/portfolio/5.jpg" alt="" />
-                        </div>
-                    </div>
-                    <!-- close gallery item -->
-
-                    <!-- gallery item -->
-                    <div class="item mobile website gallery-item pf-click" data-value="project-details-youtube-big.html">
-                        <div class="picframe wow">
-                                            <span class="overlay">
-                                                <span class="pf_text">
-                                                    <span class="project-name">Youtube Video Big</span>
-                                                </span>
-                                            </span>
-                            <img src="{{asset('front_website')}}/images/portfolio/6.jpg" alt="" />
-                        </div>
-                    </div>
-                    <!-- close gallery item -->
+                        @endforeach
                 </div>
             </div>
             <!-- portfolio filter close -->

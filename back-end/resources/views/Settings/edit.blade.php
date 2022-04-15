@@ -7,7 +7,7 @@
                     <div class="card-body">
                         @csrf
                         @method('put')
-                        <h4 class="header-title">{{__('frontend.masterEdits')}}</h4>
+                        <h4 class="header-title">{{__('frontend.general')}}</h4>
                         <input type="hidden" name="id" value="{{$setting->id}}">
                         <!-- Nav tabs -->
                         <div class="row mb-3 d-none">

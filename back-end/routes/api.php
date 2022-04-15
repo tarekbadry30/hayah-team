@@ -29,7 +29,8 @@ Route::group(['middleware'=>['auth:sanctum'],'prefix'=>'donations'], function() 
     Route::get('list', [DonationTypeController::class, 'index']);//->name('api.category.list');
     Route::get('category/list', [CategoryController::class, 'index']);//->name('api.category.list');
     Route::get('category/list/all', [CategoryController::class, 'all'])->name('api.category.list');
-    Route::get('donations/create', [DonationsController::class, 'store']);
+    Route::post('/create', [DonationsController::class, 'store']);
+    Route::post('/financial/create', [DonationsController::class, 'createFinanceDonation']);
 });
 
 Route::group(['prefix'=>'delivery'],function () {
