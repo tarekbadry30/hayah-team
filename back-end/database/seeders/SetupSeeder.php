@@ -5,7 +5,9 @@ namespace Database\Seeders;
 use App\Models\Admin;
 use App\Models\Category;
 use App\Models\DonationType;
+use App\Models\Portfolio;
 use App\Models\Setting;
+use App\Models\WebsiteSlider;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Testing\Fluent\Concerns\Has;
@@ -59,12 +61,29 @@ class SetupSeeder extends Seeder
             DonationType::create($type);
         foreach ($categories as $category)
             Category::create($category);
-            Setting::create([
-                'name'  =>  'فريق حياة الخيري',
-                'vision_ar'  =>  'رؤية فريق حياة الخيري',
-                'vision_en'  =>  'hayah team vision',
-                'goals_ar'  =>  'أهداف فريق حياة الخيري',
-                'goals_en'  =>  'hayah team goals',
+        for($i=1;$i<7;$i++){
+            WebsiteSlider::create([
+                'img'=>"images\website-slider\\$i.jpg"
             ]);
+            Portfolio::create([
+                'ar'        =>[
+                    'name'      =>"سابقة أعمال $i ",
+                    'desc'      =>"وصف سابقة أعمال $i ",
+                ],
+
+                'en'        =>[
+                    'name'      =>"portfolio $i",
+                    'desc'      =>"desc portfolio $i",
+                ],
+                'img'=>"images\portfolio\\$i.jpg"
+            ]);
+        }
+        Setting::create([
+            'name'  =>  'فريق حياة الخيري',
+            'vision_ar'  =>  'رؤية فريق حياة الخيري',
+            'vision_en'  =>  'hayah team vision',
+            'goals_ar'  =>  'أهداف فريق حياة الخيري',
+            'goals_en'  =>  'hayah team goals',
+        ]);
     }
 }
