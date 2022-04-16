@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSettingsTable extends Migration
+class CreateLinkTranslationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,14 @@ class CreateSettingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('settings', function (Blueprint $table) {
+        Schema::create('link_translations', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->timestamps();
+            $table->foreignId("link_id")->references("id")->on("links")->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('locale')->index();
+            $table->unique(['link_id','locale']);
+
+            //$table->timestamps();
         });
     }
 
@@ -27,6 +31,6 @@ class CreateSettingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('settings');
+        Schema::dropIfExists('link_translations');
     }
 }

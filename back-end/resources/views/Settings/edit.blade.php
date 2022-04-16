@@ -49,13 +49,12 @@
                             @foreach(config('translatable.locales') as $locale)
 
                                 <div class="tab-pane {{$locale==app()->getLocale()?'active':''}}" id="{{$locale}}" role="tabpanel">
-
                                     <div class="row mb-3">
-                                        <label for="vision" {{$vision='vision_'.$locale}} class="col-sm-2 col-form-label">{{__('frontend.'.$locale.'.vision')}}</label>
-                                        <div class="col-sm-10">
-                                        <textarea class="form-control @error($vision) parsley-error is-invalid @enderror"
-                                          placeholder="{{__('frontend.'.$locale.'.vision')}}" id="vision"  name="{{$vision}}">{{old($locale.'.vision',$setting->$vision)}}</textarea>
-                                            @error($vision)
+                                        <label for="name" class="col-sm-2 col-form-label">{{__('frontend.'.$locale.'.about')}}</label>
+                                        <div class="col-sm-10 position-relative">
+                                            <textarea class="form-control @error($locale.'.about') parsley-error is-invalid @enderror"  placeholder="{{__('frontend.'.$locale.'.about')}}"
+                                                      name="{{$locale}}[about]">{{old($locale.'.about',$setting->translate($locale)->about)}}</textarea>
+                                            @error($locale.'.about')
                                             <div class="invalid-tooltip position-static">
                                                 {{$message }}
                                             </div>
@@ -63,15 +62,24 @@
                                         </div>
                                     </div>
 
-                                </div>
-                                <div class="tab-pane {{$locale==app()->getLocale()?'active':''}}" id="{{$locale}}" role="tabpanel">
-
-                                    <div class="row mb-3" {{$goals='goals_'.$locale}}>
-                                        <label for="goals" class="col-sm-2 col-form-label">{{__('frontend.'.$locale.'.goals')}}</label>
-                                        <div class="col-sm-10">
-                                        <textarea class="form-control @error($goals) parsley-error is-invalid @enderror"
-                                          placeholder="{{__('frontend.'.$locale.'.goals')}}" id="goals" name="{{$goals}}">{{old($goals,$setting->$goals)}}</textarea>
-                                            @error($goals)
+                                    <div class="row mb-3">
+                                        <label for="name" class="col-sm-2 col-form-label">{{__('frontend.'.$locale.'.vision')}}</label>
+                                        <div class="col-sm-10 position-relative">
+                                            <textarea class="form-control @error($locale.'.vision') parsley-error is-invalid @enderror"  placeholder="{{__('frontend.'.$locale.'.vision')}}"
+                                                    name="{{$locale}}[vision]">{{old($locale.'.vision',$setting->translate($locale)->vision)}}</textarea>
+                                            @error($locale.'.vision')
+                                            <div class="invalid-tooltip position-static">
+                                                {{$message }}
+                                            </div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="name" class="col-sm-2 col-form-label">{{__('frontend.'.$locale.'.goals')}}</label>
+                                        <div class="col-sm-10 position-relative">
+                                            <textarea class="form-control @error($locale.'.goals') parsley-error is-invalid @enderror"  placeholder="{{__('frontend.'.$locale.'.goals')}}"
+                                                    name="{{$locale}}[goals]">{{old($locale.'.goals',$setting->translate($locale)->goals)}}</textarea>
+                                            @error($locale.'.goals')
                                             <div class="invalid-tooltip position-static">
                                                 {{$message }}
                                             </div>

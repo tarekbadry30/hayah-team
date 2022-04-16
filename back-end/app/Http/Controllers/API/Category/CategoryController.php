@@ -30,7 +30,15 @@ class CategoryController extends Controller
         //$category=Category::whereNull('parent_id')->get();
         return CategoryResouce::collection($list);
     }
-
+    public function urgent()
+    {
+        $types=Category::where([
+            ['status','enabled'],
+            ['urgent',1],
+        ])->get();
+        //$category=Category::whereNull('parent_id')->get();
+        return CategoryResouce::collection($types);
+    }
     public function all(Request $request)
     {
         $list=DonationType::get();

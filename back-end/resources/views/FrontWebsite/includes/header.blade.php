@@ -43,10 +43,9 @@
                     </div>
                     <div class="align-self-center ml-auto header-col-right">
                         <div class="social-icons">
-                            <a href="#"><i class="fa fa-facebook fa-lg"></i></a>
-                            <a href="#"><i class="fa fa-twitter fa-lg"></i></a>
-                            <a href="#"><i class="fa fa-linkedin fa-lg"></i></a>
-                            <a href="#"><i class="fa fa-instagram fa-lg"></i></a>
+                            @foreach($links as $link)
+                                <a href="{{$link->link}}" target="_blank"><i class="fa fa-{{in_array($link->type,['website','other'])?'internet-explorer':$link->type}} fa-lg"></i></a>
+                            @endforeach
                         </div>
 
                         <span id="menu-btn"></span>

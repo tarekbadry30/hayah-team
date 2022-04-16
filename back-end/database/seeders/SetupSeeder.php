@@ -80,10 +80,18 @@ class SetupSeeder extends Seeder
         }
         Setting::create([
             'name'  =>  'فريق حياة الخيري',
-            'vision_ar'  =>  'رؤية فريق حياة الخيري',
-            'vision_en'  =>  'hayah team vision',
-            'goals_ar'  =>  'أهداف فريق حياة الخيري',
-            'goals_en'  =>  'hayah team goals',
+            'ar'        =>[
+                'about'     =>'عن فريق حياة الخيري',
+                'vision'    =>'رؤية فريق حياة الخيري',
+                'goals'     =>'أهداف فريق حياة الخيري',
+            ],
+
+            'en'        =>[
+                'about'         =>"about hayah team",
+                'vision'        =>"hayah team vision",
+                'goals'         =>"hayah team goals",
+            ],
+
         ]);
     }
 }

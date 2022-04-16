@@ -17,6 +17,8 @@ use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\PortfolioController;
 use App\Http\Controllers\Frontend\WebsiteSliderController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Settings\ContactEmailController;
+use App\Http\Controllers\Settings\LinksController;
 use App\Http\Controllers\Settings\PhoneContactController;
 use App\Http\Controllers\Settings\SettingsController;
 use App\Http\Controllers\Settings\VisionController;
@@ -162,11 +164,16 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),'middleware'=>[
         Route::group(['prefix' => 'settings','as'=>'settings.'], function () {
             Route::get('/', [SettingsController::class, 'index'])->middleware(['auth:admin'])->name('index');
             Route::get('/edit', [SettingsController::class, 'edit'])->middleware(['auth:admin'])->name('edit');
-            Route::get('/update', [SettingsController::class, 'update'])->middleware(['auth:admin'])->name('update');
+            Route::put('/update', [SettingsController::class, 'update'])->middleware(['auth:admin'])->name('update');
             Route::get('/phone/import', [PhoneContactController::class, 'importPage'])->middleware(['auth:admin'])->name('phone.importPage');
             Route::post('/phone/importData', [PhoneContactController::class, 'importData'])->middleware(['auth:admin'])->name('phone.import');
             Route::get('/phone/export', [PhoneContactController::class, 'export'])->middleware(['auth:admin'])->name('phone.export');
             Route::resource('phone',PhoneContactController::class);
+
+            Route::get('contact-emails/data-table',[ContactEmailController::class,'dataTable'])->name('contact-emails.dataTable');
+            Route::resource('contact-emails',ContactEmailController::class);
+            Route::get('links/data-table',[LinksController::class,'dataTable'])->name('links.dataTable');
+            Route::resource('links',LinksController::class);
         });
     });
 

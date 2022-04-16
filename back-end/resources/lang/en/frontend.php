@@ -68,6 +68,7 @@ return [
         'desc'      =>  'arabic description',
         'vision'    =>'arabic vision',
         'goals'     =>'arabic goals',
+        'about'     =>'arabic about team',
     ],
     'en'            =>  [
         'locale'    =>  'english',
@@ -75,6 +76,7 @@ return [
         'desc'      =>  'english description',
         'vision'    =>  'english vision',
         'goals'     =>  'english goals',
+        'about'     =>  'english  about team',
     ],
     'options'       =>  'options',
     'createOption'  =>  'create options',
@@ -181,5 +183,14 @@ return [
     'portfoliosList'        =>'portfolios List',
     'FinanceDonation'       =>'Financial Donation',
     'map_location'          =>'map location',
+    'settingsUpdated'       =>'settings updated',
+    'noData'                =>'no data available',
+    'link'                  =>'link',
+    'linksList'             =>'links list',
+    'createLink'            =>'create link',
+    'editLink'              =>'edit link',
+    'ContactEmailList'      =>'Contact Email List',
+    'createPhoneContact'    =>'Create Phone Contact',
+    'editContactPhone'      =>'Edit Phone Contact',
 ];
 

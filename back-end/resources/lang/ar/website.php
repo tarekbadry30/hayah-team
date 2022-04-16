@@ -22,5 +22,6 @@ return [
     'goals'         =>'أهدافنا',
     'ourPhones'     =>"أرقام الهاتف",
     'sendMessage'   =>"إرسال",
+    'emailUs'       =>"راسلنا",
 
 ];

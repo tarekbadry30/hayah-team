@@ -58,7 +58,7 @@
         <div class="spacer-double"></div>
 
         <div class="row text-center wow fadeInUp">
-            <div class="col-md-4">
+            <div class="col-md-4 arabic">
                 <div class="wm-1"></div>
                 <i class="icon_mobile id-color size40 mb20"></i>
                 <h6 class="id-color arabic-bold">{{__('website.ourPhones')}}</h6>
@@ -75,11 +75,13 @@
                 <p>Collins Street West, London, UK</p>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-4 arabic">
                 <div class="wm-1"></div>
                 <i class="icon_mail_alt id-color size40 mb20"></i>
-                <h6 class="id-color">Email Us</h6>
-                <p>contact@jess-template.com</p>
+                <h6 class="id-color arabic-bold">{{__('website.emailUs')}}</h6>
+                @foreach($emails as $email)
+                <p>{{$email->name}} : <a href="mailto:{{$email->email}}">{{$email->email}}</a></p>
+                @endforeach
             </div>
         </div>
     </div>

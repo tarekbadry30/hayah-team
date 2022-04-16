@@ -15,6 +15,14 @@ class CreateShareIdeasTable extends Migration
     {
         Schema::create('share_ideas', function (Blueprint $table) {
             $table->id();
+            $table->string('idea');
+            $table->string('target_group');
+            $table->text('execution_mechanism');
+            $table->string('name');
+            $table->string('phone');
+            $table->string('money');
+            $table->string('timing');
+
             $table->timestamps();
         });
     }

@@ -3,7 +3,12 @@
 namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ContactInfo;
+use App\Http\Resources\SettingResource;
+use App\Models\ContactEmail;
+use App\Models\Link;
 use App\Models\Setting;
+use App\Models\Settings\ContactPhone;
 use Hamcrest\Core\Set;
 use Illuminate\Http\Request;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -52,6 +57,21 @@ class SettingsController extends Controller
     {
         //
     }
+    public function forApi(){
+        $setting=Setting::first();
+        return new SettingResource($setting);
+    }
+    public function contactInfo(){
+        $phones=ContactPhone::all();
+        $emails=ContactEmail::all();
+        $links=Link::all();
+
+        $setting=new Setting();
+        $setting->phones=$phones;
+        $setting->emails=$emails;
+        $setting->links=$links;
+        return new ContactInfo($setting);
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -75,10 +95,18 @@ class SettingsController extends Controller
     {
         $setting->update([
             'name'          =>$request->name,
-            'vision_ar'     =>$request->vision_ar,
-            'vision_en'     =>$request->vision_en,
-            'goals_ar'      =>$request->goals_ar,
-            'goals_en'      =>$request->goals_en,
+
+            'ar'        =>[
+                'about'      =>$request->ar['about'],
+                'vision'     =>$request->ar['vision'],
+                'goals'      =>$request->ar['goals'],
+            ],
+
+            'en'        =>[
+                'about'      =>$request->en['about'],
+                'vision'     =>$request->en['vision'],
+                'goals'      =>$request->en['goals'],
+            ],
         ]);
         return redirect()->route('settings.index')->with('success',__('frontend.settingsUpdated'));
     }

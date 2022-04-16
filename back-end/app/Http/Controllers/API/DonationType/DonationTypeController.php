@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\DonationType;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DonationTypeResource;
+use App\Models\Category;
 use App\Models\DonationType;
 use Illuminate\Http\Request;
 
@@ -15,4 +16,5 @@ class DonationTypeController extends Controller
         //$category=Category::whereNull('parent_id')->get();
         return DonationTypeResource::collection($types);
     }
+
 }

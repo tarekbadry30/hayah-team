@@ -21,5 +21,7 @@ return [
     'ourVision'     =>'Our Vision',
     'ourPhones'     =>'Our Phones',
     'sendMessage'   =>'Send Message',
+    'emailUs'       =>'Email Us',
+
 
 ];

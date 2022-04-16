@@ -26,8 +26,10 @@ class CategoryResouce extends JsonResource
                 'ar'=>$this->translate('ar')->desc,
                 'en'=>$this->translate('en')->desc,
             ],
-            'urgent'    =>  $this->urgent?true:false,
-            'options'   =>  CategoryOptionResouce::collection($this->options),
+            'urgent'            =>  $this->urgent?true:false,
+            'collected_value'   =>  $this->collected_value,
+            'needed_value'      =>  $this->needed_value,
+            'options'           =>  CategoryOptionResouce::collection($this->options),
         ];
     }
 }
