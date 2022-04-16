@@ -4,6 +4,7 @@ use App\Http\Controllers\API\DonationHelp\DonationHelpController;
 use App\Http\Controllers\API\DonationType\DonationTypeController;
 use App\Http\Controllers\API\FormSheet\FormSheetController;
 use App\Http\Controllers\Settings\SettingsController;
+use App\Http\Controllers\SharedIdea\SharedIdeaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\Auth\APIController;
@@ -23,6 +24,8 @@ use \App\Http\Controllers\API\Foods\FoodsController;
 */
 Route::post('login',[APIController::class,'usersLogin']);
 Route::post('register',[APIController::class,'usersRegister']);
+Route::post('share-idea',[SharedIdeaController::class,'store']);
+Route::get('statistics',[SettingsController::class,'statistics']);
 Route::get('about',[SettingsController::class,'forApi']);
 Route::get('contact-info',[SettingsController::class,'contactInfo']);
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

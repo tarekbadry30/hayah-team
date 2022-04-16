@@ -192,5 +192,11 @@ return [
     'ContactEmailList'      =>'Contact Email List',
     'createPhoneContact'    =>'Create Phone Contact',
     'editContactPhone'      =>'Edit Phone Contact',
+    'share-ideasList'       =>'shared ideas list',
+    'idea'                  =>'idea',
+    'target_group'          =>'target group',
+    'execution_mechanism'   =>'execution mechanism',
+    'money'                 =>'money',
+    'timing'                =>'timing',
 ];
 

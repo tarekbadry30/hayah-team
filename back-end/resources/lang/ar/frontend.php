@@ -196,4 +196,10 @@ return [
     'ContactEmailList'      =>'قائمة الإيميلات',
     'createPhoneContact'    =>'إنشاء رقم هاتف',
     'editContactPhone'      =>'تعديل رقم هاتف',
+    'share-ideasList'       =>'قائمة الأفكار المقترحة',
+    'idea'                  =>'الفكرة',
+    'target_group'          =>'الفئة المستهدفة',
+    'execution_mechanism'   =>'ألية التنفيذ',
+    'money'                 =>'الميزانية المالية',
+    'timing'                =>'التوقيت المقترح',
 ];

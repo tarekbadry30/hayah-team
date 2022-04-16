@@ -22,9 +22,12 @@ use App\Http\Controllers\Settings\LinksController;
 use App\Http\Controllers\Settings\PhoneContactController;
 use App\Http\Controllers\Settings\SettingsController;
 use App\Http\Controllers\Settings\VisionController;
+use App\Http\Controllers\SharedIdea\SharedIdeaController;
 use App\Http\Controllers\Uploads\UploadsController;
 use App\Http\Controllers\Users\UsersController;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 /*
@@ -40,6 +43,17 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 Route::get('/', function () {
     return view('FrontWebsite.index');
+});
+Route::get('/path', function () {
+    //return storage_path('app/images');
+    //return \Illuminate\Support\Facades\Artisan::call('migrate:fresh --seed');
+    $directories = Storage::disk('local')->directories('setup_img');
+    $directories = array_diff($directories, ['.', '..']);
+    foreach ($directories as $index=>$dir) {
+        $pasthItem = str_replace("\\",'/',storage_path('app/' . $dir));
+          File::copyDirectory($pasthItem, public_path('/images/'.substr($directories[$index],strpos($directories[$index],'/'),strlen($directories[$index]))));
+    }
+
 });
 Route::group(['prefix' => LaravelLocalization::setLocale(),'middleware'=>[
         'localizationRedirect',
@@ -158,7 +172,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),'middleware'=>[
         Route::post('portfolio/toggle', [PortfolioController::class, 'toggle'])->middleware(['auth:admin'])->name('portfolio.toggle');
         Route::resource('portfolio', PortfolioController::class)->middleware(['auth:admin']);//->name('categoryOption.');
 
-
+        Route::get('/share-ideas', [SharedIdeaController::class,'index'])->name('share-ideas.index');
+        Route::get('/share-ideas/data-table', [SharedIdeaController::class,'dataTable'])->name('share-ideas.dataTable');
+        Route::get('/share-ideas/export', [SharedIdeaController::class,'export'])->name('share-ideas.export');
+        Route::delete('/share-ideas/{shared_idea}', [SharedIdeaController::class,'destroy'])->name('share-ideas.delete');
 
 
         Route::group(['prefix' => 'settings','as'=>'settings.'], function () {
