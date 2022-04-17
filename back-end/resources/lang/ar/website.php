@@ -23,5 +23,7 @@ return [
     'ourPhones'     =>"أرقام الهاتف",
     'sendMessage'   =>"إرسال",
     'emailUs'       =>"راسلنا",
+    'developedBy'   =>"تم التطوير والبرمجة بواسطة ",
+    'company'       =>"شركة المجال المتكامل",
 
 ];

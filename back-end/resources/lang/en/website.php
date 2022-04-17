@@ -22,6 +22,8 @@ return [
     'ourPhones'     =>'Our Phones',
     'sendMessage'   =>'Send Message',
     'emailUs'       =>'Email Us',
+    'developedBy'   =>'developed by',
+    'company'       =>'the integrated scope company',
 
 
 ];

@@ -83,12 +83,13 @@
     <!-- footer begin -->
     <footer class="footer">
         <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6 sm-text-center mb-sm-30">
-                    &copy; Copyright {{date('Y')}} - Jess by Designesia
+            <div class="row align-items-center arabic">
+                <div class="col-md-6 text-center mb-sm-30">
+                    {{__('website.developedBy')}} <strong>{{__('website.company')}}</strong>
+                    <p dir="ltr">&copy; Copyright {{date('Y')}}</p>
                 </div>
 
-                <div class="col-md-6 text-md-right text-sm-left">
+                <div class="col-md-6 text-center">
                     <div class="social-icons">
                         @foreach($links as $link)
                         <a href="{{$link->link}}" target="_blank"><i class="fa fa-{{in_array($link->type,['website','other'])?'internet-explorer':$link->type}} fa-lg"></i></a>

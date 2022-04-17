@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Mobile;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\MobileSliderResouce;
+use App\Models\MobileSlider;
 use Illuminate\Http\Request;
 
 class MobileSliderController extends Controller
@@ -14,7 +16,12 @@ class MobileSliderController extends Controller
      */
     public function index()
     {
-        //
+        return view('MobileSlider.index');
+    }
+    public function dataTable()
+    {
+        $list=MobileSlider::orderBy('created_at','desc')->paginate(\request()->has('itemsPerPage')?\request()->itemsPerPage:25);
+        return $this->sendResponse($list,'get website slider list');
     }
 
     /**
@@ -24,7 +31,7 @@ class MobileSliderController extends Controller
      */
     public function create()
     {
-        //
+        return redirect()->route('uploads.index',['model'=>'MobileSlider']);
     }
 
     /**
@@ -36,6 +43,31 @@ class MobileSliderController extends Controller
     public function store(Request $request)
     {
         //
+    }
+    public function uploadImg(Request $request){
+        $request->validate([
+            'file'  => 'required|mimes:png,jpg,jpeg,pdf|max:3072',
+            //'slider_id'     => 'required|numeric',
+        ]);
+        $image = $request->file('file');
+        $imageName = time().'.'.$image->extension();
+        $filePath='images/mobile-slider';
+        $image->move(public_path($filePath),$imageName);
+        $slider=MobileSlider::create([
+            'img'=>"$filePath/$imageName"
+        ]);
+        return response()->json(['success'=>$imageName]);
+    }
+    public function toggle(Request $request){
+        $request->validate([
+            //'file'  => 'required|mimes:png,jpg,jpeg,pdf|max:3072',
+            'slider_id'     => 'required|numeric',
+        ]);
+        $slider=MobileSlider::findOrFail($request->slider_id);
+        $slider->update([
+            'visible'   => !$slider->visible
+        ]);
+        return $this->sendResponse([],__('frontend.sliderStatus'.$slider->visible));
     }
 
     /**
@@ -75,11 +107,20 @@ class MobileSliderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  MobileSlider  $slider
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(MobileSlider  $slider)
     {
-        //
+        $slider->delete();
+        return $this->sendResponse([],'slider image deleted');
+
+    }
+    public function activeListAPI()
+    {
+        $list=MobileSlider::where('visible',1)->get();
+        return MobileSliderResouce::collection($list);
+        return $this->sendResponse([],'slider image deleted');
+
     }
 }

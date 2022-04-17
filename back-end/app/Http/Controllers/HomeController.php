@@ -13,6 +13,7 @@ use App\Models\FinanceDonation;
 use App\Models\Food;
 use App\Models\FoodRequest;
 use App\Models\FormSheet;
+use App\Models\MobileSlider;
 use App\Models\Portfolio;
 use App\Models\ShareIdea;
 use App\Models\Slider;
@@ -58,6 +59,7 @@ class HomeController extends Controller
             FormSheet::class,
             ShareIdea::class,
             ContactUs::class,
+            MobileSlider::class,
             WebsiteSlider::class,
             Portfolio::class,
 

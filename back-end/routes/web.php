@@ -17,6 +17,7 @@ use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\PortfolioController;
 use App\Http\Controllers\Frontend\WebsiteSliderController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Mobile\MobileSliderController;
 use App\Http\Controllers\Settings\ContactEmailController;
 use App\Http\Controllers\Settings\LinksController;
 use App\Http\Controllers\Settings\PhoneContactController;
@@ -165,6 +166,12 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),'middleware'=>[
         Route::post('website-sliders/upload-img', [WebsiteSliderController::class, 'uploadImg'])->middleware(['auth:admin'])->name('website-sliders.uploadImg');
         Route::post('website-sliders/toggle', [WebsiteSliderController::class, 'toggle'])->middleware(['auth:admin'])->name('website-sliders.toggle');
         Route::resource('website-sliders', WebsiteSliderController::class)->middleware(['auth:admin']);//->name('categoryOption.');
+
+
+        Route::get('mobile-sliders/data-table', [MobileSliderController::class, 'dataTable'])->middleware(['auth:admin'])->name('mobile-sliders.dataTable');
+        Route::post('mobile-sliders/upload-img', [MobileSliderController::class, 'uploadImg'])->middleware(['auth:admin'])->name('mobile-sliders.uploadImg');
+        Route::post('mobile-sliders/toggle', [MobileSliderController::class, 'toggle'])->middleware(['auth:admin'])->name('mobile-sliders.toggle');
+        Route::resource('mobile-sliders', MobileSliderController::class)->middleware(['auth:admin']);//->name('categoryOption.');
 
 
         Route::get('portfolio/data-table', [PortfolioController::class, 'dataTable'])->middleware(['auth:admin'])->name('portfolio.dataTable');

@@ -202,4 +202,6 @@ return [
     'execution_mechanism'   =>'ألية التنفيذ',
     'money'                 =>'الميزانية المالية',
     'timing'                =>'التوقيت المقترح',
+    'mobileSlider'          =>'سلايدر الموبايل',
+    'mobile-slidersList'    =>'قائمة سلايدر الموبايل',
 ];

@@ -1,5 +1,5 @@
 <!-- section begin -->
-<section id="section-portfolio">
+<section id="section-portfolio" class="bg-light">
     <div class="container">
         <!-- portfolio filter begin -->
         <div class="row">

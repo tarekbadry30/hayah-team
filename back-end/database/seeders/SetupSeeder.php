@@ -254,7 +254,7 @@ class SetupSeeder extends Seeder
         }
         for($i=1;$i<7;$i++){
             WebsiteSlider::create([
-                'img'=>"images\website-slider\\$i.jpg"
+                'img'=>"images/website-slider/$i.jpg"
             ]);
             Portfolio::create([
                 'ar'        =>[
@@ -266,7 +266,7 @@ class SetupSeeder extends Seeder
                     'name'      =>"portfolio $i",
                     'desc'      =>"desc portfolio $i",
                 ],
-                'img'=>"images\portfolio\\$i.jpg"
+                'img'=>"images/portfolio/$i.jpg"
             ]);
         }
         Setting::create([

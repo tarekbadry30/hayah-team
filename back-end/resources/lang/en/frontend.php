@@ -198,5 +198,7 @@ return [
     'execution_mechanism'   =>'execution mechanism',
     'money'                 =>'money',
     'timing'                =>'timing',
+    'mobileSlider'          =>'mobile slider',
+    'mobile-slidersList'    =>'mobile sliders list',
 ];
 
