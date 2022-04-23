@@ -101,7 +101,7 @@ class SetupSeeder extends Seeder
                     'name'=>'kafarat',
                     'desc'=>'kafarat desc',
                 ],
-                'img'       =>'images/donations-types/5.jpeg',
+                'img'       =>'images/donations-types/5.jpg',
                 'status'    =>'enabled',
                 'admin_id'  =>$admin->id,
             ],

@@ -33,7 +33,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        return view('Users.create');
 
     }
 
@@ -85,7 +85,7 @@ class UsersController extends Controller
      */
     public function edit(User $user)
     {
-        return view('users.edit',compact('user'));
+        return view('Users.edit',compact('user'));
     }
 
     /**
