@@ -6,6 +6,7 @@ use App\Models\Admin;
 use App\Models\Category;
 use App\Models\CategoryOption;
 use App\Models\DonationType;
+use App\Models\MobileSlider;
 use App\Models\Portfolio;
 use App\Models\Setting;
 use App\Models\WebsiteSlider;
@@ -109,6 +110,23 @@ class SetupSeeder extends Seeder
         $categories=[
             [
                 'ar'=>[
+                    'name'=>'مريض قلب',
+                    'desc'=>'انا مريض قلب واحتاج دعامة تكلفة 100000 ريال عماني ',
+                ],
+                'en'=>[
+                    'name'=>'heart ill',
+                    'desc'=>'need 100000 R.O ',
+                ],
+                'type_id'   =>1,
+                'img'       =>'images/categories/5.1.jpg',
+                'status'    =>'enabled',
+                'admin_id'  =>$admin->id,
+                'urgent'    =>1,
+                'needed'    =>100000,
+                'collected' =>0
+            ],
+            [
+                'ar'=>[
                 'name'=>'إفطار صائم',
                 'desc'=>'لك مثل أجر الصائم',
                 ],
@@ -116,10 +134,11 @@ class SetupSeeder extends Seeder
                     'name'=>'eftar',
                     'desc'=>'desc eftar',
                 ],
-                'type_id'=>1,
+                'type_id'   =>1,
                 'img'       =>'images/categories/1.1.jpg',
                 'status'    =>'enabled',
                 'admin_id'  =>$admin->id,
+                'urgent'    =>1,
             ],
             [
                 'ar'=>[
@@ -134,6 +153,7 @@ class SetupSeeder extends Seeder
                 'img'       =>'images/categories/1.2.jpg',
                 'status'    =>'enabled',
                 'admin_id'  =>$admin->id,
+
             ],
             [
                 'ar'=>[
@@ -219,12 +239,28 @@ class SetupSeeder extends Seeder
                 'status'    =>'enabled',
                 'admin_id'  =>$admin->id,
             ],
+            [
+                'ar'=>[
+                    'name'=>'إبن سبيل',
+                    'desc'=>'انا كنت مسافر لطلب العلم انقطعت بي الطرق وسرقت كل اموالي , احتاج 70 الف ريال للعودة لبلدي',
+                ],
+                'en'=>[
+                    'name'=>'ibn sabil',
+                    'desc'=>'need 70000 R.O to back to home',
+                ],
+                'type_id'   =>1,
+                'img'       =>'images/categories/5.2.jpg',
+                'status'    =>'enabled',
+                'admin_id'  =>$admin->id,
+                'urgent'    =>1,
+                'needed'    =>70000,
+                'collected' =>0
+            ],
         ];
         foreach ($types as $type)
             DonationType::create($type);
-        foreach ($categories as $category)
-            Category::create($category);
         foreach ($categories as $index=>$category) {
+            Category::create($category);
             CategoryOption::create([
                 'ar' => [
                     'name' => "خيار مادي  $index ",
@@ -238,6 +274,7 @@ class SetupSeeder extends Seeder
                 'accept_any_value' => 1,
                 'admin_id' => $admin->id
             ]);
+            if($index<5)
             CategoryOption::create([
                 'ar' => [
                     'name' => "خيار مالي  $index ",
@@ -254,6 +291,9 @@ class SetupSeeder extends Seeder
         }
         for($i=1;$i<7;$i++){
             WebsiteSlider::create([
+                'img'=>"images/website-slider/$i.jpg"
+            ]);
+            MobileSlider::create([
                 'img'=>"images/website-slider/$i.jpg"
             ]);
             Portfolio::create([

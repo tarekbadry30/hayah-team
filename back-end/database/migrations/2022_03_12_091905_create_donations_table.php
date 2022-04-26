@@ -17,7 +17,8 @@ class CreateDonationsTable extends Migration
             $table->id();
             //$table->string('name');
             $table->text('desc');
-            $table->text('map_location')->nullable();
+            $table->text('lat')->nullable();
+            $table->text('long')->nullable();
             $table->text('address')->nullable();
             $table->enum('status',['pending','admin_refused','assigned','delivery_accepted','delivery_refused','completed'])->default('pending');
             //$table->enum('type',['financial','physical'])->default('financial');

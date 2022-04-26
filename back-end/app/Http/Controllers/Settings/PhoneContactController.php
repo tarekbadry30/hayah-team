@@ -19,7 +19,7 @@ class PhoneContactController extends Controller
     public function index()
     {
         $phones=ContactPhone::get();
-        return view('Settings.phone.index',compact('phones'));
+        return view('Settings.Phone.index',compact('phones'));
     }
 
     /**
@@ -29,7 +29,7 @@ class PhoneContactController extends Controller
      */
     public function create()
     {
-        return view('Settings.phone.create');
+        return view('Settings.Phone.create');
     }
 
     /**
@@ -71,7 +71,7 @@ class PhoneContactController extends Controller
      */
     public function edit(ContactPhone  $phone)
     {
-        return view('Settings.phone.edit',compact('phone'));
+        return view('Settings.Phone.edit',compact('phone'));
 
     }
 

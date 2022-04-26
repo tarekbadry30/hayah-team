@@ -32,8 +32,6 @@ class DonationsController extends Controller
         $option=CategoryOption::with('category.type')->findOrFail($request->option_id);
         if($option->type!='physical')
             return $this->sendError('type not accepted',['option'=>'option type must be "physical"'],401);
-
-
         Donation::create([
             //'name'          =>'any name',
             //'type'          =>$request->get('type'),
@@ -41,7 +39,8 @@ class DonationsController extends Controller
             //'status'        =>$request->get('type')=='financial'?'completed':'pending',
             //'admin_id'      =>$request->option_id,
             'desc'          =>$request->desc,
-            'map_location'  =>$request->map_location,
+            'lat'           =>$request->lat,
+            'long'          =>$request->long,
             'address'       =>$request->address,
             'type_id'       =>$option->category->type_id,
             'category_id'   =>$option->category_id,

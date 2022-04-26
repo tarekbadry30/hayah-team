@@ -19,6 +19,8 @@ class CreateUsersTable extends Migration
             $table->string('phone')->unique();
             $table->string('national_number')->unique()->nullable();
             $table->string('address')->nullable();
+            $table->string('lat')->nullable();
+            $table->string('long')->nullable();
             $table->enum('type',['benefactor','needy']);//->unique();
             $table->enum('status',['pending','active','blocked'])->default('pending');
             $table->timestamp('email_verified_at')->nullable();

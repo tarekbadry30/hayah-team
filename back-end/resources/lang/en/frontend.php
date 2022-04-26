@@ -200,5 +200,9 @@ return [
     'timing'                =>'timing',
     'mobileSlider'          =>'mobile slider',
     'mobile-slidersList'    =>'mobile sliders list',
+    'finance-donationsList' =>'financial  donations list',
+    'error'                 =>'error',
+    'MobileSlider'          =>'Mobile slider',
+    'contact_emailsList'    =>'contact emails list',
 ];
 

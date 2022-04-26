@@ -204,4 +204,9 @@ return [
     'timing'                =>'التوقيت المقترح',
     'mobileSlider'          =>'سلايدر الموبايل',
     'mobile-slidersList'    =>'قائمة سلايدر الموبايل',
+    //'finance-donationsList' =>'قائمة التبرعات المالية',
+    'error'                 =>'خطأ',
+    'MobileSlider'          =>'سلايدر الموبايل',
+    'contact_emailsList'    =>'قائمة عناوين الإيميل',
+    'portfoliosList'        =>'قائمة الأعمال السابقة',
 ];

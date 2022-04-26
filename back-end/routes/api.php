@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\DonationHelp\DonationHelpController;
 use App\Http\Controllers\API\DonationType\DonationTypeController;
 use App\Http\Controllers\API\FormSheet\FormSheetController;
+use App\Http\Controllers\API\ProfileController;
 use App\Http\Controllers\Mobile\MobileSliderController;
 use App\Http\Controllers\Settings\SettingsController;
 use App\Http\Controllers\SharedIdea\SharedIdeaController;
@@ -30,8 +31,9 @@ Route::get('statistics',[SettingsController::class,'statistics']);
 Route::get('sliders',[MobileSliderController::class,'activeListAPI']);
 Route::get('about',[SettingsController::class,'forApi']);
 Route::get('contact-info',[SettingsController::class,'contactInfo']);
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['prefix'=>'profile'], function() {
+    Route::get('/user', [ProfileController::class, 'user'])->middleware(['auth:sanctum']);
+    Route::post('/update', [ProfileController::class, 'update'])->middleware(['auth:sanctum']);
 });
 Route::group(['prefix'=>'donations'], function() {
     Route::get('list', [DonationTypeController::class, 'index']);//->name('api.category.list');

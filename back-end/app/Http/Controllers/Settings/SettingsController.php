@@ -28,7 +28,7 @@ class SettingsController extends Controller
     public function index()
     {
 
-        return view('settings.index');
+        return view('Settings.index');
     }
 
     /**
@@ -103,7 +103,7 @@ class SettingsController extends Controller
     public function edit()
     {
         $setting=Setting::first();
-        return view('settings.edit',compact('setting'));
+        return view('Settings.edit',compact('setting'));
     }
 
     /**
