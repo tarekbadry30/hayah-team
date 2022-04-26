@@ -37,6 +37,7 @@ class ProfileController extends Controller
             $rules['password']='required|string|min:6';
             $data['password']=Hash::make($request->password);
         }
+        //return $data;
         $request->user()->update($data);
         return $this->sendResponse([],'user profile updated');
     }

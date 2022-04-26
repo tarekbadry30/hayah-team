@@ -60,6 +60,7 @@
                         <th>{{__('frontend.status')}}</th>
                         <th>{{__('frontend.notes')}}</th>
                         <th>{{__('frontend.user')}}</th>
+                        <th>{{__('frontend.address')}}</th>
                         <th>{{__('frontend.deliveryEmployee')}}</th>
                         <th>{{__('frontend.date')}}</th>
                         <th>{{__('frontend.action')}}</th>
@@ -288,6 +289,7 @@
                     <td>${item.status}</td>
                     <td>${item.notes}</td>
                     <td>${item.user.name}</td>
+                    <td>${item.address}</td>
                     <td>${item.delivery_id?item.delivery.name:''}</td>
 
                     <td>${item.created_at}</td>

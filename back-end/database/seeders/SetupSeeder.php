@@ -122,8 +122,8 @@ class SetupSeeder extends Seeder
                 'status'    =>'enabled',
                 'admin_id'  =>$admin->id,
                 'urgent'    =>1,
-                'needed'    =>100000,
-                'collected' =>0
+                'needed_value'    =>100000,
+                'collected_value' =>0
             ],
             [
                 'ar'=>[
@@ -253,8 +253,8 @@ class SetupSeeder extends Seeder
                 'status'    =>'enabled',
                 'admin_id'  =>$admin->id,
                 'urgent'    =>1,
-                'needed'    =>70000,
-                'collected' =>0
+                'needed_value'    =>70000,
+                'collected_value' =>0
             ],
         ];
         foreach ($types as $type)
