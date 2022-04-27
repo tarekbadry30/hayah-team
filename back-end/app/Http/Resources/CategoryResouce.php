@@ -29,6 +29,7 @@ class CategoryResouce extends JsonResource
             'urgent'            =>  $this->urgent?true:false,
             'collected_value'   =>  $this->collected_value,
             'needed_value'      =>  $this->needed_value,
+            'level' =>  $this->needed_value > 0 ? ($this->collected_value / $this->needed_value *100) + $this->id* 8:"",
             'options'           =>  CategoryOptionResouce::collection($this->options),
         ];
     }

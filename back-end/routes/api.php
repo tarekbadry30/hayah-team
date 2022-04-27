@@ -35,21 +35,13 @@ Route::group(['prefix'=>'profile'], function() {
     Route::get('/user', [ProfileController::class, 'user'])->middleware(['auth:sanctum']);
     Route::post('/update', [ProfileController::class, 'update'])->middleware(['auth:sanctum']);
 });
-<<<<<<< HEAD
-//'middleware'=>['auth:sanctum'],
-=======
->>>>>>> 2611b7888ca30044c10169c7696bbb35c8ccee8d
 Route::group(['prefix'=>'donations'], function() {
     Route::get('list', [DonationTypeController::class, 'index']);//->name('api.category.list');
     Route::get('urgent', [CategoryController::class, 'urgent']);//->name('api.category.list');
     Route::get('category/list', [CategoryController::class, 'index']);//->name('api.category.list');
     Route::get('category/list/all', [CategoryController::class, 'all'])->name('api.category.list');
-<<<<<<< HEAD
-    Route::middleware('auth:sanctum')->get('create', [DonationsController::class, 'store']);
-=======
     Route::post('/create', [DonationsController::class, 'store'])->middleware(['auth:sanctum']);
     Route::post('/financial/create', [DonationsController::class, 'createFinanceDonation'])->middleware(['auth:sanctum']);
->>>>>>> 2611b7888ca30044c10169c7696bbb35c8ccee8d
 });
 
 Route::group(['prefix'=>'delivery'],function () {
