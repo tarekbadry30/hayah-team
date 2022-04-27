@@ -108,5 +108,20 @@ class ContactUsController extends Controller
         return $this->sendResponse([],__('website.messageReceived'));
 
     }
+    public function export(Request $request){
+        $list=ContactUs::all();
+        return \fastexcel($list)->download('contactUsMessages.xlsx',function ($line) {
+            //dd($line);
+            return [
+                'name' => $line['name'],
+                'email' => $line['email'],
+                'phone' => $line['phone'],
+                'message' => $line['message'],
+                'date'=>$line['created_at'],
+            ];
+        });
+        //return (new FastExcel($foods))->export('foods.xlsx');
+    }
+
 
 }

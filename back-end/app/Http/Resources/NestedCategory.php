@@ -21,7 +21,7 @@ class NestedCategory extends JsonResource
             'desc'      =>  $this->translate(LaravelLocalization::getCurrentLocale())->desc,
             'img'       =>  asset($this->image),
             'urgent'    =>  $this->urgent?true:false,
-            'options'   =>  CategoryOptionResouce::collection($this->options),
+            'options'   =>  NestedCategoryOption::collection($this->options),
         ];
     }
 }

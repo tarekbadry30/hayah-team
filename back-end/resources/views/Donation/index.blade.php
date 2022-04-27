@@ -6,7 +6,7 @@
 
         <div class="card-body">
             <h2 class="page-title pt-1">
-                {{__('frontend.donations')}}
+                {{__('frontend.donationsList')}}
             </h2>
             <div class="row">
                 <div class="col-sm-8">
@@ -29,7 +29,7 @@
                                 <option value="">{{__('frontend.all')}}</option>
                             </select>
                         </div>
-                        <div class="col-md-3 form-group">
+                        <div class="col-md-3 form-group d-none">
                             <label class="col-form-label">{{__('frontend.type')}}</label>
                             <select class="form-control type" name="type">
                                 <option value="">{{__('frontend.all')}}</option>
@@ -70,8 +70,9 @@
                         <th>{{__('frontend.donationType')}}</th>
                         <th>{{__('frontend.category')}}</th>
                         <th>{{__('frontend.option')}}</th>
-                        <th>{{__('frontend.type')}}</th>
                         <th>{{__('frontend.value')}}</th>
+                        <th>{{__('frontend.address')}}</th>
+                        <th>{{__('frontend.map_location')}}</th>
                         <th>{{__('frontend.date')}}</th>
                         <th>{{__('frontend.action')}}</th>
                     </tr>
@@ -153,7 +154,11 @@
                 method: 'get',
             }).done(function (data) {
                 globalFiltersList=data.data;
-                generateFilters(globalFiltersList)
+                generateFilters(globalFiltersList,{
+                    type_id:"{{isset(request()->type_id)?request()->type_id:''}}",
+                    category_id:"{{isset(request()->category_id)?request()->category_id:''}}",
+                    option_id:"{{isset(request()->option_id)?request()->option_id:''}}",
+                })
                 setPage(currentPage, itemsPerPage);
 
             });
@@ -299,8 +304,9 @@
                     <td>${item.donation_type.name}</td>
                     <td>${item.category.name}</td>
                     <td>${item.option.name}</td>
-                    <td>${item.type}</td>
-                    <td>${item.value}</td>
+                    <td>${item.desc}</td>
+                    <td>${item.address}</td>
+                    <td>${item.map_location}</td>
                     <td>${item.created_at}</td>
                     <td>
                     <button
@@ -366,6 +372,7 @@
                         category_content += `<option ${newFilters.category_id == catItem.id ? 'selected' : ''} value="${catItem.id}">${catItem.name}</option>`;
                         if(newFilters.category_id==catItem.id) {
                             catItem.options.forEach((optionItem) => {
+                                if(optionItem.type!='financial')
                                 options_content += `<option ${newFilters.option_id == optionItem.id ? 'selected' : ''} value="${optionItem.id}">${optionItem.name}</option>`;
                             })
                         }

@@ -33,7 +33,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        return view('Users.create');
 
     }
 
@@ -46,10 +46,11 @@ class UsersController extends Controller
     public function store(UsersRequest $request)
     {
         //return $request;
-        static::storeNewUser($request);
+        $status=$request->status?$request->status:'pending';
+        static::storeNewUser($request,$status);
         return redirect(route('users.index'))->with('success',__('frontend.itemCreated'));
     }
-    public static function storeNewUser($request){
+    public static function storeNewUser($request,$status='pending'){
        /* if(!isset($request->status))
             $request->status='pending';
         echo json_encode($request);
@@ -60,7 +61,7 @@ class UsersController extends Controller
             'address'       =>$request->address,
             'national_number'=>$request->national_number,
             'type'          =>$request->get('type'),
-            'status'        =>$request->get('status')?$request->get('status'):'pending',
+            'status'        =>$status,
 
             'password'      =>Hash::make($request->password),
         ]);
@@ -84,7 +85,7 @@ class UsersController extends Controller
      */
     public function edit(User $user)
     {
-        return view('users.edit',compact('user'));
+        return view('Users.edit',compact('user'));
     }
 
     /**

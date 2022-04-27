@@ -3,6 +3,10 @@
 use App\Http\Controllers\API\DonationHelp\DonationHelpController;
 use App\Http\Controllers\API\DonationType\DonationTypeController;
 use App\Http\Controllers\API\FormSheet\FormSheetController;
+use App\Http\Controllers\API\ProfileController;
+use App\Http\Controllers\Mobile\MobileSliderController;
+use App\Http\Controllers\Settings\SettingsController;
+use App\Http\Controllers\SharedIdea\SharedIdeaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\Auth\APIController;
@@ -22,15 +26,30 @@ use \App\Http\Controllers\API\Foods\FoodsController;
 */
 Route::post('login',[APIController::class,'usersLogin']);
 Route::post('register',[APIController::class,'usersRegister']);
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('share-idea',[SharedIdeaController::class,'store']);
+Route::get('statistics',[SettingsController::class,'statistics']);
+Route::get('sliders',[MobileSliderController::class,'activeListAPI']);
+Route::get('about',[SettingsController::class,'forApi']);
+Route::get('contact-info',[SettingsController::class,'contactInfo']);
+Route::group(['prefix'=>'profile'], function() {
+    Route::get('/user', [ProfileController::class, 'user'])->middleware(['auth:sanctum']);
+    Route::post('/update', [ProfileController::class, 'update'])->middleware(['auth:sanctum']);
 });
+<<<<<<< HEAD
 //'middleware'=>['auth:sanctum'],
+=======
+>>>>>>> 2611b7888ca30044c10169c7696bbb35c8ccee8d
 Route::group(['prefix'=>'donations'], function() {
     Route::get('list', [DonationTypeController::class, 'index']);//->name('api.category.list');
+    Route::get('urgent', [CategoryController::class, 'urgent']);//->name('api.category.list');
     Route::get('category/list', [CategoryController::class, 'index']);//->name('api.category.list');
     Route::get('category/list/all', [CategoryController::class, 'all'])->name('api.category.list');
+<<<<<<< HEAD
     Route::middleware('auth:sanctum')->get('create', [DonationsController::class, 'store']);
+=======
+    Route::post('/create', [DonationsController::class, 'store'])->middleware(['auth:sanctum']);
+    Route::post('/financial/create', [DonationsController::class, 'createFinanceDonation'])->middleware(['auth:sanctum']);
+>>>>>>> 2611b7888ca30044c10169c7696bbb35c8ccee8d
 });
 
 Route::group(['prefix'=>'delivery'],function () {

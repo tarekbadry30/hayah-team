@@ -24,6 +24,7 @@ class DonationsController extends Controller
 
     public function dataTable()
     {
+
         $options=Donation::with(['category','user','option','donationType'])->customFilter(\request()->filters)->orderBy('created_at','desc')->paginate(\request()->has('itemsPerPage')?\request()->itemsPerPage:25);
         return $this->sendResponse($options,'get donations paginate');
     }

@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests\API;
 
+use App\Http\Traits\RequestValidationTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateDonationHelpRequest extends FormRequest
 {
+    use RequestValidationTrait;
+
     /**
      * Determine if the user is authorized to make this request.
      *

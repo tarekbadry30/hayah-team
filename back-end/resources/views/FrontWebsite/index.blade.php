@@ -4,96 +4,42 @@
     <section id="section-hero" aria-label="section" class="no-top no-bottom">
         <div id="rev_slider_1083_1" class="rev_slider fullwidthabanner" style="display: none;" data-version="5.4.1">
             <ul>
+            @foreach($sliders as $index =>$slide)
                 <!-- SLIDE  -->
-                <li
-                    data-index="rs-3070"
-                    data-transition="parallaxhorizontal"
-                    data-slotamount="default"
-                    data-hideafterloop="0"
-                    data-hideslideonmobile="off"
-                    data-easein="default"
-                    data-easeout="default"
-                    data-masterspeed="default"
-                    data-rotate="0"
-                    data-fstransition="fade"
-                    data-fsmasterspeed="1500"
-                    data-fsslotamount="7"
-                    data-saveperformance="off"
-                    data-title="Number One"
-                    data-param1=""
-                    data-param2=""
-                    data-param3=""
-                    data-param4=""
-                    data-param5=""
-                    data-param6=""
-                    data-param7=""
-                    data-param8=""
-                    data-param9=""
-                    data-param10=""
-                    data-description=""
-                >
-                    <!-- MAIN IMAGE -->
-                    <img src="{{asset('front_website/')}}/images/slider/1.jpg" alt="" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="10" class="rev-slidebg" data-no-retina />
-                    <!-- LAYERS -->
-                </li>
-                <!-- SLIDE  -->
-                <li
-                    data-index="rs-3071"
-                    data-transition="parallaxhorizontal"
-                    data-slotamount="default"
-                    data-hideafterloop="0"
-                    data-hideslideonmobile="off"
-                    data-easein="default"
-                    data-easeout="default"
-                    data-masterspeed="default"
-                    data-rotate="0"
-                    data-saveperformance="off"
-                    data-title="Number Two"
-                    data-param1=""
-                    data-param2=""
-                    data-param3=""
-                    data-param4=""
-                    data-param5=""
-                    data-param6=""
-                    data-param7=""
-                    data-param8=""
-                    data-param9=""
-                    data-param10=""
-                    data-description=""
-                >
-                    <!-- MAIN IMAGE -->
-                    <img src="{{asset('front_website/')}}/images/slider/2.jpg" alt="" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="10" class="rev-slidebg" data-no-retina />
-                    <!-- LAYERS -->
-                </li>
-                <!-- SLIDE  -->
-                <li
-                    data-index="rs-3072"
-                    data-transition="parallaxhorizontal"
-                    data-slotamount="default"
-                    data-hideafterloop="0"
-                    data-hideslideonmobile="off"
-                    data-easein="default"
-                    data-easeout="default"
-                    data-masterspeed="default"
-                    data-rotate="0"
-                    data-saveperformance="off"
-                    data-title="Number Three"
-                    data-param1=""
-                    data-param2=""
-                    data-param3=""
-                    data-param4=""
-                    data-param5=""
-                    data-param6=""
-                    data-param7=""
-                    data-param8=""
-                    data-param9=""
-                    data-param10=""
-                    data-description=""
-                >
-                    <!-- MAIN IMAGE -->
-                    <img src="{{asset('front_website/')}}/images/slider/3.jpg" alt="" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="10" class="rev-slidebg" data-no-retina />
-                    <!-- LAYERS -->
-                </li>
+                    <li
+                        data-index="rs-{{307+$index}}"
+                        data-transition="parallaxhorizontal"
+                        data-slotamount="default"
+                        data-hideafterloop="0"
+                        data-hideslideonmobile="off"
+                        data-easein="default"
+                        data-easeout="default"
+                        data-masterspeed="default"
+                        data-rotate="0"
+                        data-fstransition="fade"
+                        data-fsmasterspeed="1500"
+                        data-fsslotamount="7"
+                        data-saveperformance="off"
+                        data-title="Number One"
+                        data-param1=""
+                        data-param2=""
+                        data-param3=""
+                        data-param4=""
+                        data-param5=""
+                        data-param6=""
+                        data-param7=""
+                        data-param8=""
+                        data-param9=""
+                        data-param10=""
+                        data-description=""
+                    >
+                        <!-- MAIN IMAGE -->
+                        <img src="{{asset($slide->image)}}" alt="" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="10" class="rev-slidebg" data-no-retina />
+                        <!-- LAYERS -->
+                    </li>
+                    <!-- SLIDE  -->
+                @endforeach
+
             </ul>
             <div style="display:none" class="tp-static-layers">
                 <!-- LAYER NR. 1 -->

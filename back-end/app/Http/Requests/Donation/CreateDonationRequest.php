@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests\Donation;
 
+use App\Http\Traits\RequestValidationTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateDonationRequest extends FormRequest
 {
+    use RequestValidationTrait;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -24,12 +27,8 @@ class CreateDonationRequest extends FormRequest
     public function rules()
     {
         return [
-            'type_id'       =>'required',
-            'category_id'   =>'required',
             'option_id'     =>'required',
-            'value'         =>'required',
-            'type'          =>'required',
-            //'a'         =>'required',
+            'desc'          =>'required',
         ];
     }
 }

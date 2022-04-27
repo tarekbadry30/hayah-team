@@ -4,11 +4,19 @@ namespace Database\Seeders;
 
 use App\Models\Admin;
 use App\Models\Category;
+use App\Models\CategoryOption;
 use App\Models\DonationType;
+use App\Models\MobileSlider;
+use App\Models\Portfolio;
 use App\Models\Setting;
+use App\Models\WebsiteSlider;
+use DirectoryIterator;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Testing\Fluent\Concerns\Has;
+use Nette\Utils\Random;
 
 class SetupSeeder extends Seeder
 {
@@ -19,6 +27,13 @@ class SetupSeeder extends Seeder
      */
     public function run()
     {
+        $directories = Storage::disk('local')->directories('setup_img');
+        $directories = array_diff($directories, ['.', '..']);
+        foreach ($directories as $index=>$dir) {
+            $pasthItem = str_replace("\\",'/',storage_path('app/' . $dir));
+            File::copyDirectory($pasthItem, public_path('/images/'.substr($directories[$index],strpos($directories[$index],'/'),strlen($directories[$index]))));
+        }
+
         $admin=Admin::create([
             'name'              =>  'admin',
             'phone'             =>  '123456',
@@ -35,36 +50,279 @@ class SetupSeeder extends Seeder
                     'name'=>'general donation',
                     'desc'=>'desc of it',
                 ],
+                'img'       =>'images/donations-types/1.png',
                 'status'    =>'enabled',
                 'admin_id'  =>$admin->id,
-            ]
+            ],
+            [
+                'ar'=>[
+                    'name'=>'عقيقة',
+                    'desc'=>'العقيقة تبارك في عمر الابناء',
+                ],
+                'en'=>[
+                    'name'=>'aqeqa',
+                    'desc'=>'aqeqa good for childes',
+                ],
+                'img'       =>'images/donations-types/2.png',
+                'status'    =>'enabled',
+                'admin_id'  =>$admin->id,
+            ],
+            [
+                'ar'=>[
+                    'name'=>'التعليم',
+                    'desc'=>'ساعد لتعليم جميع أطفال العالم',
+                ],
+                'en'=>[
+                    'name'=>'education',
+                    'desc'=>'help to educate every child',
+                ],
+                'img'       =>'images/donations-types/3.png',
+                'status'    =>'enabled',
+                'admin_id'  =>$admin->id,
+            ],
+            [
+                'ar'=>[
+                    'name'=>'الزبائح',
+                    'desc'=>'الزبائح تكفر السيئات',
+                ],
+                'en'=>[
+                    'name'=>'zabeha',
+                    'desc'=>'zabeha desc',
+                ],
+                'img'       =>'images/donations-types/4.png',
+                'status'    =>'enabled',
+                'admin_id'  =>$admin->id,
+            ],
+            [
+                'ar'=>[
+                    'name'=>'كفارات',
+                    'desc'=>'كفر عن ذنوبك',
+                ],
+                'en'=>[
+                    'name'=>'kafarat',
+                    'desc'=>'kafarat desc',
+                ],
+                'img'       =>'images/donations-types/5.jpg',
+                'status'    =>'enabled',
+                'admin_id'  =>$admin->id,
+            ],
         ];
         $categories=[
             [
                 'ar'=>[
-                'name'=>'أول نوع',
-                'desc'=>'وصف',
+                    'name'=>'مريض قلب',
+                    'desc'=>'انا مريض قلب واحتاج دعامة تكلفة 100000 ريال عماني ',
                 ],
                 'en'=>[
-                    'name'=>'first cat',
-                    'desc'=>'desc',
+                    'name'=>'heart ill',
+                    'desc'=>'need 100000 R.O ',
                 ],
-                'type_id'=>1,
-                'img'   =>'none',
+                'type_id'   =>1,
+                'img'       =>'images/categories/5.1.jpg',
                 'status'    =>'enabled',
                 'admin_id'  =>$admin->id,
-            ]
+                'urgent'    =>1,
+                'needed_value'    =>100000,
+                'collected_value' =>0
+            ],
+            [
+                'ar'=>[
+                'name'=>'إفطار صائم',
+                'desc'=>'لك مثل أجر الصائم',
+                ],
+                'en'=>[
+                    'name'=>'eftar',
+                    'desc'=>'desc eftar',
+                ],
+                'type_id'   =>1,
+                'img'       =>'images/categories/1.1.jpg',
+                'status'    =>'enabled',
+                'admin_id'  =>$admin->id,
+                'urgent'    =>1,
+            ],
+            [
+                'ar'=>[
+                'name'=>'تصدق بالمال',
+                'desc'=>'وصف للصدقة',
+                ],
+                'en'=>[
+                    'name'=>'tasadk',
+                    'desc'=>'money tasdk',
+                ],
+                'type_id'=>1,
+                'img'       =>'images/categories/1.2.jpg',
+                'status'    =>'enabled',
+                'admin_id'  =>$admin->id,
+
+            ],
+            [
+                'ar'=>[
+                'name'=>'عقيقة ولد',
+                'desc'=>'وصف للعقيقة ولد',
+                ],
+                'en'=>[
+                    'name'=>'aqeqa boy',
+                    'desc'=>'desc aqeqa',
+                ],
+                'type_id'=>2,
+                'img'       =>'images/categories/2.1.png',
+                'status'    =>'enabled',
+                'admin_id'  =>$admin->id,
+            ],
+            [
+                'ar'=>[
+                'name'=>'عقيقة بنت',
+                'desc'=>'وصف للعقيقة',
+                ],
+                'en'=>[
+                    'name'=>'aqeqa girl',
+                    'desc'=>'desc aqeqa girl',
+                ],
+                'type_id'=>2,
+                'img'       =>'images/categories/2.2.png',
+                'status'    =>'enabled',
+                'admin_id'  =>$admin->id,
+            ],
+            [
+                'ar'=>[
+                'name'=>'تعليم الولد',
+                'desc'=>'وصف للتعليم ولد',
+                ],
+                'en'=>[
+                    'name'=>'education boy',
+                    'desc'=>'desc education',
+                ],
+                'type_id'=>3,
+                'img'       =>'images/categories/3.1.jpg',
+                'status'    =>'enabled',
+                'admin_id'  =>$admin->id,
+            ],
+            [
+                'ar'=>[
+                'name'=>'تعليم البنت',
+                'desc'=>'وصف للتعليم',
+                ],
+                'en'=>[
+                    'name'=>'education girl',
+                    'desc'=>'desc education girl',
+                ],
+                'type_id'=>3,
+                'img'       =>'images/categories/3.2.jpg',
+                'status'    =>'enabled',
+                'admin_id'  =>$admin->id,
+            ],
+            [
+                'ar'=>[
+                'name'=>'ذبائح خروف',
+                'desc'=>'وصف للذبائح الخروف',
+                ],
+                'en'=>[
+                    'name'=>'zabehaa 1',
+                    'desc'=>'desc zabehaa',
+                ],
+                'type_id'=>4,
+                'img'       =>'images/categories/4.1.jpg',
+                'status'    =>'enabled',
+                'admin_id'  =>$admin->id,
+            ],
+            [
+                'ar'=>[
+                'name'=>'ذبائح الوليمة',
+                'desc'=>'وصف للذبيحة الوليمة',
+                ],
+                'en'=>[
+                    'name'=>'zabehaa walema',
+                    'desc'=>'desc zabehaa walema',
+                ],
+                'type_id'=>4,
+                'img'       =>'images/categories/4.2.jpg',
+                'status'    =>'enabled',
+                'admin_id'  =>$admin->id,
+            ],
+            [
+                'ar'=>[
+                    'name'=>'إبن سبيل',
+                    'desc'=>'انا كنت مسافر لطلب العلم انقطعت بي الطرق وسرقت كل اموالي , احتاج 70 الف ريال للعودة لبلدي',
+                ],
+                'en'=>[
+                    'name'=>'ibn sabil',
+                    'desc'=>'need 70000 R.O to back to home',
+                ],
+                'type_id'   =>1,
+                'img'       =>'images/categories/5.2.jpg',
+                'status'    =>'enabled',
+                'admin_id'  =>$admin->id,
+                'urgent'    =>1,
+                'needed_value'    =>70000,
+                'collected_value' =>0
+            ],
         ];
         foreach ($types as $type)
             DonationType::create($type);
-        foreach ($categories as $category)
+        foreach ($categories as $index=>$category) {
             Category::create($category);
-            Setting::create([
-                'name'  =>  'فريق حياة الخيري',
-                'vision_ar'  =>  'رؤية فريق حياة الخيري',
-                'vision_en'  =>  'hayah team vision',
-                'goals_ar'  =>  'أهداف فريق حياة الخيري',
-                'goals_en'  =>  'hayah team goals',
+            CategoryOption::create([
+                'ar' => [
+                    'name' => "خيار مادي  $index ",
+                ],
+                'en' => [
+                    'name' => "option physical $index",
+                ],
+                'category_id'   => $index+1,
+                'type'          => 'physical',
+                'default_value' => 1,
+                'accept_any_value' => 1,
+                'admin_id' => $admin->id
             ]);
+            if($index<5)
+            CategoryOption::create([
+                'ar' => [
+                    'name' => "خيار مالي  $index ",
+                ],
+                'en' => [
+                    'name' => "option financial $index",
+                ],
+                'category_id'   => $index+1,
+                'type'          => 'financial',
+                'default_value' => rand(0, 1000),
+                'accept_any_value' => true,
+                'admin_id' => $admin->id
+            ]);
+        }
+        for($i=1;$i<7;$i++){
+            WebsiteSlider::create([
+                'img'=>"images/website-slider/$i.jpg"
+            ]);
+            MobileSlider::create([
+                'img'=>"images/website-slider/$i.jpg"
+            ]);
+            Portfolio::create([
+                'ar'        =>[
+                    'name'      =>"سابقة أعمال $i ",
+                    'desc'      =>"وصف سابقة أعمال $i ",
+                ],
+
+                'en'        =>[
+                    'name'      =>"portfolio $i",
+                    'desc'      =>"desc portfolio $i",
+                ],
+                'img'=>"images/portfolio/$i.jpg"
+            ]);
+        }
+        Setting::create([
+            'name'  =>  'فريق حياة الخيري',
+            'ar'        =>[
+                'about'     =>'عن فريق حياة الخيري',
+                'vision'    =>'رؤية فريق حياة الخيري',
+                'goals'     =>'أهداف فريق حياة الخيري',
+            ],
+
+            'en'        =>[
+                'about'         =>"about hayah team",
+                'vision'        =>"hayah team vision",
+                'goals'         =>"hayah team goals",
+            ],
+
+        ]);
     }
 }

@@ -9,10 +9,16 @@ use App\Models\Donation;
 use App\Models\DonationHelp;
 use App\Models\DonationHelpAsk;
 use App\Models\DonationType;
+use App\Models\FinanceDonation;
 use App\Models\Food;
 use App\Models\FoodRequest;
 use App\Models\FormSheet;
+use App\Models\MobileSlider;
+use App\Models\Portfolio;
+use App\Models\ShareIdea;
+use App\Models\Slider;
 use App\Models\User;
+use App\Models\WebsiteSlider;
 use Illuminate\Support\Facades\Route;
 
 class HomeController extends Controller
@@ -44,17 +50,23 @@ class HomeController extends Controller
             DonationType::class,
             Category::class,
             Donation::class,
+            FinanceDonation::class,
             Delivery::class,
             Food::class,
             FoodRequest::class,
             DonationHelp::class,
             DonationHelpAsk::class,
             FormSheet::class,
+            ShareIdea::class,
             ContactUs::class,
+            MobileSlider::class,
+            WebsiteSlider::class,
+            Portfolio::class,
 
         ];
         foreach ($statics as $item) {
-            $tableName=str_replace('_','-',(new $item)->getTable());
+            $itemObj=(new $item);
+            $tableName=str_replace('_','-',$itemObj->getTable());
             $cards[] = [
                 'name' => __('frontend.' . $tableName.'List'),
                 'value' => $item::count(),

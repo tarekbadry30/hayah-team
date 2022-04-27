@@ -4,7 +4,9 @@ namespace App\Http\Controllers\API\Donations;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Donation\CreateDonationRequest;
+use App\Models\CategoryOption;
 use App\Models\Donation;
+use App\Models\FinanceDonation;
 use Illuminate\Http\Request;
 
 class DonationsController extends Controller
@@ -27,27 +29,49 @@ class DonationsController extends Controller
      */
     public function store(CreateDonationRequest $request)
     {
-
-        $donation=Donation::create([
+        $option=CategoryOption::with('category.type')->findOrFail($request->option_id);
+        if($option->type!='physical')
+            return $this->sendError('type not accepted',['option'=>'option type must be "physical"'],401);
+        Donation::create([
             //'name'          =>'any name',
+            //'type'          =>$request->get('type'),
+            //'value'         =>$request->value,
+            //'status'        =>$request->get('type')=='financial'?'completed':'pending',
+            //'admin_id'      =>$request->option_id,
             'desc'          =>$request->desc,
-            'map_location'  =>'any map_location',
-            'type'          =>$request->get('type'),
-            'value'         =>$request->value,
-            'status'        =>$request->get('type')=='financial'?'completed':'pending',
-            'option_id'     =>$request->option_id,
-            'category_id'   =>$request->category_id,
-            'type_id'       =>$request->type_id,
+            'lat'           =>$request->lat,
+            'long'          =>$request->long,
+            'address'       =>$request->address,
+            'type_id'       =>$option->category->type_id,
+            'category_id'   =>$option->category_id,
+            'option_id'     =>$option->id,
             'user_id'       =>auth()->user()->id,
-            //'admin_id'=>$request->option_id,
         ]);
-        if($request->get('type')=='financial')
-            $donation->category->update([
-                'collected_value'=>$donation->category->collected_value+$request->value
-            ]);
         return $this->sendResponse([],'new donation created');
     }
 
+    public function createFinanceDonation(Request $request){
+        $request->validate([
+            'value'         =>'required|numeric',
+            'option_id'     =>'required|numeric',
+        ]);
+        $option=CategoryOption::with('category.type')->findOrFail($request->option_id);
+        if($option->type!='financial')
+            return $this->sendError('type not accepted',['option'=>'option type must be "financial"'],401);
+        FinanceDonation::create([
+            'value'         =>$request->value,
+            'operation_id'  =>$request->operation_id,
+            'type_id'       =>$option->category->type_id,
+            'category_id'   =>$option->category_id,
+            'option_id'     =>$option->id,
+            'user_id'       =>auth()->user()->id,
+        ]);
+        $option->category->update([
+            'collected_value'=>$option->category->collected_value+$request->value
+        ]);
+        return $this->sendResponse([],'new finance donation created');
+
+    }
     /**
      * Display the specified resource.
      *

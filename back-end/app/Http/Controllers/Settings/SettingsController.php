@@ -3,7 +3,17 @@
 namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ContactInfo;
+use App\Http\Resources\SettingResource;
+use App\Models\ContactEmail;
+use App\Models\Donation;
+use App\Models\DonationHelp;
+use App\Models\FinanceDonation;
+use App\Models\Food;
+use App\Models\Link;
 use App\Models\Setting;
+use App\Models\Settings\ContactPhone;
+use App\Models\User;
 use Hamcrest\Core\Set;
 use Illuminate\Http\Request;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -18,7 +28,7 @@ class SettingsController extends Controller
     public function index()
     {
 
-        return view('settings.index');
+        return view('Settings.index');
     }
 
     /**
@@ -52,6 +62,38 @@ class SettingsController extends Controller
     {
         //
     }
+    public function forApi(){
+        $setting=Setting::first();
+        return new SettingResource($setting);
+    }
+    public function statistics(){
+        $usersCount=User::count();
+        $thingsDonation=Donation::count();
+        $moneyDonation=FinanceDonation::count();
+        $totalMoney=FinanceDonation::where('status','completed')->sum('value');
+        $helps=DonationHelp::count();
+        $foods=Food::count();
+        $data=[
+            'users'=>$usersCount,
+            'physical_donation'=>$thingsDonation,
+            'financial_donation'=>$moneyDonation,
+            'total_money'=>$totalMoney,
+            'helps'=>$helps,
+            'foods'=>$foods
+        ];
+        return  $this->sendResponse($data,'get statistics');
+    }
+    public function contactInfo(){
+        $phones=ContactPhone::all();
+        $emails=ContactEmail::all();
+        $links=Link::all();
+
+        $setting=new Setting();
+        $setting->phones=$phones;
+        $setting->emails=$emails;
+        $setting->links=$links;
+        return new ContactInfo($setting);
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -61,7 +103,7 @@ class SettingsController extends Controller
     public function edit()
     {
         $setting=Setting::first();
-        return view('settings.edit',compact('setting'));
+        return view('Settings.edit',compact('setting'));
     }
 
     /**
@@ -75,10 +117,18 @@ class SettingsController extends Controller
     {
         $setting->update([
             'name'          =>$request->name,
-            'vision_ar'     =>$request->vision_ar,
-            'vision_en'     =>$request->vision_en,
-            'goals_ar'      =>$request->goals_ar,
-            'goals_en'      =>$request->goals_en,
+
+            'ar'        =>[
+                'about'      =>$request->ar['about'],
+                'vision'     =>$request->ar['vision'],
+                'goals'      =>$request->ar['goals'],
+            ],
+
+            'en'        =>[
+                'about'      =>$request->en['about'],
+                'vision'     =>$request->en['vision'],
+                'goals'      =>$request->en['goals'],
+            ],
         ]);
         return redirect()->route('settings.index')->with('success',__('frontend.settingsUpdated'));
     }

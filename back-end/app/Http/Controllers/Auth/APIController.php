@@ -50,7 +50,13 @@ class APIController extends Controller
         }
     }
     public function usersRegister(UsersRequest $request){
-        $user=UsersController::storeNewUser($request);
+        if($request->get('type')=='benefactor')
+            $status='active';
+        else
+            $status='pending';
+        //return $status;
+
+        $user=UsersController::storeNewUser($request,$status);
         $success['user'] =  $user;
         return $this->sendResponse($success, 'User Created successfully.');
     }

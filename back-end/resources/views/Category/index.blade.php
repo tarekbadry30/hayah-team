@@ -52,7 +52,7 @@
                                 <option value="disabled">{{__('frontend.disabled')}}</option>
                             </select>
                         </div>
-                        <div class="col-md-3 form-group">
+                        <div class="col-md-3 form-group d-none">
                             <label class="col-form-label">{{__('frontend.date')}}</label>
                             <input type="text" class="form-control date-range" name="date_range" />
                         </div>

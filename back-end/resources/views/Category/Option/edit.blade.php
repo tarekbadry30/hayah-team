@@ -70,7 +70,7 @@
                             <label for="type" class="col-sm-2 col-form-label">{{__('frontend.type')}}</label>
                             <div class="col-sm-10">
                                 <select name="type" class="option_type form-control select2-search-disable2 @error('type') parsley-error is-invalid @enderror ">
-                                    <option {{$categoryOption->type=='finance'?'selected':''}} value="finance">{{__('frontend.finance')}}</option>
+                                    <option {{$categoryOption->type=='financial'?'selected':''}} value="finance">{{__('frontend.financial')}}</option>
                                     @if(!$categoryOption->category->urgent)
                                         <option {{$categoryOption->type=='physical'?'selected':''}} value="physical">{{__('frontend.physical')}}</option>
                                     @endif
@@ -139,7 +139,7 @@
                 buttonup_class: "btn btn-primary"
             });
             $('.option_type').change(function () {
-                if($(this).val()=='finance'){
+                if($(this).val()=='financial'){
                     $('.finance').removeClass('d-none');
                 }else{
                     $('.finance').addClass('d-none');

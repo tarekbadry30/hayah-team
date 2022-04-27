@@ -33,14 +33,23 @@ class DonationHelpController extends Controller
      */
     public function store(CreateDonationHelpRequest $request)
     {
-        $donation=DonationHelp::findOrFail($request->id);
+
+        $donation=DonationHelp::find/*OrFail*/($request->id);
+        if(!isset($donation))
+            return $this->sendError('not found','donation help not found',404);
         if(!$donation->available||$donation->asked)
             return $this->sendError('can not make this request now \n try again later',[],401);
-        DonationHelpAsk::firstOrCreate([
+        $ask=DonationHelpAsk::firstOrCreate([
             'user_id'           =>  auth('sanctum')->id(),
             'donation_help_id'  =>  $request->id,
             'category_id'       =>  $donation->category_id,
             'type_id'           =>  $donation->type_id,
+        ]);
+        $ask->update([
+            'notes'     =>$request->notes,
+            'lat'       =>$request->lat??$request->user()->notes,
+            'long'      =>$request->long??$request->user()->lat,
+            'address'   =>$request->address??$request->user()->long,
         ]);
         $donation->update([
             'asked'=>true

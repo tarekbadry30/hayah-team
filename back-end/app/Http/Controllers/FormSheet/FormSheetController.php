@@ -7,6 +7,7 @@ use App\Http\Requests\FormSheetRequest;
 use App\Models\FormSheet;
 use App\Models\FormSheetInput;
 use App\Models\FormSheetInputTranslation;
+use App\Models\FormSheetUserAnswer;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -24,6 +25,10 @@ class FormSheetController extends Controller
     public function dataTable(){
         $options=FormSheet::/*with(['answers','user','option','donationType'])->*/withCount(['inputs','answers'])->customFilter(\request()->filters)->paginate(\request()->has('itemsPerPage')?\request()->itemsPerPage:25);
         return $this->sendResponse($options,'get form sheets paginate');
+    }
+    public function answerDataTable(){
+        $answers = FormSheetUserAnswer::with(['inputAnswers','user'])->where('form_sheet_id',\request()->form_id)->paginate(\request()->has('itemsPerPage')?\request()->itemsPerPage:25);
+        return $this->sendResponse($answers,'get form sheet answers paginate');
     }
 
     /**
@@ -92,12 +97,13 @@ class FormSheetController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  FormSheet  $formSheet
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        $form = FormSheet::with(['inputs'/*,'answers.inputAnswers','answers.user'*/])->findOrFail($id);
+        return view('FormSheet.answers',compact('form'));
     }
 
     /**
@@ -171,6 +177,19 @@ class FormSheetController extends Controller
     public function destroy(FormSheet  $formSheet)
     {
         $formSheet->delete();
+        return $this->sendResponse([],__('frontend.itemDeleted'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteAnswer($id)
+    {
+        $answer= FormSheetUserAnswer::findOrFail($id);
+        $answer->delete();
         return $this->sendResponse([],__('frontend.itemDeleted'));
     }
 }

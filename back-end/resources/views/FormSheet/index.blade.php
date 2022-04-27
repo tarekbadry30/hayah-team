@@ -227,6 +227,10 @@
 
                     <a
                     class="btn btn-outline-success waves-effect waves-light"
+                    href="{{route('form-sheets.index')}}/${item.id}/" title="{{__('frontend.answers')}}"><i class="fas fa-list-ul "></i></a>
+
+                    <a
+                    class="btn btn-outline-success waves-effect waves-light"
                     href="{{route('form-sheets.index')}}/${item.id}/edit" title="{{__('frontend.edit')}}"><i class="far fa-edit"></i></a>
 
                     <button

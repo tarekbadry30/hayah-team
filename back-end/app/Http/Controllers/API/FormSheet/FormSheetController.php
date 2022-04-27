@@ -69,12 +69,12 @@ class FormSheetController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  FormSheet  $form
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(FormSheet  $form)
     {
-        //
+        return view('FormSheet.answers',compact('form'));
     }
 
     /**
