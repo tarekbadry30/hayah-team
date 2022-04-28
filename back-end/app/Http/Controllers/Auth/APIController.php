@@ -26,7 +26,7 @@ class APIController extends Controller
             return $this->sendResponse($success, 'User login successfully.');
         }
         else{
-            return $this->sendError('Unauthorised.', ['error'=>'login failed']);
+            return $this->sendError('Unauthorised.', ['error'=>'يوجد خطأ في كلمة المرور او الهاتف']);
         }
     }
     public function driversLogin(Request $request){
