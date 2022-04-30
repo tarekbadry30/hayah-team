@@ -52,7 +52,7 @@ class WebsiteSliderController extends Controller
         $imageName = time().'.'.$image->extension();
         $filePath='images/website-slider';
         $image->move(public_path($filePath),$imageName);
-        $slider=WebsiteSlider::create([
+        $websiteSlider=WebsiteSlider::create([
             'img'=>"$filePath/$imageName"
         ]);
         return response()->json(['success'=>$imageName]);
@@ -62,11 +62,11 @@ class WebsiteSliderController extends Controller
             //'file'  => 'required|mimes:png,jpg,jpeg,pdf|max:3072',
             'slider_id'     => 'required|numeric',
         ]);
-        $slider=WebsiteSlider::findOrFail($request->slider_id);
-        $slider->update([
-            'visible'   => !$slider->visible
+        $websiteSlider=WebsiteSlider::findOrFail($request->slider_id);
+        $websiteSlider->update([
+            'visible'   => !$websiteSlider->visible
         ]);
-        return $this->sendResponse([],__('frontend.sliderStatus'.$slider->visible));
+        return $this->sendResponse([],__('frontend.sliderStatus'.$websiteSlider->visible));
     }
 
     /**
@@ -106,12 +106,12 @@ class WebsiteSliderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  WebsiteSlider  $slider
+     * @param  WebsiteSlider  $websiteSlider
      * @return \Illuminate\Http\Response
      */
-    public function destroy(WebsiteSlider  $slider)
+    public function destroy(WebsiteSlider  $websiteSlider)
     {
-        $slider->delete();
+        $websiteSlider->delete();
         return $this->sendResponse([],'slider image deleted');
 
     }

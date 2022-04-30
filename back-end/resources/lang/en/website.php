@@ -24,6 +24,8 @@ return [
     'emailUs'       =>'Email Us',
     'developedBy'   =>'developed by',
     'company'       =>'the integrated scope company',
+    'teamAddress'   =>'Team Address',
+    'address'       =>'Dhofar Governorate - Salalah Sports Club.'
 
 
 ];

@@ -26,10 +26,10 @@ class DonationTypeObserver
      */
     public function updated(DonationType $donationType)
     {
-        $originalImg=$donationType->getOriginal('img');
+        /*$originalImg=$donationType->getOriginal('img');
         if($donationType->img!=$donationType->getOriginal($originalImg))
             if(File::exists(public_path($originalImg)))
-                File::delete(public_path($originalImg));
+                File::delete(public_path($originalImg));*/
     }
 
     /**

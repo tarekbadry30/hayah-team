@@ -53,7 +53,7 @@ class MobileSliderController extends Controller
         $imageName = time().'.'.$image->extension();
         $filePath='images/mobile-slider';
         $image->move(public_path($filePath),$imageName);
-        $slider=MobileSlider::create([
+        $mobileSlider=MobileSlider::create([
             'img'=>"$filePath/$imageName"
         ]);
         return response()->json(['success'=>$imageName]);
@@ -63,11 +63,11 @@ class MobileSliderController extends Controller
             //'file'  => 'required|mimes:png,jpg,jpeg,pdf|max:3072',
             'slider_id'     => 'required|numeric',
         ]);
-        $slider=MobileSlider::findOrFail($request->slider_id);
-        $slider->update([
-            'visible'   => !$slider->visible
+        $mobileSlider=MobileSlider::findOrFail($request->slider_id);
+        $mobileSlider->update([
+            'visible'   => !$mobileSlider->visible
         ]);
-        return $this->sendResponse([],__('frontend.sliderStatus'.$slider->visible));
+        return $this->sendResponse([],__('frontend.sliderStatus'.$mobileSlider->visible));
     }
 
     /**
@@ -107,12 +107,12 @@ class MobileSliderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  MobileSlider  $slider
+     * @param  MobileSlider  $mobileSlider
      * @return \Illuminate\Http\Response
      */
-    public function destroy(MobileSlider  $slider)
+    public function destroy(MobileSlider  $mobileSlider)
     {
-        $slider->delete();
+        $mobileSlider->delete();
         return $this->sendResponse([],'slider image deleted');
 
     }

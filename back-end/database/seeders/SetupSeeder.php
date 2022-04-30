@@ -289,12 +289,12 @@ class SetupSeeder extends Seeder
                 'admin_id' => $admin->id
             ]);
         }
-        for($i=1;$i<7;$i++){
+        for($i=1;$i<9;$i++){
             WebsiteSlider::create([
                 'img'=>"images/website-slider/$i.jpg"
             ]);
             MobileSlider::create([
-                'img'=>"images/website-slider/$i.jpg"
+                'img'=>"images/mobile-slider/$i.jpg"
             ]);
             Portfolio::create([
                 'ar'        =>[

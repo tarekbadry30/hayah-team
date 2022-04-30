@@ -48,16 +48,16 @@
             }
             .arabic{
                 font-family: arabicFont;
-                letter-spacing: 2px;
+                /*letter-spacing: 2px;*/
             }
             .arabic-bold{
                 font-family: arabicBoldFont;
-                letter-spacing: 2px;
+                /*letter-spacing: 2px;*/
             }
             #contact_form .field-set{
                 margin-bottom: 10px;
             }
-           #contact_form  .field-set label{
+            #contact_form  .field-set label{
                 margin-bottom: 0;
                color:#ff0000 !important;
             }

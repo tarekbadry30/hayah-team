@@ -69,11 +69,11 @@
             </div>
 
 
-            <div class="col-md-4">
+            <div class="col-md-4 arabic">
                 <div class="wm-1"></div>
                 <i class="icon_house_alt id-color size40 mb20"></i>
-                <h6 class="id-color">Visit Office</h6>
-                <p>Collins Street West, London, UK</p>
+                <h6 class="id-color arabic-bold">{{__('website.teamAddress')}}</h6>
+                <p>{{__('website.address')}}</p>
             </div>
 
             <div class="col-md-4 arabic">

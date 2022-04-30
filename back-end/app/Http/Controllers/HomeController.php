@@ -70,10 +70,17 @@ class HomeController extends Controller
             $cards[] = [
                 'name' => __('frontend.' . $tableName.'List'),
                 'value' => $item::count(),
-                'route' => Route::has($tableName . '.index')?route($tableName . '.index'):(Route::has($tableName . 's.index')?route($tableName . 's.index'):'#')
+                'route' => Route::has($tableName . '.index') ?
+                    route($tableName . '.index'):
+                    (
+                        Route::has($tableName . 's.index')?
+                            route($tableName . 's.index'):
+                            (
+                                Route::has(substr($tableName, 0, -1) . '.index')?
+                                    route(substr($tableName, 0, -1) . '.index'):'#'))
             ];
         }
-        //dd((new DonationHelpAsk())->getTable());
+        //dd(substr((new Portfolio())->getTable(), 0, -1));
         /*$cardItem=[
             'name'  =>  __('frontend.users'),
             'value' =>  User::count(),

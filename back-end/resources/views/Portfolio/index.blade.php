@@ -6,7 +6,7 @@
 
         <div class="card-body">
             <h2 class="page-title pt-1">
-                {{__('frontend.Portfolio')}}
+                {{__('frontend.portfoliosList')}}
             </h2>
             <div class="row">
                 <div class="col-sm-8">

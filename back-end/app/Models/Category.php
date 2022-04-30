@@ -51,6 +51,8 @@ class Category extends Model  implements TranslatableContract
 
     public function options()
     {
+        if($this->urgent)
+        return $this->hasMany(CategoryOption::class,'category_id')->where('type','financial');
         return $this->hasMany(CategoryOption::class,'category_id');
     }
     public function uploadParams(){

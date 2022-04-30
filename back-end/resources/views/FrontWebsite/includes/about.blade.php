@@ -4,21 +4,17 @@
 
             <div class="text-center col-lg-12 wow fadeInLeft" data-wow-delay=".4s">
                 <h2 class="arabic-bold"><span class="id-color">{{__('website.about')}}</span></h2>
-                <p class="arabic-bold" style="font-size:18px">
-                    {{$settings->about}}
-                </p>
+                <p class="arabic-bold" style="font-size:18px;white-space: break-spaces;">{{$settings->about}}</p>
                 <div class="spacer-10"></div>
             </div>
             <div class="text-center col-lg-5 wow fadeInLeft" data-wow-delay=".8s">
                 <h2 class="arabic-bold">{{__('website.ourVision')}}</h2>
-                <p class="arabic-bold" style="font-size:18px">
-                    {{$settings->vision}}
-                </p>
+                <p class="arabic-bold" style="font-size:18px;white-space: break-spaces;">{{$settings->vision}}</p>
                 <div class="spacer-10"></div>
             </div>
             <div class="text-center col-lg-5  wow fadeInLeft" data-wow-delay="1.2s">
                 <h2 class="arabic-bold"><span class="id-color">{{__('website.goals')}}</span></h2>
-                <p class="arabic-bold" style="font-size:18px">{{$settings->goals}} </p>
+                <p class="arabic-bold" style="font-size:18px;white-space: break-spaces;">{{$settings->goals}} </p>
                 <div class="spacer-10"></div>
             </div>
         </div>

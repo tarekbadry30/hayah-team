@@ -110,12 +110,13 @@ class SettingsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  Setting  $settings
+     * @param  Setting  $setting
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request,Setting $setting)
     {
-        $setting->update([
+         $setting=Setting::first();
+         $setting->update([
             'name'          =>$request->name,
 
             'ar'        =>[

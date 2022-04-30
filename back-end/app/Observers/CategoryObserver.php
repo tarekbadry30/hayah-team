@@ -26,10 +26,10 @@ class CategoryObserver
      */
     public function updated(Category $category)
     {
-        $originalImg=$category->getOriginal('img');
+        /*$originalImg=$category->getOriginal('img');
         if($category->img!=$category->getOriginal($originalImg))
             if(File::exists(public_path($originalImg)))
-                File::delete(public_path($originalImg));
+                File::delete(public_path($originalImg));*/
     }
 
     /**
