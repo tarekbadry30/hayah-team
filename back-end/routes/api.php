@@ -57,7 +57,7 @@ Route::group(['prefix'=>'food'],function () {
     Route::post('/cart/confirm',[FoodsController::class,'store'])->middleware('auth:sanctum');
     Route::post('/cart/add',[FoodCartController::class,'store'])->middleware('auth:sanctum');
     Route::post('/cart/remove',[FoodCartController::class,'remove'])->middleware('auth:sanctum');
-    Route::post('/cart/clear',[FoodsController::class,'clear'])->middleware('auth:sanctum');
+    Route::post('/cart/clear',[FoodCartController::class,'clear'])->middleware('auth:sanctum');
 
 
     /*Route::group(['middleware'=>'auth:delivery_api'],function () {
