@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\DonationHelp\DonationHelpController;
 use App\Http\Controllers\API\DonationType\DonationTypeController;
+use App\Http\Controllers\API\foods\FoodCartController;
 use App\Http\Controllers\API\FormSheet\FormSheetController;
 use App\Http\Controllers\API\ProfileController;
 use App\Http\Controllers\Mobile\MobileSliderController;
@@ -52,7 +53,13 @@ Route::group(['prefix'=>'delivery'],function () {
 });
 Route::group(['prefix'=>'food'],function () {
     Route::get('/',[FoodsController::class,'index']);
-    Route::post('/store',[FoodsController::class,'store']);
+    Route::get('/cart/list',[FoodCartController::class,'index'])->middleware('auth:sanctum');
+    Route::post('/cart/confirm',[FoodsController::class,'store'])->middleware('auth:sanctum');
+    Route::post('/cart/add',[FoodCartController::class,'store'])->middleware('auth:sanctum');
+    Route::post('/cart/remove',[FoodCartController::class,'remove'])->middleware('auth:sanctum');
+    Route::post('/cart/clear',[FoodsController::class,'clear'])->middleware('auth:sanctum');
+
+
     /*Route::group(['middleware'=>'auth:delivery_api'],function () {
         Route::apiResource('orders/',DeliveryController::class);
     });*/
@@ -74,3 +81,4 @@ Route::group(['prefix'=>'form-sheet','middleware'=>['auth:sanctum']],function ()
         Route::apiResource('orders/',DeliveryController::class);
     });*/
 });
+

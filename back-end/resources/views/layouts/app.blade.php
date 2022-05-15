@@ -106,6 +106,10 @@
         }
         @font-face {
             font-family: 'arabicFont'; /*a name to be used later*/
+            src: url('{{asset('/fonts/Cairo.ttf')}}'); /*URL to font*/
+        }
+        @font-face {
+            font-family: 'jannahFont'; /*a name to be used later*/
             src: url('{{asset('/fonts/janna.ttf')}}'); /*URL to font*/
         }
         *{
@@ -119,7 +123,7 @@
         }
         .table th {
             font-weight: 600;
-            letter-spacing: 2px;
+            font-size:1.3em;
         }
     </style>
 
@@ -134,7 +138,7 @@
 <div id="layout-wrapper">
     @auth()
     @include('Dashboard.Includes.header')
-    @include('Dashboard.Includes.leftSideMenu')
+    {{--@include('Dashboard.Includes.leftSideMenu')--}}
     @endauth
 
         <div class="loader-container">
@@ -144,7 +148,7 @@
     <!-- ============================================================== -->
     <!-- Start right Content here -->
     <!-- ============================================================== -->
-        <div class="main-content">
+        <div class="main-content m-md-0">
             <div class="page-content">
                 @yield('content')
             </div>

@@ -36,27 +36,24 @@ class FoodsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateFoodRequest $request)
+    public function store(Request $request)
     {
         $totalPrice=0;
-        $foods=$request->foods;
-        $foodsObj=[];
-        foreach ($foods as $food) {
-            $food['foodItem'] = Food::findOrFail($food['id']);
-            if(!$food['foodItem']->available)
-                return $this->sendError('this food item not available now',['foodItem'=>$food['foodItem']],400);
-            $totalPrice+=($food['foodItem']->price*$food['count']);
-            $foodsObj[]=$food['foodItem'];
+        $cart=auth('sanctum')->user()->cart;
+        if(count($cart)<1)
+            return $this->sendError('cart empty please select one item at least',[],400);
+
+        foreach ($cart as $cartItem) {
+            if(!$cartItem->food->available)
+                return $this->sendError('this food item not available now',['foodItem'=>$cartItem->food],400);
+            $totalPrice+=($cartItem->food->price*$cartItem->amount);
         }
         $month=UserMonthHelp::where([
-            ['id',$request->month_id],
             ['user_id',auth('sanctum')->id()],
             ['month',Carbon::now()->format('Y-m').'-01 00:00:00'],
-
         ])->first();
-
         if(!isset($month))
-            return $this->sendError('month data not correct',[],404);
+            return $this->sendError('user not have balance this month',['current_month'=>Carbon::now()->format('Y-m')],404);
         if($month->remaining_value<$totalPrice)
             return $this->sendError('Your current balance is not enough.',[
                 'current_balance'   =>$month->remaining_value,
@@ -64,26 +61,25 @@ class FoodsController extends Controller
                 'total_price'       =>$totalPrice,
             ],401);
         $foodRequest=FoodRequest::create([
-            'month_id'     =>  $request->month_id,
+            'month_id'     =>  $month->id,
             'user_id'      =>  auth('sanctum')->id(),
             'total_value'  =>  $totalPrice,
         ]);
-        foreach ($foods as $index => $food) {
-            $food['foodItem'] =$foodsObj[$index];
+        foreach ($cart as $cartItem) {
             UserMonthFood::create([
                 'user_id'   => auth('sanctum')->id(),
-                'month_id'  => $request->month_id,
-                'food_id'   => $food['id'],
+                'month_id'  => $month->id,
+                'food_id'   => $cartItem->food->id,
                 'request_id' => $foodRequest->id,
-                'price' => $food['foodItem']->price,
-                'count' => $food['count'],
-                'total' => $food['count'] * $food['foodItem']->price,
+                'price' => $cartItem->food->price,
+                'count' => $cartItem->amount,
+                'total' => $cartItem->amount * $cartItem->food->price,
             ]);
 
         }
         $month->remaining_value=$month->remaining_value-$totalPrice;
         $month->save();
-
+        auth('sanctum')->user()->clearCart();
         return $this->sendResponse([],'monthly food request created waiting admin to confirm');
     }
 

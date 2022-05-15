@@ -2,13 +2,10 @@
 
 namespace App\Http\Requests\API;
 
-use App\Http\Traits\RequestValidationTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateFoodRequest extends FormRequest
+class RemoveCartItemRequest extends FormRequest
 {
-    use RequestValidationTrait;
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -27,8 +24,7 @@ class CreateFoodRequest extends FormRequest
     public function rules()
     {
         return [
-            'month_id'  =>'required',
-            'foods'     =>'required|array|min:1',
+            'food_id'=>'required|int|min:1'
         ];
     }
 }

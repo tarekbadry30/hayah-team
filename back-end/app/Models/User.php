@@ -51,6 +51,13 @@ class User extends Authenticatable
     public function monthlyHelp(){
         return $this->hasMany(UserMonthHelp::class,'user_id');
     }
+    public function cart(){
+        return $this->hasMany(FoodCart::class,'user_id');
+    }
+    public function clearCart(){
+        return FoodCart::where('user_id',auth('sanctum')->id())->delete();
+
+    }
     public function lastHelp(){
         return $this->hasOne(UserMonthHelp::class,'user_id')->latest();
     }
