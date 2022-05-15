@@ -179,7 +179,7 @@ class DonationsTypeController extends Controller
         $request->validate([
             'file'          => 'required|mimes:csv,xlsx',
         ]);
-        $file = storage_path('app/' . $request->file('file')->store('excel-files\users'));
+        $file = storage_path('app/' . $request->file('file')->store('excel-files/donation-types'));
 
         //return \fastexcel()->import($file);
         return FastExcel::import($file, function ($line) use ($request) {

@@ -179,7 +179,7 @@ class FoodController extends Controller
         $request->validate([
             'file'          => 'required|mimes:csv,xlsx',
         ]);
-        $file = storage_path('app/' . $request->file('file')->store('excel-files\foods'));
+        $file = storage_path('app/' . $request->file('file')->store('excel-files/foods'));
         //return \fastexcel()->import($file);
         return FastExcel::import($file, function ($line) {
             //dd($line);

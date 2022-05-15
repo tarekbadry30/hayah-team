@@ -211,7 +211,7 @@ class CategoryController extends Controller
             'file'          => 'required|mimes:csv,xlsx',
             'type_id'       => 'required',
         ]);
-        $file = storage_path('app/' . $request->file('file')->store('excel-files\categories'));
+        $file = storage_path('app/' . $request->file('file')->store('excel-files/categories'));
         //return \fastexcel()->import($file);
         return FastExcel::import($file, function ($line) use ($request) {
             //dd($line);
@@ -226,8 +226,8 @@ class CategoryController extends Controller
                 ],
                 //'type'          =>$line['type'],
                 'status'        =>$line['status'],
-                'urgent'        =>$line['urgent'],
-                'needed_value'  =>$line['needed_value'],
+                'urgent'        =>$line['urgent']??0,
+                'needed_value'  =>$line['needed_value']??0,
                 'collected_value'=>0,
                 'type_id'       =>$request->type_id,
                 'admin_id'      =>auth('admin')->id(),

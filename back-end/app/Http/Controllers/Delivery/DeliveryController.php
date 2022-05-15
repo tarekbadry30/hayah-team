@@ -142,7 +142,7 @@ class DeliveryController extends Controller
         $request->validate([
             'file'          => 'required|mimes:csv,xlsx',
         ]);
-        $file = storage_path('app/' . $request->file('file')->store('excel-files\users'));
+        $file = storage_path('app/' . $request->file('file')->store('excel-files/delivery'));
 
         //return \fastexcel()->import($file);
         return FastExcel::import($file, function ($line) use ($request) {

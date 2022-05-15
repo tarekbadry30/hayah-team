@@ -160,7 +160,7 @@ class CategoryOptionsController extends Controller
             'file'          => 'required|mimes:csv,xlsx',
             'category_id'   => 'required',
         ]);
-        $file = storage_path('app/' . $request->file('file')->store('excel-files\category-options'));
+        $file = storage_path('app/' . $request->file('file')->store('excel-files/category-options'));
         //return \fastexcel()->import($file);
         return FastExcel::import($file, function ($line) use ($request) {
             return CategoryOption::create([
