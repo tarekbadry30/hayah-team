@@ -17,12 +17,12 @@ class ProfileController extends Controller
         $data=$request->toArray();
         $defaultRules=[
             'name'              =>  'required|string|min:3',
-            'password'          =>  'required|string|min:6',
-            'phone'             =>  'required|string|unique:users,phone,' . $request->user()->id,
+            //'password'          =>  'required|string|min:6',
+            //'phone'             =>  'required|string|unique:users,phone,' . $request->user()->id,
             'address'           =>  'required',
             'lat'               =>  'required',
             'long'              =>  'required',
-            'national_number'   =>  'required|string|unique:users,national_number,'.$request->user()->id,
+            //'national_number'   =>  'required|string|unique:users,national_number,'.$request->user()->id,
         ];
 
         $rules=[];

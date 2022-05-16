@@ -22,12 +22,7 @@ class FoodsController extends Controller
     public function index()
     {
         $foods=Food::where('available',true)->get();
-        $month=UserMonthHelp::where([
-            ['month',Carbon::now()->format('Y-m').'-01 00:00:00'],
-            ['user_id',auth('sanctum')->id()]
-        ])->first(['id','month','help_value','remaining_value','total_value']);
-
-        return FoodsResouce::collection($foods)->additional(['current_help_month' => $month]);
+        return FoodsResouce::collection($foods);
     }
 
     /**

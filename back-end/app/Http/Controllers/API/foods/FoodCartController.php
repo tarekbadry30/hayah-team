@@ -7,6 +7,8 @@ use App\Http\Requests\API\FoodCartRequest;
 use App\Http\Requests\API\RemoveCartItemRequest;
 use App\Http\Resources\CartResource;
 use App\Models\FoodCart;
+use App\Models\UserMonthHelp;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class FoodCartController extends Controller
@@ -19,7 +21,12 @@ class FoodCartController extends Controller
     public function index()
     {
         $list=FoodCart::with('food')->where('user_id',auth('sanctum')->id())->get();
-        return CartResource::collection($list);
+        $month=UserMonthHelp::where([
+            ['month',Carbon::now()->format('Y-m').'-01 00:00:00'],
+            ['user_id',auth('sanctum')->id()]
+        ])->first(['id','month','help_value','remaining_value','total_value']);
+
+        return CartResource::collection($list)->additional(['current_help_month' => $month]);;
 
     }
 
