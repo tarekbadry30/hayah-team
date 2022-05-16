@@ -15,8 +15,8 @@ class CartResource extends JsonResource
     public function toArray($request)
     {
         return[
-            'img'   =>  asset($this->food->img),
-
+            'food_id'   =>  $this->food_id,
+            'img'       =>  asset($this->food->img),
             'name'      =>  [
                 'ar'=>$this->food->translate('ar')->name,
                 'en'=>$this->food->translate('en')->name,
