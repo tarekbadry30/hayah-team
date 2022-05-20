@@ -207,5 +207,6 @@ return [
     'error'                 =>'error',
     'MobileSlider'          =>'Mobile slider',
     'contact_emailsList'    =>'contact emails list',
+    'createDelivery'        =>'create delivery employee',
 ];
 

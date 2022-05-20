@@ -4,11 +4,11 @@ namespace App\Http\Controllers\API\Delivery;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Delivery\AcceptOrder;
-use App\Http\Resources\API\DeliveryOrder;
-use App\Models\DonationDeliveryOrder;
+use App\Http\Resources\DeliveryHelpAskResource;
+use App\Models\DonationHelpAsk;
 use Illuminate\Http\Request;
 
-class DeliveryController extends Controller
+class DeliveryHelpAskController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,16 +20,21 @@ class DeliveryController extends Controller
         $request->validate([
             'status'    =>  'required|string'
         ]);
-        if(!in_array($request->status,['pending','admin_refused','assigned','delivery_accepted','delivery_refused','completed']))
-            return $this->sendError('status value must be one of ['." 'pending', 'delivery_accepted', 'delivery_refused', 'in_way', 'completed']",[],401);
-        $orders=DonationDeliveryOrder::with([
-            'donation.donationType',
-            'donation.option',
-            'donation.category',
+        $statuses=[
+        'assigned',
+        'delivery_accepted',
+        'delivery_refused',
+        'in_way',
+        'completed',];
+        if(!in_array($request->status,$statuses))
+            return $this->sendError('status value must be one of ['." 'assigned', 'delivery_accepted', 'delivery_refused', 'in_way', 'completed']",[],401);
+        $orders=DonationHelpAsk::with([
+            'donationHelp',
+            'type',
+            'category',
             'user',
-
         ])->where([['status',$request->status],['delivery_id',auth()->guard('delivery_api')->id()]])->get();
-        return DeliveryOrder::collection($orders);
+        return DeliveryHelpAskResource::collection($orders);
     }
 
     /**
@@ -40,22 +45,20 @@ class DeliveryController extends Controller
      */
     public function store(AcceptOrder $request)
     {
-        $order=DonationDeliveryOrder::findOrFail($request->order_id);
-        if(!in_array($request->status,['in_way','delivery_accepted','delivery_refused','completed']))
+        $order=DonationHelpAsk::findOrFail($request->order_id);
+        if(!in_array($request->get('status'),['in_way','delivery_accepted','delivery_refused','completed']))
             return $this->sendError('status value must be one of ['." 'delivery_accepted', 'delivery_refused', 'in_way', 'completed']",[],401);
-        if($order->status==$request->status){
-            return $this->sendError('current order status = "'.$order->status.'" try another status',[],401);
+        if($order->status==$request->get('status')){
+            return $this->sendError('current order status = "'.$order->status .'" try another status',[],401);
         }
         if($order->delivery_id!=auth()->guard('delivery_api')->id()){
             return $this->sendError('unUnauthorized action',[],401);
         }
+
         $order->update([
-            'status'=>$request->status
+            'status'=>$request->get('status')
         ]);
-        if(in_array($order->status,['delivery_accepted','delivery_refused','completed']))
-        $order->donation->update([
-            'status'=> $order->status
-        ]);
+
         return $this->sendResponse("order status = $order->status",'order status updated');
     }
 

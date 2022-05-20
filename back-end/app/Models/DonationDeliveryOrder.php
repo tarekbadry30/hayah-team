@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class DonationDeliveryOrder extends Model
 {
+
+    // get donation from users and send to team
     use HasFactory;
     protected $guarded = [];
     public function user(){

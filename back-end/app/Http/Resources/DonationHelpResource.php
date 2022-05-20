@@ -48,7 +48,7 @@ class DonationHelpResource extends JsonResource
                 'ar'=>$this->translate('ar')->desc,
                 'en'=>$this->translate('en')->desc,
             ],
-            'img'   =>  asset($this->img),
+            'img'   =>  asset($this->image),
         ];
     }
 }

@@ -210,5 +210,6 @@ return [
     'contact_emailsList'    =>'قائمة عناوين الإيميل',
     'portfoliosList'        =>'قائمة الأعمال السابقة',
     'createPortfolio'       =>'إنشاء سابقة أعمال',
-    'editPortfolio'       =>'تعديل سابقة أعمال',
+    'editPortfolio'         =>'تعديل سابقة أعمال',
+    'createDelivery'        =>'إنشاء موظف توصيل',
 ];

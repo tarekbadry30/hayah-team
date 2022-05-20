@@ -63,6 +63,8 @@
                         <th>{{__('frontend.total_value')}}</th>
                         <th>{{__('frontend.status')}}</th>
                         <th>{{__('frontend.month')}}</th>
+                        <th>{{__('frontend.address')}}</th>
+                        <th>{{__('frontend.map_location')}}</th>
                         <th>{{__('frontend.date')}}</th>
                         <th>{{__('frontend.deliveryEmployee')}}</th>
                         <th>{{__('frontend.admin')}}</th>
@@ -284,6 +286,8 @@
                     <td><a href="{{route('food-requests.index')}}/${item.id}">${item.total_value}</a></td>
                     <td>${item.status}</td>
                     <td>${item.month.month}</td>
+                    <td>${item.address}</td>
+                    <td>${item.mapLocation}</td>
                     <td>${item.created_at}</td>
                     <td>${item.delivery?item.delivery.name:''}</td>
                     <td>${item.admin?item.admin.name:''}</td>

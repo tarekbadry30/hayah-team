@@ -59,16 +59,19 @@ class FoodsController extends Controller
             'month_id'     =>  $month->id,
             'user_id'      =>  auth('sanctum')->id(),
             'total_value'  =>  $totalPrice,
+            'address'      =>  $request->address,
+            'lat'          =>  $request->lat,
+            'long'         =>  $request->long,
         ]);
         foreach ($cart as $cartItem) {
             UserMonthFood::create([
                 'user_id'   => auth('sanctum')->id(),
                 'month_id'  => $month->id,
                 'food_id'   => $cartItem->food->id,
-                'request_id' => $foodRequest->id,
-                'price' => $cartItem->food->price,
-                'count' => $cartItem->amount,
-                'total' => $cartItem->amount * $cartItem->food->price,
+                'request_id'=> $foodRequest->id,
+                'price'     => $cartItem->food->price,
+                'count'     => $cartItem->amount,
+                'total'     => $cartItem->amount * $cartItem->food->price,
             ]);
 
         }

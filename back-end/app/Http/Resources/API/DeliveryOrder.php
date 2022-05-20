@@ -18,17 +18,20 @@ class DeliveryOrder extends JsonResource
      */
     public function toArray($request)
     {
-        $locale= $request->header('locale')? $request->header('locale') : app()->getLocale();
+        //$locale= $request->header('locale')? $request->header('locale') : app()->getLocale();
         return[
             'id'                =>  $this->id,
             'type'              =>  $this->donation->type,
             'value'             =>  $this->donation->value,
-            'map_location'      =>  $this->map_location,
+            'lat'               =>  $this->donation->lat,
+            'long'              =>  $this->donation->long,
             'notes'             =>  $this->notes,
             'status'            =>  $this->status,
-            'donation_type'     =>  $this->donation->donationType->translate($locale)->name,
-            'category'          =>  $this->donation->category->translate($locale)->name,
-            'option'            =>  $this->donation->option->translate($locale)->name,
+            //'donation_type'     =>  $this->donation->donationType->translate($locale)->name,
+            'donation_type'     =>  new DonationTypeResource($this->donation->donationType),
+            'category'          =>  new CategoryResouce($this->donation->category),
+            //'category'          =>  $this->donation->category->translate($locale)->name,
+            'option'            =>  new CategoryOptionResouce($this->donation->option),
             'user'              =>  $this->donation->user,
             'order_date'        =>  Carbon::parse($this->created_at)->format('Y-m-d h:i:s a'),
             'donation_date'     =>  Carbon::parse($this->donation->created_at)->format('Y-m-d h:i:s a'),

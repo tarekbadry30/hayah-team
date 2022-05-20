@@ -28,7 +28,9 @@ class FoodsResouce extends JsonResource
                 'en'=>$this->translate('en')->desc,
             ],
             'price' =>  $this->price,
-            'img'   =>  asset($this->img),
+            'img'   =>  asset($this->image),
+            'type'  =>  $this->type,
+
             //'translations' =>  $this->translations,
         ];
     }

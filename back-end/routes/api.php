@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\API\Delivery\DeliveryFoodOrdersController;
+use App\Http\Controllers\API\Delivery\DeliveryHelpAskController;
 use App\Http\Controllers\API\DonationHelp\DonationHelpController;
 use App\Http\Controllers\API\DonationType\DonationTypeController;
 use App\Http\Controllers\API\foods\FoodCartController;
@@ -8,7 +10,6 @@ use App\Http\Controllers\API\ProfileController;
 use App\Http\Controllers\Mobile\MobileSliderController;
 use App\Http\Controllers\Settings\SettingsController;
 use App\Http\Controllers\SharedIdea\SharedIdeaController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\Auth\APIController;
 use \App\Http\Controllers\API\Category\CategoryController;
@@ -48,7 +49,12 @@ Route::group(['prefix'=>'donations'], function() {
 Route::group(['prefix'=>'delivery'],function () {
     Route::post('login',[APIController::class,'driversLogin']);
     Route::group(['middleware'=>'auth:delivery_api'],function () {
-        Route::apiResource('orders/',DeliveryController::class);
+        Route::get('orders/',[DeliveryController::class,'index']);
+        Route::post('orders/',[DeliveryController::class,'store']);
+        Route::get('donation-asks/',[DeliveryHelpAskController::class,'index']);
+        Route::post('donation-asks/',[DeliveryHelpAskController::class,'store']);
+        Route::get('food-orders/',[DeliveryFoodOrdersController::class,'index']);
+        Route::post('food-orders',[DeliveryFoodOrdersController::class,'store']);
     });
 });
 Route::group(['prefix'=>'food'],function () {
